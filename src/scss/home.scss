@@ -1,0 +1,18 @@
+@import './fonts.scss';
+@import './variables.scss';
+
+#Home {
+    height: 100vh;
+    background-color: $HomeColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#Home h1 {
+    font-family: 'poppins-bold';
+    font-size: 100px;
+    display: block;
+    color: $HomeTextColor;
+    border-bottom: 2px solid $HomeTextColor;
+}
