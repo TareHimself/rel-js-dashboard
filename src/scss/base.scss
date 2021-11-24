@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import './variables.scss';
+
+#root{
+    background-color: $PrimaryColor;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: $PrimaryColor;
+  }
+  
+.page {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+  
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+}
+
+
+header {
+    height: 70px;
+    width: 100%;
+    position: fixed;
+    padding: 0 -20%;
+    background-color: $NavigationColor;
+    display: flex;
+    flex-direction: row;
+}
+
+.button {
+    
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 5px 15px;
+    border: 2px solid $ButtonColor;
+    color: $ButtonColor;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: all .3s ease-in-out 
+}
+
+.button:hover {
+    border-color: $ButtonHoverColor;
+    color: $ButtonHoverColor;
+}
+
+.navigation-column-left {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding-right: 20px;
+}
+
+.navigation-column-right {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding-left: 20px;
+}
+
+
