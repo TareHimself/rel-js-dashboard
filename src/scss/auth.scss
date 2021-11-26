@@ -1,7 +1,7 @@
 @import './fonts.scss';
 @import './variables.scss';
 
-#Home {
+#Auth {
     height: 100vh;
     background-color: $PrimaryColor;
     display: flex;
@@ -10,10 +10,9 @@
     flex-direction: column;
 }
 
-#Home h1 {
+#Auth h1 {
     font-family: 'poppins-bold';
     font-size: 100px;
     display: block;
     color: $PrimaryTextColor;
-    border-bottom: 2px solid $PrimaryTextColor;
 }

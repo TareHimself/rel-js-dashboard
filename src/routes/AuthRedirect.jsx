@@ -1,6 +1,6 @@
 import React from 'react';
 import { useContext } from 'react';
-import '../scss/home.scss';
+import '../scss/auth.scss';
 import {
   useLocation
 } from "react-router-dom";
@@ -15,7 +15,7 @@ function useQuery() {
 
 function AuthRedirect() {
 
-  const { authInfo, setAuth, navigate } = useContext(GlobalAppContext);
+  const { setSessionId, navigate } = useContext(GlobalAppContext);
 
   let query = useQuery();
 
@@ -24,47 +24,30 @@ function AuthRedirect() {
 
   React.useEffect(() => {
 
-    if(token === undefined || Object.keys(authInfo).length !== 0)
+    if(token === undefined)
     {
       navigate('/');
       return undefined
     }
 
-    const data = new URLSearchParams({
-      'client_id': '804165876362117141',
-      'client_secret': 'SO9IJg1wE3qP7-7Fg1XuIQNH4J0xqWnm',
-      'grant_type': 'authorization_code',
-      'code': token,
-      'redirect_uri': 'http://localhost:3000/auth/redirect'
+    axios.post("http://localhost:3500/create-session",{ token : token})
+    .then((response) => {
+      const data = response.data;
+      console.log(response);
+      if(data.sessionId !== undefined)
+      {
+        setSessionId(data.sessionId);
+        navigate('../',{ replace: true });
+      }
+    }, (error) => {
+      console.log(error);
     });
 
-    const request = {
-      method: 'POST',
-
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-
-      body: data
-
-    };
-
-
-    fetch("https://discordapp.com/api/oauth2/token", request)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (responseJson) {
-        setAuth(responseJson);
-      }).catch((error) => {
-        console.log(error);
-      });
-
-  });
+  },[token,navigate,setSessionId]);
 
   return (
-    <section id='Home'>
-      <h1>{query.get("code")}</h1>
+    <section id='Auth'>
+      <h1>Authorizing</h1>
     </section>
   );
 }

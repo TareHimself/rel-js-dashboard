@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import {
     BrowserRouter,
     Routes,
@@ -13,16 +13,50 @@ import Home from './routes/Home';
 import AuthRedirect from './routes/AuthRedirect';
 import Navigation from './components/Navigation';
 import reportWebVitals from './reportWebVitals';
+import axios from 'axios';
 
 
 
 const App = () => {
-    const [authInfo, setAuth] = useState({})
+    const [sessionId, setSessionIdRaw] = useState(localStorage.getItem('sessionId') || '');
+
+    const setSessionId = function (id) {
+        if (id === '') {
+            localStorage.removeItem('sessionId');
+        }
+        else {
+            localStorage.setItem('sessionId', id);
+        }
+
+        setSessionIdRaw(id);
+    }
 
     let navigate = useNavigate();
 
+
+        useEffect(() => {
+
+        if (sessionId === '') {
+            return undefined
+        }
+
+
+        axios.post("http://localhost:3500/verify", { sessionId: sessionId })
+            .then((response) => {
+                const data = response.data;
+                if (data.result === 'error') {
+                    setSessionId('');
+                }
+            }, (error) => {
+                console.log(error);
+            });
+
+    }, [sessionId]);
+
+
+
     return (
-        <GlobalAppContext.Provider value={{ authInfo, setAuth, navigate }}>
+        <GlobalAppContext.Provider value={{ sessionId, setSessionId, navigate }}>
             <Navigation />
 
             <Routes>
@@ -36,7 +70,8 @@ const App = () => {
 ReactDOM.render(
     <BrowserRouter>
         <App />
-    </BrowserRouter>, document.getElementById('root'));
+    </BrowserRouter>
+    , document.getElementById('root'));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

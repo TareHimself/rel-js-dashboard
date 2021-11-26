@@ -27,11 +27,10 @@ code {
 
 
 header {
-    height: 70px;
+    height: 100px;
     width: 100%;
     position: fixed;
-    padding: 0 -20%;
-    background-color: $NavigationColor;
+    background-color: $PrimaryColor;
     display: flex;
     flex-direction: row;
 }
@@ -61,7 +60,7 @@ header {
     align-items: center;
     flex-direction: row;
     justify-content: flex-end;
-    padding-right: 20px;
+    padding-right: 10%;
 }
 
 .navigation-column-right {
@@ -71,7 +70,13 @@ header {
     align-items: center;
     flex-direction: row;
     justify-content: flex-start;
-    padding-left: 20px;
+    padding-left: 10%;
+}
+
+.user-avatar{
+    border-radius: 50%;
+    max-width: 50px;
+    max-height: 50px;
 }
 
 
