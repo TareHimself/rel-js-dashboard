@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
     BrowserRouter,
     Routes,
@@ -34,20 +34,22 @@ const App = () => {
     let navigate = useNavigate();
 
 
-        useEffect(() => {
+    useEffect(() => {
 
         if (sessionId === '') {
             return undefined
         }
 
-
-        axios.post("http://localhost:3500/verify", { sessionId: sessionId })
+        const headers = { sessionId: sessionId }
+        
+        axios.get("http://localhost:3500/verify", { headers: headers })
             .then((response) => {
                 const data = response.data;
                 if (data.result === 'error') {
                     setSessionId('');
                 }
             }, (error) => {
+                setSessionId('');
                 console.log(error);
             });
 

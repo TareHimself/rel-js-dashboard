@@ -25,6 +25,27 @@ code {
       monospace;
 }
 
+h1 {
+    font-family: 'poppins-bold';
+    font-size: 50px;
+    display: block;
+    color: $PrimaryTextColor;
+}
+
+h2 {
+    font-family: 'poppins-semibold';
+    font-size: 30px;
+    display: block;
+    color: $PrimaryTextColor;
+}
+
+h3 {
+    font-family: 'poppins-regular';
+    font-size: 20px;
+    display: block;
+    color: $PrimaryTextColor;
+}
+
 
 header {
     height: 100px;
@@ -78,5 +99,32 @@ header {
     max-width: 50px;
     max-height: 50px;
 }
+
+.user-dropdown{
+    display: inline;
+    position: relative;
+}
+
+
+.user-dropdown-content{
+    border-radius: 10%;
+    min-width: 200px;
+    display: flex;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: $PrimaryColor;
+    border: 1px solid;
+  box-shadow: 2px 4px black;
+}
+
+.user-dropdown-content h3{
+    font-size: 20px;
+}
+
+
 
 

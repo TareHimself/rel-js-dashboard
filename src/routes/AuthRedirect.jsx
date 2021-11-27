@@ -41,6 +41,7 @@ function AuthRedirect() {
       }
     }, (error) => {
       console.log(error);
+      navigate('../',{ replace: true });
     });
 
   },[token,navigate,setSessionId]);
