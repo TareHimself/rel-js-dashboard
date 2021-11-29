@@ -7,11 +7,16 @@ import {
     Route,
     useNavigate
 } from "react-router-dom";
-import './scss/base.scss';
+import './scss/main.scss';
 import { GlobalAppContext } from './contexts';
+
 import Home from './routes/Home';
+import Servers from './routes/Servers';
+import Dashboard from './routes/Dashboard';
+import Commands from './routes/Commands';
 import AuthRedirect from './routes/AuthRedirect';
 import Navigation from './components/Navigation';
+
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
 
@@ -64,6 +69,9 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/auth/redirect" element={<AuthRedirect />} />
+                <Route path="/commands" element={<Commands />} />
+                <Route path="/servers" element={<Servers />} />
+                <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
 
         </GlobalAppContext.Provider>

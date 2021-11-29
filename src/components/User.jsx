@@ -1,13 +1,15 @@
 
 
-import '../scss/base.scss';
+import '../scss/main.scss';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useContext, useState } from 'react';
 import { GlobalAppContext } from '../contexts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
+
 
 const authURL = "https://discord.com/api/oauth2/authorize?client_id=804165876362117141&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fredirect&response_type=code&scope=identify%20guilds"
 function User() {
@@ -45,6 +47,9 @@ function User() {
 
     }, [sessionId, setSessionId, userAvatar]);
 
+    function onLogout(clickEvent) {
+        
+    }
 
     useEffect(() => {
         const decideCloseMenu = function (clickEvent) {
@@ -68,18 +73,18 @@ function User() {
 
     }, [showMenu, setShowMenu]);
 
-    let elementToRender = undefined;
-
     if (sessionId !== '') {
         if (userAvatar !== '') {
             return (
                 <div className='user-dropdown'>
                     <img className='user-avatar' src={userAvatar} alt='avatar' onClick={()=> setShowMenu(true)}/>
-                    {showMenu && <div id= 'user-menu-dropdown' className='user-dropdown-content'>
-                        <h3>Item</h3>
-                        <h3>Item</h3>
-                        <h3>Item</h3>
-                        <h3>Item</h3>
+                    {showMenu && 
+                    <div id= 'user-menu-dropdown' className='user-dropdown-content'>
+                    <Link className='dropdown-button' to="/">Home</Link>
+                        <Link className='dropdown-button' to="/servers">Servers</Link>
+                        <Link className='dropdown-button' to="/commands">Commands</Link>
+                        <Link className='dropdown-button' to="/support">Support</Link>
+                        <button className='dropdown-button' onClick={onLogout} >log Out</button>
                     </div>}
                 </div>
             );

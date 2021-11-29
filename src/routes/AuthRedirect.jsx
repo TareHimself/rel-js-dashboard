@@ -1,6 +1,6 @@
 import React from 'react';
 import { useContext } from 'react';
-import '../scss/auth.scss';
+import '../scss/main.scss';
 import {
   useLocation
 } from "react-router-dom";
@@ -26,7 +26,7 @@ function AuthRedirect() {
 
     if(token === undefined)
     {
-      navigate('/');
+      navigate('../',{ replace: true });
       return undefined
     }
 
@@ -47,7 +47,7 @@ function AuthRedirect() {
   },[token,navigate,setSessionId]);
 
   return (
-    <section id='Auth'>
+    <section className='auth-page' id='Auth'>
       <h1>Authorizing</h1>
     </section>
   );

@@ -1,0 +1,314 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import './variables.scss';
+
+#root{
+    background-color: $PrimaryColor;
+    height: 100vh;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: $PrimaryColor;
+  }
+  
+.page {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+  
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
+}
+
+h1 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 50px;
+    display: block;
+    color: $PrimaryTextColor;
+}
+
+h2 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: lighter;
+    font-size: 30px;
+    display: block;
+    color: $PrimaryTextColor;
+}
+
+h3 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: normal;
+    font-size: 20px;
+    display: block;
+    color: $PrimaryTextColor;
+}
+
+
+header {
+    height: 100px;
+    width: 100%;
+    position: fixed;
+    background-color: $PrimaryColor;
+    display: flex;
+    z-index: 10;
+    flex-direction: row;
+}
+
+.button {
+    
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 5px 15px;
+    border: 2px solid $ButtonColor;
+    color: $ButtonColor;
+    border-radius: 25px;
+    text-decoration: none;
+    transition: all .3s ease-in-out;
+}
+
+.button:hover {
+    border-color: $ButtonHoverColor;
+    color: $ButtonHoverColor;
+}
+
+.navigation-column-left {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding-right: 10%;
+}
+
+.navigation-column-right {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding-left: 10%;
+}
+
+.user-avatar{
+    border-radius: 50%;
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.user-dropdown{
+    display: inline;
+    position: relative;
+}
+
+@keyframes appear {
+    from {
+        border: 0px solid $SecondaryColor;
+        box-shadow: 0px 0px $SecondaryColor;
+        //transform : translateX(-45%);
+        opacity   : 0;
+    }
+    to {
+        border: 1px solid $SecondaryColor;
+        box-shadow: 2px 4px $SecondaryColor;
+        //transform : translateX(-50%);
+        opacity   : 1;
+    }
+}
+
+.user-dropdown-content{
+    border-radius: 10%;
+    min-width: 200px;
+    display: flex;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-86%);
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: $PrimaryColor;
+    border: 1px solid $SecondaryColor;
+    box-shadow: 2px 4px $SecondaryColor;
+    animation-name            : appear;
+    animation-duration        : 0.5s;
+    animation-iteration-count : 1;
+}
+
+
+
+.guild-items{
+  display: inline-grid;
+  grid-row-gap: 10px;
+  grid-column-gap: 10px;
+  grid-template-columns: repeat(3, 320px);
+  grid-template-rows: inherit;
+  padding-top: 100px;
+}
+
+@media only screen and (max-width: 1200px) {
+    .guild-items{
+        grid-template-columns: repeat(2, 320px);
+      }
+  }
+  
+  @media only screen and (max-width: 768px) {
+    .guild-items{
+        grid-template-columns: repeat(1, 320px);
+      }
+
+  }
+
+.guild-item{
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    border: 1px solid $PrimaryColor;
+    transition: .8s ease;
+}
+
+.guild-item:hover{
+    border: 1px solid $SecondaryColor;
+    box-shadow: 2px 4px $SecondaryColor;
+}
+
+.guild-item .button{
+    margin-top: 20px;
+}
+
+.guild-item-icon{
+    display: flex;
+    max-height: 150px;
+    max-width: 300px;
+    height: auto
+    width auto;
+    align-items: center;
+    justify-items: center;
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+.guild-item-icon img{
+    min-width: 300px;
+    width: auto;
+    height: auto;
+}
+
+.standard-page {
+    height: inherit;
+    background-color: $PrimaryColor;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.standard-page h1 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 100px;
+    display: block;
+    color: $PrimaryTextColor;
+    border-bottom: 2px solid $PrimaryTextColor;
+}
+
+
+
+#Home {
+    height: 100%;
+    padding-top: 100px;
+    background-color: $PrimaryColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+
+
+.auth-page {
+    height: 100vh;
+    background-color: $PrimaryColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.auth-page h1 {
+    font-family: 'poppins-bold';
+    font-size: 100px;
+    display: block;
+    color: $PrimaryTextColor;
+}
+
+.dropdown-button {
+    
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 15px 0;
+    color: $ButtonColor;
+    text-decoration: none;
+    border: 0px solid $PrimaryTextColor;
+    background-color: rgba(255, 255, 255, 0);
+    transition: all .3s ease-in-out 
+}
+
+
+.dropdown-button:hover {
+    border-color: $ButtonHoverColor;
+    color: $ButtonHoverColor;
+}
+
+.servers-search {
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 5px 10px;
+    background-color: $PrimaryColor;
+    border: 2px solid $ButtonColor;
+    color: $ButtonColor;
+    border-radius: 25px;
+    align-items: center;
+    text-decoration: none;
+    transition: all .3s ease-in-out;
+}
+
+.servers-search input {
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 25px;
+    border: rgba(0, 0, 0, 0);
+    color: $ButtonColor;
+}
+
+.servers-search input:focus {
+    outline: none;
+}
+
+.servers-search:hover {
+    border-color: $ButtonHoverColor;
+    color: $ButtonHoverColor;
+}
+
+
+
+
+
