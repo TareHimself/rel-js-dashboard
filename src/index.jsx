@@ -23,6 +23,9 @@ import axios from 'axios';
 
 
 const App = () => {
+
+    const serverLink = 'https://rel-js-server.oyintareebelo.repl.co';
+
     const [sessionId, setSessionIdRaw] = useState(localStorage.getItem('sessionId') || '');
 
     const setSessionId = function (id) {
@@ -47,7 +50,7 @@ const App = () => {
 
         const headers = { sessionId: sessionId }
         
-        axios.get("http://localhost:3500/verify", { headers: headers })
+        axios.get(serverLink, { headers: headers })
             .then((response) => {
                 const data = response.data;
                 if (data.result === 'error') {
@@ -63,7 +66,7 @@ const App = () => {
 
 
     return (
-        <GlobalAppContext.Provider value={{ sessionId, setSessionId, navigate }}>
+        <GlobalAppContext.Provider value={{ sessionId, setSessionId, navigate, serverLink  }}>
             <Navigation />
 
             <Routes>

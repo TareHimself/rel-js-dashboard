@@ -13,7 +13,7 @@ import axios from 'axios';
 
 const authURL = "https://discord.com/api/oauth2/authorize?client_id=804165876362117141&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Fredirect&response_type=code&scope=identify%20guilds"
 function User() {
-    const { sessionId, setSessionId } = useContext(GlobalAppContext);
+    const { sessionId, setSessionId,serverLink } = useContext(GlobalAppContext);
 
     const [userAvatar, setUserAvatar] = useState('');
 
@@ -27,7 +27,7 @@ function User() {
 
         const headers = { sessionId: sessionId }
     
-        axios.get("http://localhost:3500/user", { headers: headers })
+        axios.get(`${serverLink}/user`, { headers: headers })
             .then((response) => {
                 const data = response.data;
                 if (data.result === 'error') {
@@ -45,7 +45,7 @@ function User() {
                 console.log(error);
             });
 
-    }, [sessionId, setSessionId, userAvatar]);
+    }, [sessionId, setSessionId, userAvatar,serverLink]);
 
     function onLogout(clickEvent) {
         

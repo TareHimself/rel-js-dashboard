@@ -20,7 +20,7 @@ function Servers() {
 
   const query = useQuery();
 
-  const { sessionId, navigate } = useContext(GlobalAppContext);
+  const { sessionId, navigate,serverLink } = useContext(GlobalAppContext);
   const [guilds, setGuilds] = useState([]);
 
   const guildsFilter = query.get("filter") || '';
@@ -93,7 +93,7 @@ function Servers() {
 
     const headers = { sessionId: sessionId }
 
-    axios.get("http://localhost:3500/guilds", { headers: headers })
+    axios.get(`${serverLink}/guilds`, { headers: headers })
       .then((response) => {
 
         function isPartOfSearch(value) {
@@ -118,7 +118,7 @@ function Servers() {
         console.log(error);
       });
 
-  }, [sessionId, setGuilds, navigate,guildsFilter]);
+  }, [sessionId, setGuilds, navigate,guildsFilter,serverLink]);
 
   
 
