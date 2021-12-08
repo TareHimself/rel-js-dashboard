@@ -1,4 +1,4 @@
-# The website for Umeko
+# Umeko-js-dashboard
 
 Made with reactJs
 
