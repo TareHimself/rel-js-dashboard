@@ -1,5 +1,5 @@
 import '../scss/main.scss';
-import icon from "../images/Umeko-Icon.png"
+import icon from "../images/UmekoIcon50px.png"
 import User from './User'
 
 function Navigation() {
