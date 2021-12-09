@@ -73,7 +73,7 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/invite" element={<Invite />} />
-                <Route path="/auth/redirect" element={<AuthRedirect />} />
+                <Route path="/auth" element={<AuthRedirect />} />
                 <Route path="/commands" element={<Commands />} />
                 <Route path="/servers" element={<Servers />} />
                 <Route path="/dashboard" element={<Dashboard />} />
