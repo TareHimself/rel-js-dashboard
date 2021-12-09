@@ -11,7 +11,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 
 
-const authURL = "https://discord.com/api/oauth2/authorize?client_id=804165876362117141&redirect_uri=http%3A%2F%2Fumeko.oyintare.dev%2Fauth&response_type=code&scope=identify%20guilds";
+const authURL = "https://discord.com/api/oauth2/authorize?client_id=804165876362117141&redirect_uri=http%3A%2F%2Fumeko.dev%2Fauth&response_type=code&scope=guilds%20identify";
 function User() {
     const { sessionId, setSessionId,serverLink } = useContext(GlobalAppContext);
 
