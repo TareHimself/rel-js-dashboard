@@ -16,6 +16,7 @@ import Dashboard from './routes/Dashboard';
 import Commands from './routes/Commands';
 import AuthRedirect from './routes/AuthRedirect';
 import Navigation from './components/Navigation';
+import Invite from './routes/Invite';
 
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
@@ -71,6 +72,7 @@ const App = () => {
 
             <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/invite" element={<Invite />} />
                 <Route path="/auth/redirect" element={<AuthRedirect />} />
                 <Route path="/commands" element={<Commands />} />
                 <Route path="/servers" element={<Servers />} />

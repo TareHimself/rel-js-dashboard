@@ -4,7 +4,7 @@ import User from './User'
 function Navigation() {
   return (
     <header id='Header' >
-    <div className="navigation-column-right"><h1>REL</h1></div>
+    <div className="navigation-column-right"><h1>Umeko</h1></div>
     <div className="navigation-column-left"><User /></div>
     </header>
   );
