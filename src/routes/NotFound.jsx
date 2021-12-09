@@ -2,14 +2,14 @@
 import '../scss/main.scss';
 
 
-function Invite() {
+function NotFound() {
 
   return (
     <section className='standard-page'>
-      <h1>Inviting</h1>
+      <h1>I think you took a wrong left</h1>
     </section>
   );
 
 }
 
-export default Invite;
+export default NotFound;

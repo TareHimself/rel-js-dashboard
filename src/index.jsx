@@ -17,6 +17,7 @@ import Commands from './routes/Commands';
 import AuthRedirect from './routes/AuthRedirect';
 import Navigation from './components/Navigation';
 import Invite from './routes/Invite';
+import NotFound from './routes/NotFound';
 
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
@@ -71,12 +72,13 @@ const App = () => {
             <Navigation />
 
             <Routes>
-                <Route path="umeko.oyintare.dev/" element={<Home />} />
-                <Route path="umeko.oyintare.dev/invite" element={<Invite />} />
-                <Route path="umeko.oyintare.dev/auth" element={<AuthRedirect />} />
-                <Route path="umeko.oyintare.dev/commands" element={<Commands />} />
-                <Route path="umeko.oyintare.dev/servers" element={<Servers />} />
-                <Route path="umeko.oyintare.dev/dashboard" element={<Dashboard />} />
+                <Route path="/" element={<Home />} />
+                <Route path="/invite" element={<Invite />} />
+                <Route path="/auth" element={<AuthRedirect />} />
+                <Route path="/commands" element={<Commands />} />
+                <Route path="/servers" element={<Servers />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route  element={<NotFound />} />
             </Routes>
 
         </GlobalAppContext.Provider>
