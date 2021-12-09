@@ -196,6 +196,7 @@ header {
 }
 
 .guild-item-icon{
+    position: relative;
     display: flex;
     max-height: 150px;
     max-width: 300px;
@@ -210,10 +211,13 @@ header {
 .guild-item-icon .icon-forground{
     width: 100px;
     height: 100px;
+    position: absolute;
     object-fit: cover;
     border-radius: 50px;
     left: 50%;
     transform: translate(-50%, 0);
+    background-color: $GuildItemsColor;
+    border: 2px solid $GuildItemsColor;
 
 }
 
