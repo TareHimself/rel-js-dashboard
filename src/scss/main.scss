@@ -192,6 +192,7 @@ header {
     margin-top: 20px;
     min-width: 140px;
     border-width: 2px;
+    text-align: center;
 }
 
 .guild-item-icon{
@@ -206,16 +207,22 @@ header {
     border-radius: 20px;
 }
 
-.guild-item-icon .forground{
-    min-width: 50px;
-    width: auto;
-    height: auto;
+.guild-item-icon .icon-forground{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50px;
+    left: 50%;
+    transform: translate(-50%, 0);
+
 }
 
-.guild-item-icon .background{
-    min-width: 300px;
-    width: auto;
-    height: auto;
+.guild-item-icon .icon-background{
+    
+    width: 300px;
+    height: 170px;
+    object-fit: cover;
+    filter: blur(8px);
 }
 
 .standard-page {
