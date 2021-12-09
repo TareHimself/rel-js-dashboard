@@ -69,6 +69,7 @@ const App = () => {
 
     return (
         <GlobalAppContext.Provider value={{ sessionId, setSessionId, navigate, serverLink  }}>
+
             <Navigation />
 
             <Routes>

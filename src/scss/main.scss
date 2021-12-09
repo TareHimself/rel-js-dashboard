@@ -99,6 +99,11 @@ header {
     padding-left: 10%;
 }
 
+.navigation-column-right img {
+    max-height: 50px;
+    max-width: 50px;
+}
+
 .user-avatar{
     border-radius: 50%;
     max-width: 50px;
@@ -206,7 +211,8 @@ header {
 }
 
 .standard-page {
-    height: inherit;
+    padding-top: 100px;
+    height: auto;
     background-color: $PrimaryColor;
     display: flex;
     align-items: center;
@@ -220,13 +226,12 @@ header {
     font-size: 100px;
     display: block;
     color: $PrimaryTextColor;
-    border-bottom: 2px solid $PrimaryTextColor;
 }
 
 
 
 #Home {
-    height: 100%;
+    height: auto;
     padding-top: 100px;
     background-color: $PrimaryColor;
     display: flex;
@@ -247,7 +252,6 @@ header {
 }
 
 .auth-page h1 {
-    font-family: 'poppins-bold';
     font-size: 100px;
     display: block;
     color: $PrimaryTextColor;
@@ -306,6 +310,11 @@ header {
 .servers-search:hover {
     border-color: $ButtonHoverColor;
     color: $ButtonHoverColor;
+}
+
+#invite img {
+    max-height: 500px;
+    max-width: 500px;
 }
 
 
