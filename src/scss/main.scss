@@ -190,6 +190,8 @@ header {
 
 .guild-item .button{
     margin-top: 20px;
+    min-width: 140px;
+    border-width: 2px;
 }
 
 .guild-item-icon{
@@ -204,7 +206,13 @@ header {
     border-radius: 20px;
 }
 
-.guild-item-icon img{
+.guild-item-icon .forground{
+    min-width: 50px;
+    width: auto;
+    height: auto;
+}
+
+.guild-item-icon .background{
     min-width: 300px;
     width: auto;
     height: auto;

@@ -10,12 +10,10 @@ function Invite() {
 
   useEffect(() => {
     const changePage = () => {
-      let newTab = window.open();
-      newTab.location.href = 'https://discord.com/api/oauth2/authorize?client_id=804165876362117141&permissions=8&scope=bot%20applications.commands';
-      navigate('../', { replace: true });
+      window.location = 'https://discord.com/api/oauth2/authorize?client_id=804165876362117141&permissions=8&scope=bot%20applications.commands';
     }
 
-    const timeout = setTimeout(changePage, 5000);
+    const timeout = setTimeout(changePage, 2000);
     const clearChange = () => { clearTimeout(timeout); }
 
     return clearChange;
