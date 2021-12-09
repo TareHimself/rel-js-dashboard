@@ -1,12 +1,9 @@
 
 import '../scss/main.scss';
 import icon from "../images/Umeko-Icon.png";
-import { useEffect, useContext } from 'react';
-import { GlobalAppContext } from '../contexts';
+import { useEffect } from 'react';
 
 function Invite() {
-
-  const { navigate } = useContext(GlobalAppContext);
 
   useEffect(() => {
     const changePage = () => {
