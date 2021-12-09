@@ -71,12 +71,12 @@ const App = () => {
             <Navigation />
 
             <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/invite" element={<Invite />} />
-                <Route path="/auth" element={<AuthRedirect />} />
-                <Route path="/commands" element={<Commands />} />
-                <Route path="/servers" element={<Servers />} />
-                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="umeko.oyintare.dev/" element={<Home />} />
+                <Route path="umeko.oyintare.dev/invite" element={<Invite />} />
+                <Route path="umeko.oyintare.dev/auth" element={<AuthRedirect />} />
+                <Route path="umeko.oyintare.dev/commands" element={<Commands />} />
+                <Route path="umeko.oyintare.dev/servers" element={<Servers />} />
+                <Route path="umeko.oyintare.dev/dashboard" element={<Dashboard />} />
             </Routes>
 
         </GlobalAppContext.Provider>
