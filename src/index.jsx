@@ -5,7 +5,8 @@ import {
     BrowserRouter,
     Routes,
     Route,
-    useNavigate
+    useNavigate,
+    useLocation
 } from "react-router-dom";
 import './scss/main.scss';
 import { GlobalAppContext } from './contexts';
@@ -25,6 +26,9 @@ import axios from 'axios';
 
 
 const App = () => {
+
+    const location = useLocation();
+  console.log(location.pathname);
 
     const serverLink = 'https://rel-js-server.oyintareebelo.repl.co';
 
@@ -79,7 +83,7 @@ const App = () => {
                 <Route path="/commands" element={<Commands />} />
                 <Route path="/servers" element={<Servers />} />
                 <Route path="/dashboard" element={<Dashboard />} />
-                <Route  element={<NotFound />} />
+                <Route path="*" element={<NotFound />} />
             </Routes>
 
         </GlobalAppContext.Provider>

@@ -6,7 +6,7 @@ function NotFound() {
 
   return (
     <section className='standard-page'>
-      <h1>I think you took a wrong left</h1>
+      <h1>404</h1>
     </section>
   );
 
