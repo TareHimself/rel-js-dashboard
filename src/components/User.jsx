@@ -47,21 +47,14 @@ function User() {
     }, [sessionId, setSessionId, userAvatar, serverLink]);
 
     function onLogout(clickEvent) {
-        const headers = { sessionId: sessionId }
+        const data = { sessionId: sessionId }
 
-        axios.post(`${serverLink}/destroy-session`, { headers: headers })
+        axios.post(`${serverLink}/destroy-session`,data)
             .then((response) => {
-                const data = response.data;
-                if (data.result === 'error') {
-                    setSessionId('');
-                    console.log(data.error);
-                }
-                else {
-                    setSessionId('');
-                }
-
+                setSessionId('');
             }, (error) => {
                 console.log(error);
+                setSessionId('');
             });
     }
 
