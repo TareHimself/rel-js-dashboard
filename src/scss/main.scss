@@ -157,6 +157,7 @@ header {
   grid-template-columns: repeat(3, 320px);
   grid-template-rows: inherit;
   padding-top: 100px;
+  z-index: 1;
 }
 
 @media only screen and (max-width: 1200px) {
@@ -306,6 +307,7 @@ header {
     background-color: $PrimaryColor;
     border: 2px solid $ButtonColor;
     color: $ButtonColor;
+    z-index: 3;
     border-radius: 25px;
     align-items: center;
     text-decoration: none;
