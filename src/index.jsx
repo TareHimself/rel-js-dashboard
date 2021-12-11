@@ -32,6 +32,7 @@ const App = () => {
 
     const serverLink = 'https://rel-js-server.oyintareebelo.repl.co';
 
+    const [theme, setTheme] = useState('dark');
     const [sessionId, setSessionIdRaw] = useState(localStorage.getItem('sessionId') || '');
 
     const setSessionId = function (id) {
@@ -72,7 +73,7 @@ const App = () => {
 
 
     return (
-        <GlobalAppContext.Provider value={{ sessionId, setSessionId, navigate, serverLink  }}>
+        <GlobalAppContext.Provider value={{ sessionId, setSessionId, navigate, serverLink, theme, setTheme  }}>
 
             <Navigation />
 
