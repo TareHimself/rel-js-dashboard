@@ -6,8 +6,8 @@ import ThemeControl from './ThemeControl';
 function Navigation() {
   return (
     <header id='Header' >
-    <div className="navigation-column-right"><img src={icon} alt="Logo" /></div>
-    <div className="navigation-column-left"><User /><ThemeControl /></div>
+    <div className="navigation-column-right"></div>
+    <div className="navigation-column-left"><User /></div>
     </header>
   );
 }

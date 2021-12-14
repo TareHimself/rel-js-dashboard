@@ -7,23 +7,21 @@ function ThemeControl() {
 
     const { theme, setTheme } = useContext(GlobalAppContext);
 
-    const color = theme === "dark" ? "white" : "#ff0460";
+    const color = theme === "dark" ? "white" : "black";
 
     const iconStyle = {
-        margin: "0 20px",
+        margin: "0 10px",
         fontSize: "31px",
-        color: color
     }
 
    
 
     return (
-        <div  onClick={() => setTheme( theme === "dark" ? "light" : "dark")}>
+        <div onClick={() => setTheme( theme === "dark" ? "light" : "dark")}>
             {theme === "dark" ?
-                <FaRegLightbulb style={iconStyle} />
-                : <FaLightbulb  style={iconStyle} />
+                <FaRegLightbulb  className={`clickable-icons-${theme}`} style={iconStyle}  />
+                : <FaLightbulb className={`clickable-icons-${theme}`} style={iconStyle}   />
             }
-
         </div>
     );
 }

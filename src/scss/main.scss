@@ -2,8 +2,10 @@
 @import './variables.scss';
 
 #root{
+    height: auto;
+    min-height: 100vh;
+
     background-color: $PrimaryColor;
-    height: 100vh;
 }
 
 body {
@@ -13,7 +15,8 @@ body {
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: $PrimaryColor;
+
+    
   }
   
 .page {
@@ -59,6 +62,7 @@ header {
     display: flex;
     z-index: 10;
     flex-direction: row;
+
 }
 
 .button {
@@ -117,12 +121,14 @@ header {
 
 @keyframes appear {
     from {
+        margin-top: -5px;
         border: 0px solid $SecondaryColor;
         box-shadow: 0px 0px $SecondaryColor;
         //transform : translateX(-45%);
         opacity   : 0;
     }
     to {
+        margin-top: 10px;
         border: 1px solid $SecondaryColor;
         box-shadow: 2px 4px $SecondaryColor;
         //transform : translateX(-50%);
@@ -135,6 +141,7 @@ header {
     min-width: 200px;
     display: flex;
     position: absolute;
+    margin-top: 10px;
     left: 50%;
     transform: translateX(-86%);
     flex-direction: column;
@@ -233,11 +240,11 @@ header {
 .standard-page {
     padding-top: 100px;
     height: auto;
-    background-color: $PrimaryColor;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .standard-page h1 {
@@ -252,8 +259,8 @@ header {
 
 #Home {
     height: auto;
-    padding-top: 100px;
-    background-color: $PrimaryColor;
+    padding-top: 0;
+    background-color: rgba(0, 0, 0, 0); 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -264,7 +271,7 @@ header {
 
 .auth-page {
     height: 100vh;
-    background-color: $PrimaryColor;
+    background-color: rgba(0, 0, 0, 0);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -337,6 +344,70 @@ header {
     max-height: 500px;
     max-width: 500px;
 }
+
+.clickable-icons-dark{
+    color: white;
+    transition: all .3s ease-in-out;
+}
+
+.clickable-icons-dark:hover{
+    color : $ButtonHoverColor
+}
+
+.clickable-icons-light{
+    color: $PrimaryColor;
+    transition: all .3s ease-in-out;
+}
+
+.clickable-icons-light:hover{
+    color : $ButtonHoverColor
+}
+
+.home-content-row{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 50vh;
+    margin: 25vh 0;
+    width: 90%;
+    justify-content: center;
+    background-color: $PrimaryColor;
+    border-radius: 20px;
+}
+
+.home-content-row img{
+    width: 400px;
+    height: 400px;
+}
+
+.home-content-row-info{
+    padding: 0 40px;
+    display: flex;
+    flex-direction: column;
+    width: 700px;
+    
+}
+
+.home-content-row-info h1{
+    font-size: 70px;
+    margin: 2px 0;
+    line-height: 40px;
+}
+
+
+.home-content-row-info h1::after{
+    content: '';
+    display: inline-block;
+    height: 5px;
+    width: 100%;
+    background-color: white;
+}
+
+
+.home-content-row-info h3{
+    font-size: 30px;
+}
+
 
 
 

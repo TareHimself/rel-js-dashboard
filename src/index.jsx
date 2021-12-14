@@ -19,16 +19,16 @@ import AuthRedirect from './routes/AuthRedirect';
 import Navigation from './components/Navigation';
 import Invite from './routes/Invite';
 import NotFound from './routes/NotFound';
-
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
+import Support from './routes/Support';
 
 
 
 const App = () => {
 
     const location = useLocation();
-  console.log(location.pathname);
+    console.log(location.pathname);
 
     const serverLink = 'https://rel-js-server.oyintareebelo.repl.co';
 
@@ -49,6 +49,7 @@ const App = () => {
     let navigate = useNavigate();
 
 
+    // poll the server to ensure this session is still valid
     useEffect(() => {
 
         if (sessionId === '') {
@@ -56,7 +57,7 @@ const App = () => {
         }
 
         const headers = { sessionId: sessionId }
-        
+
         axios.get(serverLink, { headers: headers })
             .then((response) => {
                 const data = response.data;
@@ -70,10 +71,35 @@ const App = () => {
 
     }, [sessionId]);
 
+    const darkTheme = {
+        NavigationColor: '#42424',
+        PrimaryColor: '#222222',
+        SecondaryColor: '#161616',
+        GuildItemsColor: '#424242',
+        PrimaryTextColor: '#F7F7F7',
+        ButtonColor: '#F7F7F7',
+        ButtonHoverColor: '#ff0460'
+    };
 
+    const lightTheme = {
+        NavigationColor: '#42424',
+        PrimaryColor: '#FFFFFF',
+        SecondaryColor: '#161616',
+        GuildItemsColor: '#424242',
+        PrimaryTextColor: '#F7F7F7',
+        ButtonColor: '#F7F7F7',
+        ButtonHoverColor: '#ff0460'
+    };
+
+    const themeColors = theme === 'dark' ? darkTheme : lightTheme;
+    
+    /*useEffect(()=>{
+        const root = document.getElementById('root');
+        root.style.backgroundColor = themeColors.PrimaryColor;
+    },[themeColors]);*/
 
     return (
-        <GlobalAppContext.Provider value={{ sessionId, setSessionId, navigate, serverLink, theme, setTheme  }}>
+        <GlobalAppContext.Provider value={{ sessionId, setSessionId, navigate, serverLink, theme, setTheme, themeColors }}>
 
             <Navigation />
 
@@ -84,6 +110,7 @@ const App = () => {
                 <Route path="/commands" element={<Commands />} />
                 <Route path="/servers" element={<Servers />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/support" element={<Support />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
 

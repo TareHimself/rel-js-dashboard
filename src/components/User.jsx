@@ -8,16 +8,22 @@ import { useContext, useState } from 'react';
 import { GlobalAppContext } from '../contexts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { BiChevronDown } from "react-icons/bi";
 import axios from 'axios';
 
 
 const authURL = "https://discord.com/api/oauth2/authorize?client_id=804165876362117141&redirect_uri=http%3A%2F%2Fumeko.dev%2Fauth&response_type=code&scope=guilds%20identify";
 function User() {
-    const { sessionId, setSessionId, serverLink } = useContext(GlobalAppContext);
+    const { theme, sessionId, setSessionId, serverLink } = useContext(GlobalAppContext);
 
     const [userAvatar, setUserAvatar] = useState('');
 
     const [showMenu, setShowMenu] = useState(false);
+
+    const iconStyle = {
+        margin: "0 10px",
+        fontSize: "40px",
+    }
 
     useEffect(() => {
 
@@ -49,7 +55,7 @@ function User() {
     function onLogout(clickEvent) {
         const data = { sessionId: sessionId }
 
-        axios.post(`${serverLink}/destroy-session`,data)
+        axios.post(`${serverLink}/destroy-session`, data)
             .then((response) => {
                 setSessionId('');
             }, (error) => {
@@ -83,7 +89,8 @@ function User() {
         if (userAvatar !== '') {
             return (
                 <div className='user-dropdown'>
-                    <img className='user-avatar' src={userAvatar} alt='avatar' onClick={() => setShowMenu(true)} />
+                    <img className='user-avatar' src={userAvatar} alt='avatar'  />
+                    < BiChevronDown className={`clickable-icons-${theme}`} style={iconStyle} onClick={() => setShowMenu(true)} />
                     {showMenu &&
                         <div id='user-menu-dropdown' className='user-dropdown-content'>
                             <Link className='dropdown-button' to="/">Home</Link>
@@ -103,7 +110,25 @@ function User() {
     }
     else {
         return (
-            <a className="button" href={authURL}> Login </a>
+            <div style={{
+                display : "flex",
+                alignItems : "center"
+            }}>
+                
+                <a className="button" href={authURL}> Login </a> 
+                <div className='user-dropdown' >
+                < BiChevronDown className={`clickable-icons-${theme}`} style={iconStyle} onClick={() => setShowMenu(true)} />
+                {showMenu &&
+                        
+                        <div id='user-menu-dropdown' className='user-dropdown-content'>
+                            <Link className='dropdown-button' to="/">Home</Link>
+                            <Link className='dropdown-button' to="/commands">Commands</Link>
+                            <Link className='dropdown-button' to="/support">Support</Link>
+                        </div>
+                        }
+                        </div>
+            </div>
+
         );
 
     }
