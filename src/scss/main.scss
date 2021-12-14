@@ -408,6 +408,15 @@ header {
     font-size: 30px;
 }
 
+.dashboard-sidebar{
+    position: fixed;
+    left: 0;
+    right: 0;
+    height: calc(100vh - 100px);
+    width: 100px;
+    background-color: rgb(39, 39, 39);
+}
+
 
 
 

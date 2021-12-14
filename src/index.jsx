@@ -56,18 +56,23 @@ const App = () => {
             return undefined
         }
 
-        const headers = { sessionId: sessionId }
+        const interval = setInterval(() => {
 
-        axios.get(serverLink, { headers: headers })
-            .then((response) => {
-                const data = response.data;
-                if (data.result === 'error') {
+            const headers = { sessionId: sessionId }
+
+            axios.get(serverLink, { headers: headers })
+                .then((response) => {
+                    const data = response.data;
+                    if (data.result === 'error') {
+                        setSessionId('');
+                    }
+                }, (error) => {
                     setSessionId('');
-                }
-            }, (error) => {
-                setSessionId('');
-                console.log(error);
-            });
+                    console.log(error);
+                });
+        }, 2000);
+
+        return () => clearInterval(interval);
 
     }, [sessionId]);
 
@@ -92,7 +97,7 @@ const App = () => {
     };
 
     const themeColors = theme === 'dark' ? darkTheme : lightTheme;
-    
+
     /*useEffect(()=>{
         const root = document.getElementById('root');
         root.style.backgroundColor = themeColors.PrimaryColor;

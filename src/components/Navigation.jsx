@@ -11,5 +11,3 @@ function Navigation() {
 }
 
 export default Navigation;
-
-//<FontAwesomeIcon icon={faUser} size="2x" color="white" /> 
