@@ -23,7 +23,7 @@ function User() {
     const iconStyle = {
         margin: "0 10px",
         fontSize: "40px",
-        verticalAlign: "middle"
+        verticalAlign: "super"
     }
 
     useEffect(() => {
