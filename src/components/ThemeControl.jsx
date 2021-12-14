@@ -7,8 +7,6 @@ function ThemeControl() {
 
     const { theme, setTheme } = useContext(GlobalAppContext);
 
-    const color = theme === "dark" ? "white" : "black";
-
     const iconStyle = {
         margin: "0 10px",
         fontSize: "31px",

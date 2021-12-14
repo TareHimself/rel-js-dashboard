@@ -1,8 +1,5 @@
-
 import '../scss/main.scss';
 import icon from "../images/UmekoIcon500px.png";
-import { useContext } from 'react';
-import { GlobalAppContext } from '../contexts';
 
 function Home() {
 
