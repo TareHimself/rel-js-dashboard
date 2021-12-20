@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 function GuildItem(props) {
 
-  console.log(props.guild);
     const icon = (props.guild.icon !== null && props.guild.icon !== undefined ) ? `https://cdn.discordapp.com/icons/${props.guild.id}/${props.guild.icon}.png` : 'https://www.howtogeek.com/wp-content/uploads/2021/07/Discord-Logo-Lede.png';
 
     const dashboardLink = props.guild.botShard !== undefined ? `/Dashboard?guild=${props.guild.id}` : "/invite";

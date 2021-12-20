@@ -89,7 +89,6 @@ function Servers() {
     if (sessionId === '') {
       return undefined
     }
-    console.log('RAN')
 
     const headers = { sessionId: sessionId }
 
@@ -102,16 +101,11 @@ function Servers() {
 
           if(lowerFilter.length === 0) return true;
 
-          console.log(lowerName);
-          console.log(lowerFilter)
-          console.log(lowerName.includes(lowerFilter));
-          console.log('\n')
           return lowerName.includes(lowerFilter);
         }
         
         const data = response.data;
         const filteredData = data.filter(isPartOfSearch)
-        console.log(filteredData)
         setGuilds(filteredData);
       }, (error) => {
         navigate('../', { replace: true });

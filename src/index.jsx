@@ -28,7 +28,6 @@ import Support from './routes/Support';
 const App = () => {
 
     const location = useLocation();
-    console.log(location.pathname);
 
     const serverLink = 'https://rel-js-server.oyintareebelo.repl.co';
 
