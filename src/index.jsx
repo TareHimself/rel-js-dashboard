@@ -27,8 +27,6 @@ import Support from './routes/Support';
 
 const App = () => {
 
-    const location = useLocation();
-
     const serverLink = 'https://rel-js-server.oyintareebelo.repl.co';
 
     const [theme, setTheme] = useState('dark');
