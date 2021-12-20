@@ -5,8 +5,7 @@ import {
     BrowserRouter,
     Routes,
     Route,
-    useNavigate,
-    useLocation
+    useNavigate
 } from "react-router-dom";
 import './scss/main.scss';
 import { GlobalAppContext } from './contexts';
