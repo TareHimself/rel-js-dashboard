@@ -66,7 +66,7 @@ function Dashboard() {
 
             <div className="dashboard-sidebar" id='dashboard-sidebar'>
                 {width <= 1200 &&
-                    <div className="dashboard-sidebar-button" style={{ margin: '15px 0' }}>
+                    <div className="dashboard-sidebar-button" onClick={() => closeDashboardSidebar()} style={{ margin: '15px 0' }}>
                         <div className="dashboard-sidebar-button-items">
                             <IoChevronBack className='dashboard-sidebar-icon' /><h1 style={{ fontSize: '25px' }}>Close</h1>
                         </div>

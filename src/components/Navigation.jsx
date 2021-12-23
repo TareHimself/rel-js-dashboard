@@ -8,8 +8,8 @@ function Navigation() {
 
     const { width } = useWindowDimensions();
 
-    const bShouldShowMenuIcon = (width <= 1200 && window.location.pathname === '/dashboard');
-    console.log({width : width, status : bShouldShowMenuIcon})
+    const bShouldShowMenuIcon = (width <= 1200 && window.location.pathname.toLowerCase() === '/dashboard');
+
     function onClickIcon(clickEvent) {
         if (document) {
             const dashboardSidebar = document.getElementById('dashboard-sidebar')
