@@ -5,7 +5,8 @@ import {
     BrowserRouter,
     Routes,
     Route,
-    useNavigate
+    useNavigate,
+    useLocation
 } from "react-router-dom";
 import './scss/main.scss';
 import { GlobalAppContext } from './contexts';
@@ -99,6 +100,21 @@ const App = () => {
         root.style.backgroundColor = themeColors.PrimaryColor;
     },[themeColors]);*/
 
+    const location = useLocation();
+    const actualLocation = location.pathname.substring(1).trim()
+    const currentLocation = actualLocation !== '' ? actualLocation.charAt(0).toUpperCase() + actualLocation.slice(1) : '';
+
+    useEffect(() => {
+
+        if(currentLocation === '')
+        {
+            document.title = 'Umeko | Home'
+        }
+        else
+        {
+            document.title = `Umeko | ${currentLocation}`
+        }
+    })
     return (
         <GlobalAppContext.Provider value={{ sessionId, setSessionId, navigate, serverLink, theme, setTheme, themeColors }}>
 
