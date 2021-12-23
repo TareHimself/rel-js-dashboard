@@ -155,17 +155,18 @@ header {
     display: flex;
     position: absolute;
     margin-top: 10px;
+    top: 100%;
     left: 50%;
-    transform: translateX(-86%);
+    transform: translateX(-80%);
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    background-color: $PrimaryColor;
-    border: 1px solid $SecondaryColor;
-    box-shadow: 2px 4px $SecondaryColor;
-    animation-name            : appear;
-    animation-duration        : 0.5s;
-    animation-iteration-count : 1;
+    background-color: #222;
+    border: 1px solid #161616;
+    box-shadow: 2px 4px #161616;
+    animation-name: appear;
+    animation-duration: .5s;
+    animation-iteration-count: 1;
 }
 
 
