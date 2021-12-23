@@ -52,7 +52,7 @@ h3 {
 
 
 header {
-    height: 100px;
+    height: 90px;
     width: 100%;
     position: fixed;
     background-color: $PrimaryColor;
@@ -88,6 +88,7 @@ header {
     flex-direction: row;
     justify-content: flex-end;
     padding-right: 10%;
+    background-color: #272727;
 }
 
 .navigation-column-right {
@@ -98,6 +99,7 @@ header {
     flex-direction: row;
     justify-content: flex-start;
     padding-left: 10%;
+    background-color: #272727;
 }
 
 .navigation-column-right img {
@@ -160,7 +162,7 @@ header {
   grid-column-gap: 10px;
   grid-template-columns: repeat(3, 320px);
   grid-template-rows: inherit;
-  padding-top: 100px;
+  padding-top: 90px;
   z-index: 1;
 }
 
@@ -235,7 +237,7 @@ header {
 }
 
 .standard-page {
-    padding-top: 100px;
+    padding-top: 90px;
     height: auto;
     display: flex;
     align-items: center;
@@ -405,14 +407,85 @@ header {
     font-size: 30px;
 }
 
-.dashboard-sidebar{
-    position: fixed;
-    left: 0;
-    right: 0;
-    height: calc(100vh - 100px);
-    width: 100px;
-    background-color: rgb(39, 39, 39);
+#Dashboard{
+    flex-direction: row;
+    height: calc(100vh - 90px);
 }
+
+.dashboard-content{
+    display: flex;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.dashboard-sidebar{
+    display: flex;
+    height: 100%;
+    min-width: 300px;
+    background-color: rgb(39, 39, 39);
+    flex-direction: column;
+    overflow: hidden;
+    transition: all .3s ease-in-out;
+}
+
+
+.dashboard-sidebar-button{
+    display: flex;
+    width: inherit;
+    height: 60px;
+    border-left: 2px solid rgb(39, 39, 39);
+    background-color: #272727;
+    transition: border-color .3s ease-in-out;
+    flex-direction: row;
+    align-items: center;
+    
+}
+
+.dashboard-sidebar-button-items{
+    display: flex;
+    width: fit-content;
+    height: 60px;
+    background-color: #272727;   
+    transition: all .3s ease-in-out;
+    flex-direction: row;
+    align-items: center;
+    min-width: 300px;
+}
+
+.dashboard-sidebar-button-items h3 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: normal;
+    font-size: 20px;
+    display: block;
+    color: $PrimaryTextColor;
+    transition: color .3s ease-in-out;
+}
+
+.dashboard-sidebar-icon{
+    margin: 0 17.5px;
+    display: flex;
+    min-width: 25px;
+    min-height: 25px;
+    color: $ButtonColor;
+    transition: all .3s ease-in-out;
+}
+
+.dashboard-sidebar-button:hover{
+    border-color: $ButtonHoverColor;
+}
+
+
+.dashboard-sidebar-button:hover .dashboard-sidebar-button-items .dashboard-sidebar-icon{
+    color: $ButtonHoverColor;
+}
+
+.dashboard-sidebar-button:hover .dashboard-sidebar-button-items h3{
+    color: $ButtonHoverColor;
+}
+
 
 
 
