@@ -3,6 +3,13 @@ import '../scss/main.scss';
 import icon from "../images/UmekoIcon500px.png";
 import { useEffect } from 'react';
 
+
+const iconStyle = {
+  paddingTop : '200px',
+  maxWidth : '300px', 
+  maxHeight : '300px'
+}
+
 function Invite() {
 
   useEffect(() => {
@@ -19,7 +26,7 @@ function Invite() {
 
   return (
     <section className='standard-page' id="invite">
-      <img src={icon} alt="Logo"/>
+      <img src={icon} style={iconStyle} alt="Logo"/>
       <h1>Thanks for the Invite</h1>
     </section>
   );

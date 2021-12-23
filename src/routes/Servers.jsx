@@ -1,20 +1,12 @@
 
 import '../scss/main.scss';
-import { useEffect, useContext, useState,useMemo } from 'react';
-import {
-  useLocation
-} from "react-router-dom";
+import { useEffect, useContext, useState} from 'react';
 import { GlobalAppContext } from '../contexts';
 import GuildItem from '../components/GuidItem';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
-
-function useQuery() {
-  const { search } = useLocation();
-
-  return useMemo(() => new URLSearchParams(search), [search]);
-}
+import useQuery from '../hooks/useQuery';
 
 function Servers() {
 

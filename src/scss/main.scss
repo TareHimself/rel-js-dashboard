@@ -50,6 +50,22 @@ h3 {
     color: $PrimaryTextColor;
 }
 
+@media only screen and (max-width: 1200px) {
+
+    h1 {
+        font-size: 30px;
+    }
+    
+    h2 {
+        font-size: 18px;
+    }
+    
+    h3 {
+        font-size: 12px;
+    }
+
+}
+
 
 header {
     height: 90px;
@@ -80,26 +96,23 @@ header {
     color: $ButtonHoverColor;
 }
 
-.navigation-column-left {
+.navigation-column {
     display: flex;
     width: 100%;
     height: 100%;
     align-items: center;
     flex-direction: row;
-    justify-content: flex-end;
-    padding-right: 10%;
     background-color: #272727;
 }
 
-.navigation-column-right {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    flex-direction: row;
+.navigation-column[pos='left'] {
+    justify-content: flex-end;
+    padding-right: 10%;
+}
+
+.navigation-column[pos='right'] {
     justify-content: flex-start;
     padding-left: 10%;
-    background-color: #272727;
 }
 
 .navigation-column-right img {
@@ -387,6 +400,34 @@ header {
     
 }
 
+.home-content-row-button{
+    display: inline-block;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+    padding: 6px 20px;
+    margin: 0 10px;
+    border: 2px solid $ButtonColor;
+    color: $ButtonColor;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all .3s ease-in-out;
+    
+}
+
+.home-content-row-button[pos='left'] {
+    margin-left: 0;
+}
+
+.home-content-row-button[pos='right'] {
+    margin-right: 0;
+}
+
+.home-content-row-button:hover{
+    border-color: $ButtonHoverColor;
+    color: $ButtonHoverColor;
+}
+
 .home-content-row-info h1{
     font-size: 70px;
     margin: 2px 0;
@@ -424,11 +465,23 @@ header {
 .dashboard-sidebar{
     display: flex;
     height: 100%;
-    min-width: 300px;
+    min-width: 250px;
+    width: 250px;
     background-color: rgb(39, 39, 39);
     flex-direction: column;
     overflow: hidden;
     transition: all .3s ease-in-out;
+}
+
+.dashboard-menu-button{
+    color: $ButtonColor;
+    width: 50px;
+    height: 50px;
+    transition: all .3s ease-in-out;
+}
+
+.dashboard-menu-button:hover{
+    color: $ButtonHoverColor;
 }
 
 
@@ -437,6 +490,18 @@ header {
     width: inherit;
     height: 60px;
     border-left: 2px solid rgb(39, 39, 39);
+    background-color: #272727;
+    transition: border-color .3s ease-in-out;
+    flex-direction: row;
+    align-items: center;
+    
+}
+
+.dashboard-sidebar-button-selected{
+    display: flex;
+    width: inherit;
+    height: 60px;
+    border-left: 2px solid $ButtonHoverColor;
     background-color: #272727;
     transition: border-color .3s ease-in-out;
     flex-direction: row;
@@ -453,6 +518,7 @@ header {
     flex-direction: row;
     align-items: center;
     min-width: 300px;
+    width: 300px;
 }
 
 .dashboard-sidebar-button-items h3 {
@@ -484,6 +550,27 @@ header {
 
 .dashboard-sidebar-button:hover .dashboard-sidebar-button-items h3{
     color: $ButtonHoverColor;
+}
+
+.dashboard-sidebar-button-selected .dashboard-sidebar-button-items .dashboard-sidebar-icon{
+    color: $ButtonHoverColor;
+}
+
+.dashboard-sidebar-button-selected .dashboard-sidebar-button-items h3{
+    color: $ButtonHoverColor;
+}
+
+@media only screen and (max-width: 1200px) {
+
+    .dashboard-sidebar{
+        position: absolute;
+        width: 0px;
+        min-width: 0px;
+        top: 0;
+        left: 0;
+        z-index: 10;
+    }
+
 }
 
 

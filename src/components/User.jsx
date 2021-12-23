@@ -11,20 +11,20 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { BiChevronDown } from "react-icons/bi";
 import axios from 'axios';
 
+const iconStyle = {
+    margin: "0 10px",
+    fontSize: "40px",
+    verticalAlign: "middle"
+}
 
 const authURL = "https://discord.com/api/oauth2/authorize?client_id=804165876362117141&redirect_uri=http%3A%2F%2Fumeko.dev%2Fauth&response_type=code&scope=guilds%20identify";
+
 function User() {
     const { theme, sessionId, setSessionId, serverLink } = useContext(GlobalAppContext);
 
     const [userAvatar, setUserAvatar] = useState('');
 
     const [showMenu, setShowMenu] = useState(false);
-
-    const iconStyle = {
-        margin: "0 10px",
-        fontSize: "40px",
-        verticalAlign: "super"
-    }
 
     useEffect(() => {
 
@@ -97,7 +97,7 @@ function User() {
                             <Link className='dropdown-button' to="/">Home</Link>
                             <Link className='dropdown-button' to="/servers">Servers</Link>
                             <Link className='dropdown-button' to="/commands">Commands</Link>
-                            <Link className='dropdown-button' to="/support">Support</Link>
+                            <a className='dropdown-button' target='_blank' rel="noreferrer noopener" href="https://discord.gg/tTckZep9zz">Support</a>
                             <button className='dropdown-button' onClick={onLogout} >log Out</button>
                         </div>}
                 </div>
@@ -124,7 +124,7 @@ function User() {
                         <div id='user-menu-dropdown' className='user-dropdown-content'>
                             <Link className='dropdown-button' to="/">Home</Link>
                             <Link className='dropdown-button' to="/commands">Commands</Link>
-                            <Link className='dropdown-button' to="/support">Support</Link>
+                            <a className='dropdown-button' target='_blank' rel="noreferrer noopener" href="https://discord.gg/tTckZep9zz">Support</a>
                         </div>
                         }
                         </div>
