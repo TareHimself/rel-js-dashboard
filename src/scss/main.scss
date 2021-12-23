@@ -127,8 +127,9 @@ header {
 }
 
 .user-dropdown{
-    display: inline;
+    display: flex;
     position: relative;
+    align-items: center;
 }
 
 @keyframes appear {
