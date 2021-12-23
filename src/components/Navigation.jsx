@@ -8,6 +8,8 @@ function Navigation() {
 
     const { width } = useWindowDimensions();
 
+    const bShouldShowMenuIcon = (width <= 1200 && window.location.pathname === '/dashboard');
+    console.log({width : width, status : bShouldShowMenuIcon})
     function onClickIcon(clickEvent) {
         if (document) {
             const dashboardSidebar = document.getElementById('dashboard-sidebar')
@@ -66,7 +68,7 @@ function Navigation() {
 
     return (
         <header id='Header' >
-            <div className="navigation-column" pos='right'>{(width <= 1200 && window.location.pathname === '/dashboard') && <BiMenuAltLeft className='dashboard-menu-button' onClick={onClickIcon} />} </div>
+            <div className="navigation-column" pos='right'>{bShouldShowMenuIcon && <BiMenuAltLeft className='dashboard-menu-button' onClick={onClickIcon} />} </div>
             <div className="navigation-column" pos='left'><User /></div>
         </header>
     );
