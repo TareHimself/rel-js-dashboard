@@ -271,6 +271,8 @@ header {
 
 
 
+
+
 #Home {
     height: auto;
     padding-top: 0;
@@ -280,6 +282,8 @@ header {
     justify-content: center;
     flex-direction: column;
 }
+
+
 
 
 
@@ -450,6 +454,127 @@ header {
     font-size: 30px;
 }
 
+@media only screen and (max-width: 1000px) {
+    .home-content-row{
+        flex-direction: column;
+    }
+    
+    .home-content-row img{
+        width: 300px;
+        height: 300px;
+        margin: 40px 0;
+    }
+    
+    .home-content-row-info{
+        padding: 0 40px;
+        display: flex;
+        flex-direction: column;
+        width: 700px;
+    }
+
+    
+    .home-content-row-info h1{
+        font-size: 70px;
+        margin: 2px 0;
+        text-align: center;
+    }
+    
+    
+    .home-content-row-info h1::after{
+        content: '';
+        display: inline-block;
+        height: 5px;
+        width: 100%;
+        background-color: white;
+    }
+
+    .home-content-row-info div{
+        display: flex;
+        justify-content: center;
+    }
+    
+    
+    .home-content-row-button{
+        font-size: 30px;
+        text-align: center;
+    }
+
+    .home-content-row-info h3{
+        text-align: center;
+    }
+
+    @media only screen and (max-width: 780px) {
+
+        .home-content-row{
+            height: fit-content;
+            margin: 0 0;
+            margin-top: 90px;
+        }
+
+        .home-content-row-info{
+            padding: 0 40px;
+            display: flex;
+            flex-direction: column;
+            width: 400px;
+        }
+
+        .home-content-row-info div{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .home-content-row-button{
+            margin: 10px 0;
+            font-size: 20px;
+        }
+
+        .home-content-row-info h3{
+            font-size: 30px;
+        }
+
+
+        @media only screen and (max-width: 480px) {
+
+            .home-content-row img{
+                width: 200px;
+                height: 200px;
+                margin: 40px 0;
+            }
+
+            .home-content-row{
+                margin: 0 0;
+                margin-top: 90px;
+            }
+
+            .home-content-row-info{
+                padding: 0 40px;
+                display: flex;
+                flex-direction: column;
+                width: 280px;
+                margin-bottom: 20px;
+            }
+
+            .home-content-row-info h1{
+                font-size: 50px;
+                margin: 2px 0;
+                text-align: center;
+            }
+
+            .home-content-row-info h3{
+                font-size: 20px;
+            }
+
+            .home-content-row-button{
+                font-size: 20px;
+            }
+    
+        }
+
+    }
+}
+
 #Dashboard{
     flex-direction: row;
     height: calc(100vh - 90px);
@@ -573,6 +698,34 @@ header {
         z-index: 10;
     }
 
+}
+
+.dashboard-input-row {
+    display: flex;
+    min-width: 400px;
+    height: inherit;
+    background-color: $GuildItemsColor;
+    border-radius: 20px;
+}
+
+.dashboard-input-row h3{
+    margin: 0 0;
+}
+
+.dashboard-text-input {
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 20px;
+    border: rgba(0, 0, 0, 0);
+    color: rgba(0, 0, 0, 0);
+    outline: none;
+    width: inherit;
+}
+
+.dashboard-text-input:focus {
+    outline: none;
 }
 
 

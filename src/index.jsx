@@ -27,8 +27,10 @@ import Support from './routes/Support';
 
 const App = () => {
 
-    const serverLink = 'https://rel-js-server.oyintareebelo.repl.co';
+    const debugging = false;
 
+    const serverLink = debugging ? 'http://localhost:8080' : 'https://rel-js-server.oyintareebelo.repl.co';
+    
     const [theme, setTheme] = useState('dark');
     const [sessionId, setSessionIdRaw] = useState(localStorage.getItem('sessionId') || '');
 
@@ -71,7 +73,7 @@ const App = () => {
 
         return () => clearInterval(interval);
 
-    }, [sessionId]);
+    }, [sessionId,serverLink]);
 
     const darkTheme = {
         NavigationColor: '#42424',
@@ -116,7 +118,7 @@ const App = () => {
         }
     })
     return (
-        <GlobalAppContext.Provider value={{ sessionId, setSessionId, navigate, serverLink, theme, setTheme, themeColors }}>
+        <GlobalAppContext.Provider value={{ sessionId, setSessionId, navigate, serverLink, theme, setTheme, themeColors, debugging }}>
 
             <Navigation />
 

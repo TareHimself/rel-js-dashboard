@@ -97,6 +97,8 @@ function Servers() {
         }
         
         const data = response.data;
+        if(data === undefined || data.filter === undefined) return;
+        
         const filteredData = data.filter(isPartOfSearch)
         setGuilds(filteredData);
       }, (error) => {

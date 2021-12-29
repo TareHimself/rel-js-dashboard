@@ -17,10 +17,18 @@ const iconStyle = {
     verticalAlign: "middle"
 }
 
-const authURL = "https://discord.com/api/oauth2/authorize?client_id=804165876362117141&redirect_uri=http%3A%2F%2Fumeko.dev%2Fauth&response_type=code&scope=guilds%20identify";
+const normalAuth = "https://discord.com/api/oauth2/authorize?client_id=804165876362117141&redirect_uri=http%3A%2F%2Fumeko.dev%2Fauth&response_type=code&scope=guilds%20identify";
+const debugAuth = "https://discord.com/api/oauth2/authorize?client_id=804165876362117141&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth&response_type=code&scope=identify%20guilds";
+
+
 
 function User() {
-    const { theme, sessionId, setSessionId, serverLink } = useContext(GlobalAppContext);
+
+    
+
+    const { theme, sessionId, setSessionId, serverLink, debugging } = useContext(GlobalAppContext);
+
+    const authURL = debugging ? debugAuth : normalAuth;
 
     const [userAvatar, setUserAvatar] = useState('');
 
