@@ -30,7 +30,7 @@ function AuthRedirect() {
       return undefined
     }
 
-    axios.post(`http://localhost:8080/create-session`,{ token : token})
+    axios.post(`${serverLink}/create-session`,{ token : token})
     .then((response) => {
       const data = response.data;
       console.log(data);

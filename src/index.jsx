@@ -30,9 +30,7 @@ const App = () => {
     const debugging = false;
 
     const serverLink = debugging ? 'http://localhost:8080' : 'https://rel-js-server.oyintareebelo.repl.co';
-    
-    console.log(serverLink);
-    
+
     const [theme, setTheme] = useState('dark');
     const [sessionId, setSessionIdRaw] = useState(localStorage.getItem('sessionId') || '');
 
@@ -98,11 +96,6 @@ const App = () => {
     };
 
     const themeColors = theme === 'dark' ? darkTheme : lightTheme;
-
-    /*useEffect(()=>{
-        const root = document.getElementById('root');
-        root.style.backgroundColor = themeColors.PrimaryColor;
-    },[themeColors]);*/
 
     const location = useLocation();
     const actualLocation = location.pathname.substring(1).trim()
