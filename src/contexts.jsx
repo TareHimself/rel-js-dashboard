@@ -1,3 +1,3 @@
 import { createContext } from 'react';
 
-export const GlobalAppContext = createContext({ debugging : false });
+export const GlobalAppContext = createContext({});

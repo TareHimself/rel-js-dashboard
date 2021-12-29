@@ -31,6 +31,8 @@ const App = () => {
 
     const serverLink = debugging ? 'http://localhost:8080' : 'https://rel-js-server.oyintareebelo.repl.co';
     
+    console.log(serverLink);
+    
     const [theme, setTheme] = useState('dark');
     const [sessionId, setSessionIdRaw] = useState(localStorage.getItem('sessionId') || '');
 
