@@ -8,7 +8,6 @@ import { GoGraph } from 'react-icons/go';
 import { IoSettingsOutline, IoChevronBack } from 'react-icons/io5';
 import { SiMonkeytie } from 'react-icons/si'
 import { AiOutlineBug } from 'react-icons/ai'
-import DashboardSetting from '../components/DashboardSetting';
 import useWindowDimensions from '../hooks/useWindowDimensions';
 
 function Dashboard() {
@@ -106,7 +105,7 @@ function Dashboard() {
 
             </div>
             <div className="dashboard-content">
-                <DashboardSetting/>
+                
             </div>
 
         </section>
