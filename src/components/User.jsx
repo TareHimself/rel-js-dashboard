@@ -6,9 +6,8 @@ import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useContext, useState } from 'react';
 import { GlobalAppContext } from '../contexts';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { BiChevronDown } from "react-icons/bi";
+import { VscLoading } from 'react-icons/vsc'
 import axios from 'axios';
 
 const iconStyle = {
@@ -26,17 +25,24 @@ function User() {
 
     
 
-    const { theme, sessionId, setSessionId, serverLink, debugging } = useContext(GlobalAppContext);
+    const { theme, sessionId, setSessionId, serverLink, debugging, userData, setUserData } = useContext(GlobalAppContext);
 
     const authURL = debugging ? debugAuth : normalAuth;
 
-    const [userAvatar, setUserAvatar] = useState('');
+    
+    let userAvatar = '';
+
+    if(userData)
+    {
+        const extension = userData.avatar.startsWith("a_") ? 'gif' : 'png';
+        userAvatar = `https://cdn.discordapp.com/avatars/${userData.id}/${userData.avatar}.${extension}`
+    }
 
     const [showMenu, setShowMenu] = useState(false);
 
     useEffect(() => {
 
-        if (sessionId === '' || userAvatar !== '') {
+        if (!sessionId || userAvatar) {
             return undefined
         }
 
@@ -45,13 +51,13 @@ function User() {
         axios.get(`${serverLink}/user`, { headers: headers })
             .then((response) => {
                 const data = response.data;
-                if (data.result === 'error') {
+                if (data.error) {
                     setSessionId('');
                     console.log(data.error);
                 }
                 else {
-                    const extension = data.avatar.startsWith("a_") ? 'gif' : 'png';
-                    setUserAvatar(`https://cdn.discordapp.com/avatars/${data.id}/${data.avatar}.${extension}`);
+                    
+                    setUserData(data);
                 }
 
             }, (error) => {
@@ -59,7 +65,7 @@ function User() {
                 console.log(error);
             });
 
-    }, [sessionId, setSessionId, userAvatar, serverLink]);
+    }, [sessionId, setSessionId, setUserData,userAvatar, serverLink]);
 
     function onLogout(clickEvent) {
         const data = { sessionId: sessionId }
@@ -71,6 +77,10 @@ function User() {
                 console.log(error);
                 setSessionId('');
             });
+    }
+
+    function onClickLevelCard(clickEvent){
+
     }
 
     useEffect(() => {
@@ -102,18 +112,19 @@ function User() {
                     < BiChevronDown className={`clickable-icons-${theme}`} style={iconStyle} onClick={() => setShowMenu(true)} />
                     {showMenu &&
                         <div id='user-menu-dropdown' className='user-dropdown-content'>
+                            <button className='dropdown-button' onClick={onClickLevelCard} >Level Card</button>
                             <Link className='dropdown-button' to="/">Home</Link>
                             <Link className='dropdown-button' to="/servers">Servers</Link>
                             <Link className='dropdown-button' to="/commands">Commands</Link>
                             <a className='dropdown-button' target='_blank' rel="noreferrer noopener" href="https://discord.gg/tTckZep9zz">Support</a>
-                            <button className='dropdown-button' onClick={onLogout} >log Out</button>
+                            <button className='dropdown-button' onClick={onLogout} >Log Out</button>
                         </div>}
                 </div>
             );
         }
         else {
             return (
-                <FontAwesomeIcon icon={faUser} />
+                <VscLoading/>
             );
         }
     }

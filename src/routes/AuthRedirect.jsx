@@ -15,7 +15,7 @@ function useQuery() {
 
 function AuthRedirect() {
 
-  const { setSessionId, navigate,serverLink } = useContext(GlobalAppContext);
+  const { sessionId , setSessionId, navigate,serverLink } = useContext(GlobalAppContext);
 
   let query = useQuery();
 
@@ -24,7 +24,7 @@ function AuthRedirect() {
 
   React.useEffect(() => {
 
-    if(token === undefined)
+    if(!token || sessionId)
     {
       navigate('../',{ replace: true });
       return undefined
@@ -33,7 +33,6 @@ function AuthRedirect() {
     axios.post(`${serverLink}/create-session`,{ token : token})
     .then((response) => {
       const data = response.data;
-      console.log(data);
       if(data.sessionId !== undefined)
       {
         setSessionId(data.sessionId);
@@ -48,11 +47,11 @@ function AuthRedirect() {
       navigate('../',{ replace: true });
     });
 
-  },[token,navigate,setSessionId,serverLink]);
+  },[token,navigate,setSessionId,sessionId,serverLink]);
 
   return (
     <section className='auth-page' id='Auth'>
-      <h1>Authorizing</h1>
+      <h1>Logging You In</h1>
     </section>
   );
 }

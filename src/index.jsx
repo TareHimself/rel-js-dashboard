@@ -22,17 +22,19 @@ import NotFound from './routes/NotFound';
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
 import Support from './routes/Support';
+import LevelCardCustomization from './components/LevelCardCustomization';
 
 
 
 const App = () => {
 
-    const debugging = false;
+    const debugging = true;
 
-    const serverLink = debugging ? 'http://localhost:8080' : 'https://rel-js-server.oyintareebelo.repl.co';
+    const serverLink = debugging ? 'http://localhost:49154' : 'https://rel-js-server.oyintareebelo.repl.co';
 
     const [theme, setTheme] = useState('dark');
     const [sessionId, setSessionIdRaw] = useState(localStorage.getItem('sessionId') || '');
+    const [userData,setUserData] = useState(undefined);
 
     const setSessionId = function (id) {
         if (id === '') {
@@ -62,7 +64,7 @@ const App = () => {
             axios.get(serverLink, { headers: headers })
                 .then((response) => {
                     const data = response.data;
-                    if (data.result === 'error') {
+                    if (data.error) {
                         setSessionId('');
                     }
                 }, (error) => {
@@ -113,8 +115,9 @@ const App = () => {
         }
     })
     return (
-        <GlobalAppContext.Provider value={{ sessionId, setSessionId, navigate, serverLink, theme, setTheme, themeColors, debugging }}>
+        <GlobalAppContext.Provider value={{ sessionId, setSessionId, navigate, serverLink, theme, setTheme, themeColors, debugging, userData, setUserData }}>
 
+            {sessionId !== '' && <LevelCardCustomization/>}
             <Navigation />
 
             <Routes>
