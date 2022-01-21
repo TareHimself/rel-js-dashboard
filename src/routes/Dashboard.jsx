@@ -79,15 +79,27 @@ function Dashboard() {
                     </div>
                 </div>
 
-                <div className="dashboard-sidebar-button" onClick={() => onSelectCategory('analytics')} id='analyticsCategory'>
+                <div className="dashboard-sidebar-button" onClick={() => onSelectCategory('settings')} id='settingsCategory'>
                     <div className="dashboard-sidebar-button-items">
-                        <GoGraph className='dashboard-sidebar-icon' /><h3>Analytics</h3>
+                        <IoSettingsOutline className='dashboard-sidebar-icon' /><h3>Join Msg</h3>
                     </div>
                 </div>
 
                 <div className="dashboard-sidebar-button" onClick={() => onSelectCategory('settings')} id='settingsCategory'>
                     <div className="dashboard-sidebar-button-items">
-                        <IoSettingsOutline className='dashboard-sidebar-icon' /><h3>Settings</h3>
+                        <IoSettingsOutline className='dashboard-sidebar-icon' /><h3>Leave Msg</h3>
+                    </div>
+                </div>
+
+                <div className="dashboard-sidebar-button" onClick={() => onSelectCategory('analytics')} id='analyticsCategory'>
+                    <div className="dashboard-sidebar-button-items">
+                        <GoGraph className='dashboard-sidebar-icon' /><h3>Leveling</h3>
+                    </div>
+                </div>
+
+                <div className="dashboard-sidebar-button" onClick={() => onSelectCategory('settings')} id='settingsCategory'>
+                    <div className="dashboard-sidebar-button-items">
+                        <IoSettingsOutline className='dashboard-sidebar-icon' /><h3>Twitch</h3>
                     </div>
                 </div>
 

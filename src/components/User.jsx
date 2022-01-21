@@ -25,14 +25,14 @@ function User() {
 
     
 
-    const { theme, sessionId, setSessionId, serverLink, debugging, userData, setUserData } = useContext(GlobalAppContext);
+    const { theme, sessionId, setSessionId, serverLink, debugging, userData, setUserData,setIsCustomizingCard} = useContext(GlobalAppContext);
 
     const authURL = debugging ? debugAuth : normalAuth;
 
     
     let userAvatar = '';
 
-    if(userData)
+    if(userData.avatar)
     {
         const extension = userData.avatar.startsWith("a_") ? 'gif' : 'png';
         userAvatar = `https://cdn.discordapp.com/avatars/${userData.id}/${userData.avatar}.${extension}`
@@ -80,7 +80,7 @@ function User() {
     }
 
     function onClickLevelCard(clickEvent){
-
+        setIsCustomizingCard(true);
     }
 
     useEffect(() => {

@@ -760,6 +760,26 @@ z-index: 1;
     align-items: center;
 }
 
+.level-card-customization-button{
+    display: inline-block;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 6px 20px;
+    margin-top: 20px;
+    border: 2px solid $ButtonColor;
+    color: $ButtonColor;
+    border-radius: 10px;
+    text-decoration: none;
+    background: transparent;
+    transition: all .3s ease-in-out;  
+}
+
+.level-card-customization-button:hover{
+    border-color: $ButtonHoverColor;
+    color: $ButtonHoverColor;
+}
+
 .level-card-customization-content {
     display: flex;
     width: 650px;
@@ -769,6 +789,48 @@ z-index: 1;
     flex-direction: column;
     align-items: center;
     border-radius: 20px
+}
+
+.level-card-customization-content-opacity-slider{
+    display: flex;
+    position: relative;
+    margin-top: 20px;
+    width: 500px;
+    height: 30px;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.level-card-customization-content-opacity-slider-track{
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 10px;
+    background-color: var(--main-color);
+    border-radius: 5px;
+    border : solid 2px black;
+}
+
+.level-card-customization-content-opacity-slider-thumb{
+    display: block;
+    position: absolute;
+    left: calc(var(--opacity) * 100%);
+    transform: translateX(calc(-25% * (1 + 2 * var(--opacity))));
+    padding: 5px;
+    width: 20px;
+    height: 20px;
+    color: white;
+    background-color: var(--main-color);
+    border-radius: 20px;
+    border : solid 2px black;
+}
+
+.level-card-customization-content-opacity-slider input[type="range"] {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    position: absolute;
 }
 
 .level-card-customization-backround-crop {
@@ -805,17 +867,7 @@ z-index: 1;
     justify-content: space-between;
 }
 
-input[type="color"] {
-	opacity: 0;
-    width: 100%;
-    height: 100%;
-}
 
-input[type="file"] {
-	opacity: 0;
-    width: 100%;
-    height: 100%;
-}
 
 .level-card-editing-background-upload-loading {
     position: absolute;
@@ -844,6 +896,29 @@ input[type="file"] {
     border-radius: 10px;
     background-color: var(--main-color);
     border : solid 2px black;
+    transition: border .3s ease-in-out;
+}
+
+.level-card-editing-item-background {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    opacity: 0;
+    background-color: black;
+    transition: opacity .3s ease-in-out;
+}
+
+.level-card-editing-item input[type="color"] {
+	opacity: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.level-card-editing-item input[type="file"] {
+	opacity: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .level-card-editing-item-icon {
@@ -851,7 +926,20 @@ input[type="file"] {
     color: white;
     width: 30px;
     height: 30px;
+    transition: all .15s ease-in-out;
 }
+
+
+.level-card-editing-item:hover {
+    border-color: var(--main-color);
+}
+
+.level-card-editing-item:hover .level-card-editing-item-background {
+    opacity: 0.7;
+}
+
+
+
 
 // level card stuff
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500&display=swap');

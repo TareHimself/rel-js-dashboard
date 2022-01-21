@@ -34,10 +34,12 @@ const App = () => {
 
     const [theme, setTheme] = useState('dark');
     const [sessionId, setSessionIdRaw] = useState(localStorage.getItem('sessionId') || '');
-    const [userData,setUserData] = useState(undefined);
+    const [isCustomizingCard,setIsCustomizingCard] = useState(false);
+    const [userData,setUserData] = useState({});
 
     const setSessionId = function (id) {
         if (id === '') {
+            setIsCustomizingCard(false);
             localStorage.removeItem('sessionId');
         }
         else {
@@ -115,9 +117,9 @@ const App = () => {
         }
     })
     return (
-        <GlobalAppContext.Provider value={{ sessionId, setSessionId, navigate, serverLink, theme, setTheme, themeColors, debugging, userData, setUserData }}>
+        <GlobalAppContext.Provider value={{ sessionId, serverLink, theme,  themeColors, debugging, userData, setSessionId, navigate,setTheme,setUserData,setIsCustomizingCard}}>
 
-            {sessionId !== '' && <LevelCardCustomization/>}
+            {isCustomizingCard && <LevelCardCustomization/>}
             <Navigation />
 
             <Routes>
