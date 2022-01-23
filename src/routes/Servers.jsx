@@ -106,7 +106,7 @@ function Servers() {
         console.log(error);
       });
 
-  }, [sessionId, setGuilds, navigate,guildsFilter,serverLink]);
+  });
 
   
 
