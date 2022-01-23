@@ -15,13 +15,6 @@ function Servers() {
   const [guilds, setGuilds] = useState(undefined);
   const [filter,setFilter] = useState(query.get("filter") || '');
 
-  const guildsFilter = ;
-  
-
-  if (sessionId === '') {
-    navigate('../', { replace: true });
-  }
-
   let guildElements = <div></div>
 
   if (guilds && guilds.map) {
