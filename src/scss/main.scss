@@ -4,26 +4,27 @@
 #root{
     height: auto;
     min-height: 100vh;
+    overflow: scroll;
 }
 
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: $PrimaryColor;
-  }
-  
+}
+
 .page {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-  
+
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-      monospace;
+    monospace;
 }
 
 h1 {
@@ -88,12 +89,27 @@ header {
     color: $ButtonColor;
     border-radius: 25px;
     text-decoration: none;
+    background: transparent;
     transition: all .3s ease-in-out;
 }
 
 .button:hover {
     border-color: $ButtonHoverColor;
     color: $ButtonHoverColor;
+}
+
+@keyframes rotate-icon {
+    from {
+        transform : rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-icon{
+    animation: rotate-icon 2s infinite linear;
+    color: white;
 }
 
 .navigation-column {
@@ -172,27 +188,27 @@ header {
 
 
 .guild-items{
-  display: inline-grid;
-  grid-row-gap: 10px;
-  grid-column-gap: 10px;
-  grid-template-columns: repeat(3, 320px);
-  grid-template-rows: inherit;
-  padding-top: 90px;
-  z-index: 1;
+display: inline-grid;
+grid-row-gap: 10px;
+grid-column-gap: 10px;
+grid-template-columns: repeat(3, 320px);
+grid-template-rows: inherit;
+padding-top: 90px;
+z-index: 1;
 }
 
 @media only screen and (max-width: 1200px) {
     .guild-items{
         grid-template-columns: repeat(2, 320px);
-      }
-  }
-  
-  @media only screen and (max-width: 768px) {
+    }
+}
+
+@media only screen and (max-width: 768px) {
     .guild-items{
         grid-template-columns: repeat(1, 320px);
-      }
+    }
 
-  }
+}
 
 .guild-item{
     display: flex;
@@ -284,9 +300,6 @@ header {
 }
 
 
-
-
-
 .auth-page {
     height: 100vh;
     background-color: rgba(0, 0, 0, 0);
@@ -294,6 +307,13 @@ header {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+.auth-page .loading-icon{
+    animation: rotate-icon 2s infinite linear;
+    color: white;
+    width: 100px;
+    height: 100px;
 }
 
 .auth-page h1 {
@@ -722,11 +742,415 @@ header {
     color: rgba(0, 0, 0, 0);
     outline: none;
     width: inherit;
+
 }
 
 .dashboard-text-input:focus {
     outline: none;
 }
+
+.level-card-customization {
+    --main-color: #87ceeb;
+    --progress-percent: 50%;
+    --opacity : 0.8;
+    --scale : 0.5;
+    display: flex;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
+    background-color: rgba(0, 0, 0, 0.9);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.level-card-customization-button{
+    display: inline-block;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 6px 20px;
+    margin-top: 20px;
+    border: 2px solid $ButtonColor;
+    color: $ButtonColor;
+    border-radius: 10px;
+    text-decoration: none;
+    background: transparent;
+    transition: all .3s ease-in-out;  
+}
+
+.level-card-customization-button:hover{
+    border-color: $ButtonHoverColor;
+    color: $ButtonHoverColor;
+}
+
+.level-card-customization-content {
+    display: flex;
+    width: 650px;
+    height: 500px;
+    justify-content: center;
+    background-color: #222222;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px
+}
+
+.level-card-customization-content-opacity-slider{
+    display: flex;
+    position: relative;
+    margin-top: 20px;
+    width: 500px;
+    height: 30px;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.level-card-customization-content-opacity-slider-track{
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 10px;
+    background-color: var(--main-color);
+    border-radius: 5px;
+    border : solid 2px black;
+}
+
+.level-card-customization-content-opacity-slider-thumb{
+    display: block;
+    position: absolute;
+    left: calc(var(--opacity) * 100%);
+    transform: translateX(calc(-25% * (1 + 2 * var(--opacity))));
+    padding: 5px;
+    width: 20px;
+    height: 20px;
+    color: white;
+    background-color: var(--main-color);
+    border-radius: 20px;
+    border : solid 2px black;
+}
+
+.level-card-customization-content-opacity-slider input[type="range"] {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+}
+
+.level-card-customization-backround-crop {
+    position: relative;
+    display: flex;
+    width: 650px;
+    height: 500px;
+    justify-content: center;
+    background-color: #222222;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.level-card-customization-backround-crop-image {
+    display: block;
+    max-width: 600px;
+    max-height: 400px;
+}
+
+.ReactCrop__image{
+    object-fit: cover;
+    max-width: 100%;
+    max-height: 400px;
+}
+
+
+.level-card-editing-content {
+    display: flex;
+    width: 500px;
+    height: 75px;
+    margin-top: 20px;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+
+
+.level-card-editing-background-upload-loading {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 20;
+}
+
+.level-card-editing-background-upload-loading .loading-icon {
+    color: white;
+    font-size: 100px;
+}
+
+.level-card-editing-item {
+    position: relative;
+    height: 75px;
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background-color: var(--main-color);
+    border : solid 2px black;
+    transition: border .3s ease-in-out;
+}
+
+.level-card-editing-item-background {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    opacity: 0;
+    background-color: black;
+    transition: opacity .3s ease-in-out;
+}
+
+.level-card-editing-item input[type="color"] {
+	opacity: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.level-card-editing-item input[type="file"] {
+	opacity: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.level-card-editing-item-icon {
+    position: absolute;
+    color: white;
+    width: 30px;
+    height: 30px;
+    transition: all .15s ease-in-out;
+}
+
+
+.level-card-editing-item:hover {
+    border-color: var(--main-color);
+}
+
+.level-card-editing-item:hover .level-card-editing-item-background {
+    opacity: 0.7;
+}
+
+
+
+
+// level card stuff
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500&display=swap');
+
+.level-card {
+    font-family: "Poppins", Arial, Helvetica, sans-serif;
+    background: rgb(22, 22, 22);
+    color: #222;
+    width: calc(1000px *  var(--scale));
+    height: calc(300px * var(--scale));
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: calc(8px * var(--scale));
+}
+
+.level-card h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: calc(40px * var(--scale));
+    display: block;
+    color: white;
+    margin: 0;
+}
+
+.level-card h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: calc(30px * var(--scale));
+    display: block;
+    color: white;
+    margin: 0;
+}
+
+.level-card h3 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 200;
+    font-size: calc(20px * var(--scale));
+    display: block;
+    color: white;
+    margin: 0;
+}
+
+.level-card-background {
+    width: calc(1000px * var(--scale));
+    height: calc(300px * var(--scale));
+    object-fit: cover;
+    position: absolute;
+    border-radius: calc(8px * var(--scale));
+}
+
+.user-level-profile {
+    position: relative;
+    min-width: calc(184px * var(--scale));
+    width: calc(184px * var(--scale));
+    height: calc(184px * var(--scale));
+    display: block;
+}
+
+.user-level-info {
+    width: inherit;
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+
+
+
+.user-level-info-row {
+    width: 100%;
+    height: calc(50px * var(--scale));
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 0 calc(20px * var(--scale));
+}
+
+.user-level-info-row[pos='top'] {
+    height: calc(70px * var(--scale));
+}
+
+.user-level-info-row[pos='middle'] {
+    height: calc(60px * var(--scale));
+    align-items: center;
+}
+
+.user-level-info-bar{
+    display: block;
+    background-color: grey;
+    width: 100%;
+    height: calc(30px * var(--scale));
+    box-sizing: border-box;
+    border-radius: calc(20px * var(--scale));
+}
+
+.user-level-info-progress{
+    display: block;
+    background-color: var(--main-color);
+    width: var(--progress-percent);
+    height: calc(30px * var(--scale));
+    box-sizing: border-box;
+    border-radius: calc(20px * var(--scale));
+}
+
+
+
+.user-level-info-row[pos='top']::after {
+    content: '';
+    display: block;
+    height: 1px;
+    width: calc(686px * var(--scale));
+    background-color: var(--main-color);
+    position: absolute;
+    top: 100%;
+}
+
+
+
+.user-level-profile img {
+    position: absolute;
+    width: calc(180px * var(--scale));
+    height: calc(180px * var(--scale));
+    border-radius: calc(110px * var(--scale));
+    border: 2px groove black;
+    display: inline-block;
+}
+
+.online-status {
+    position: absolute;
+    width: calc(30px * var(--scale));
+    height: calc(30px * var(--scale));
+    border-radius: calc(100px * var(--scale));
+    background-color: green;
+    border: 2px solid black;
+    display: inline-block;
+    transform: translateY(-50%) translateX(-50%);
+    left: 85%;
+    top: 85%;
+}
+
+.level-card-content {
+    position: relative;
+    width: calc(950px * var(--scale));
+    height: calc(220px * var(--scale));
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    background-color: rgba(34, 34, 34, var(--opacity));
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+    padding: calc(20px * var(--scale));
+    border-radius: calc(8px * var(--scale));
+}
+
+@media only screen and (max-width: 700px) {
+    .level-card-customization {
+        --scale : 0.3;
+    }
+
+    .level-card-customization-backround-crop {
+        width: 100%;
+        height: 100%;
+        border-radius: 0px;
+    }
+    
+    .level-card-customization-backround-crop-image {
+        max-width: 350px;
+        max-height: 400px;
+    }
+
+    .level-card-customization-content{
+        width: 100%;
+        height: 100%;
+        border-radius: 0px;
+    }
+
+    .level-card-editing-content{
+        width: 300px;
+        height: 50px;
+    }
+
+    .level-card-editing-item {
+
+        height: 50px;
+        width: 100px;
+        border-radius: 5px;
+    }
+    
+    .level-card-editing-item-background {
+        border-radius: 5px;
+    }
+
+    .level-card-customization-content-opacity-slider{
+        width: 300px;
+    }
+}
+
+
 
 
 

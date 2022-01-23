@@ -3,10 +3,9 @@ import '../scss/main.scss';
 import { useEffect, useContext, useState} from 'react';
 import { GlobalAppContext } from '../contexts';
 import GuildItem from '../components/GuidItem';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import useQuery from '../hooks/useQuery';
+import { BiSearchAlt } from 'react-icons/bi';
 
 function Servers() {
 
@@ -97,6 +96,9 @@ function Servers() {
         }
         
         const data = response.data;
+
+        console.log(data);
+        
         if(data === undefined || data.filter === undefined) return;
         
         const filteredData = data.filter(isPartOfSearch)
@@ -115,7 +117,7 @@ function Servers() {
 
       <div className="servers-search" >
         <input id='server-search-input' type="text" placeholder="Search.."  />
-        <FontAwesomeIcon icon={faSearch} />
+        <BiSearchAlt/>
       </div>
 
       <div className='guild-items'>

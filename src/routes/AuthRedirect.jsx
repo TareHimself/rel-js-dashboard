@@ -6,6 +6,8 @@ import {
 } from "react-router-dom";
 import { GlobalAppContext } from '../contexts';
 import axios from 'axios';
+import { VscLoading } from 'react-icons/vsc';
+import { hashString } from '../utils';
 
 function useQuery() {
   const { search } = useLocation();
@@ -15,44 +17,62 @@ function useQuery() {
 
 function AuthRedirect() {
 
-  const { setSessionId, navigate,serverLink } = useContext(GlobalAppContext);
+  const { sessionId , setSessionId, navigate,serverLink } = useContext(GlobalAppContext);
 
   let query = useQuery();
 
   const token = query.get("code");
 
+  const state = query.get("state");
+
 
   React.useEffect(() => {
 
-    if(token === undefined)
+    function finishAuthentication(path,reason)
     {
-      navigate('../',{ replace: true });
-      return undefined
+      console.log(reason);
+      window.location.search = '';
+      window.location.pathname = path;
+      return undefined;
     }
+
+    if(!token || sessionId)
+    {
+      return undefined;      
+    }
+
+    if(!localStorage.getItem('stateId')) return finishAuthentication('/','no storage data found');
+
+    const hashedStateId = `${hashString(localStorage.getItem('stateId'))}`;
+
+    localStorage.removeItem('stateId');
+    
+    if(hashedStateId !== state) return finishAuthentication('/',`storage data hash does not match recieved hash ${hashedStateId} | ${state}`);
 
     axios.post(`${serverLink}/create-session`,{ token : token})
     .then((response) => {
       const data = response.data;
       console.log(data);
-      if(data.sessionId !== undefined)
+      if(data.sessionId)
       {
         setSessionId(data.sessionId);
-        navigate('../',{ replace: true });
+        navigate(`/`);
+        
       }
       else
       {
-        navigate('../',{ replace: true });
+        navigate('/');
       }
-    }, (error) => {
+    }).catch((error) => {
       console.log(error);
-      navigate('../',{ replace: true });
+      finishAuthentication('/','an error occured');
     });
 
-  },[token,navigate,setSessionId,serverLink]);
+  },[token,state,navigate,setSessionId,sessionId,serverLink]);
 
   return (
     <section className='auth-page' id='Auth'>
-      <h1>Authorizing</h1>
+      <VscLoading className='loading-icon'/>
     </section>
   );
 }
