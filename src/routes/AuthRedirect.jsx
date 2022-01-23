@@ -6,6 +6,8 @@ import {
 } from "react-router-dom";
 import { GlobalAppContext } from '../contexts';
 import axios from 'axios';
+import { VscLoading } from 'react-icons/vsc';
+import { hashString } from '../utils';
 
 function useQuery() {
   const { search } = useLocation();
@@ -21,37 +23,56 @@ function AuthRedirect() {
 
   const token = query.get("code");
 
+  const state = query.get("state");
+
 
   React.useEffect(() => {
 
+    function finishAuthentication(path,reason)
+    {
+      console.log(reason);
+      window.location.search = '';
+      window.location.pathname = path;
+      return undefined;
+    }
+
     if(!token || sessionId)
     {
-      navigate('../',{ replace: true });
-      return undefined
+      return undefined;      
     }
+
+    if(!localStorage.getItem('stateId')) return finishAuthentication('/','no storage data found');
+
+    const hashedStateId = `${hashString(localStorage.getItem('stateId'))}`;
+
+    localStorage.removeItem('stateId');
+    
+    if(hashedStateId !== state) return finishAuthentication('/',`storage data hash does not match recieved hash ${hashedStateId} | ${state}`);
 
     axios.post(`${serverLink}/create-session`,{ token : token})
     .then((response) => {
       const data = response.data;
-      if(data.sessionId !== undefined)
+      console.log(data);
+      if(data.sessionId)
       {
         setSessionId(data.sessionId);
-        navigate('../',{ replace: true });
+        navigate(`/`);
+        
       }
       else
       {
-        navigate('../',{ replace: true });
+        navigate('/');
       }
-    }, (error) => {
+    }).catch((error) => {
       console.log(error);
-      navigate('../',{ replace: true });
+      finishAuthentication('/','an error occured');
     });
 
-  },[token,navigate,setSessionId,sessionId,serverLink]);
+  },[token,state,navigate,setSessionId,sessionId,serverLink]);
 
   return (
     <section className='auth-page' id='Auth'>
-      <h1>Logging You In</h1>
+      <VscLoading className='loading-icon'/>
     </section>
   );
 }

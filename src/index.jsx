@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import './scss/main.scss';
 import { GlobalAppContext } from './contexts';
+import { utcInSeconds } from './utils';
 
 import Home from './routes/Home';
 import Servers from './routes/Servers';
@@ -30,12 +31,12 @@ const App = () => {
 
     const debugging = true;
 
-    const serverLink = debugging ? 'http://localhost:49154' : 'https://rel-js-server.oyintareebelo.repl.co';
+    const serverLink = debugging ? 'http://localhost:49154' : 'https://server.umeko.dev';
 
     const [theme, setTheme] = useState('dark');
     const [sessionId, setSessionIdRaw] = useState(localStorage.getItem('sessionId') || '');
-    const [isCustomizingCard,setIsCustomizingCard] = useState(false);
-    const [userData,setUserData] = useState({});
+    const [isCustomizingCard, setIsCustomizingCard] = useState(false);
+    const [userData, setUserData] = useState({});
 
     const setSessionId = function (id) {
         if (id === '') {
@@ -51,7 +52,6 @@ const App = () => {
 
     let navigate = useNavigate();
 
-
     // poll the server to ensure this session is still valid
     useEffect(() => {
 
@@ -63,21 +63,26 @@ const App = () => {
 
             const headers = { sessionId: sessionId }
 
-            axios.get(serverLink, { headers: headers })
+            axios.get(`${serverLink}/session-lifetime`, { headers: headers })
                 .then((response) => {
                     const data = response.data;
                     if (data.error) {
                         setSessionId('');
                     }
+                    else {
+                        if (data.expire_at && data.expire_at < utcInSeconds()) {
+                            setSessionId('');
+                        }
+                    }
                 }, (error) => {
                     setSessionId('');
                     console.log(error);
                 });
-        }, 2000);
+        }, 10000);
 
         return () => clearInterval(interval);
 
-    }, [sessionId,serverLink]);
+    }, [sessionId, serverLink]);
 
     const darkTheme = {
         NavigationColor: '#42424',
@@ -102,24 +107,22 @@ const App = () => {
     const themeColors = theme === 'dark' ? darkTheme : lightTheme;
 
     const location = useLocation();
-    const actualLocation = location.pathname.substring(1).trim()
+    const actualLocation = location.pathname.substring(1).trim();
     const currentLocation = actualLocation !== '' ? actualLocation.charAt(0).toUpperCase() + actualLocation.slice(1) : '';
 
     useEffect(() => {
 
-        if(currentLocation === '')
-        {
+        if (currentLocation === '') {
             document.title = 'Umeko | Home'
         }
-        else
-        {
+        else {
             document.title = `Umeko | ${currentLocation}`
         }
     })
     return (
-        <GlobalAppContext.Provider value={{ sessionId, serverLink, theme,  themeColors, debugging, userData, setSessionId, navigate,setTheme,setUserData,setIsCustomizingCard}}>
+        <GlobalAppContext.Provider value={{ sessionId, serverLink, theme, themeColors, debugging, userData, setSessionId, navigate, setTheme, setUserData, setIsCustomizingCard }}>
 
-            {isCustomizingCard && <LevelCardCustomization/>}
+            {isCustomizingCard && <LevelCardCustomization />}
             <Navigation />
 
             <Routes>

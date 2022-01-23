@@ -96,6 +96,9 @@ function Servers() {
         }
         
         const data = response.data;
+
+        console.log(data);
+        
         if(data === undefined || data.filter === undefined) return;
         
         const filteredData = data.filter(isPartOfSearch)

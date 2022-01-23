@@ -4,11 +4,12 @@ import { IoColorPaletteSharp } from 'react-icons/io5';
 import { AiOutlineLoading } from 'react-icons/ai';
 import { MdFileUpload } from 'react-icons/md';
 import { CgDropOpacity } from 'react-icons/cg';
-import { getCroppedImg, getXpForNextLevel } from '../utils';
+import { getCroppedImg, getXpForNextLevel,isFileImage } from '../utils';
 import { GlobalAppContext } from '../contexts';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import axios from 'axios';
+import { useEffect } from 'react';
 
 const defaultBackgroundUrl = `https://hdwallsource.com/img/2020/8/cool-wallpaper-hd-71336-73788-hd-wallpapers.jpg`;
 
@@ -18,7 +19,7 @@ function LevelCardCustomization() {
 
 
 
-  const level = 30;
+  const level = 100;
   const currentXp = 200;
 
   const displayName = userData.username || 'Name';
@@ -72,7 +73,8 @@ function LevelCardCustomization() {
   }
 
   function onBackgroundUploaded(event) {
-    if (event.target.files && event.target.files.length > 0) {
+    if (event.target.files && event.target.files.length > 0 && isFileImage(event.target.files[0])) {
+
       const reader = new FileReader();
       reader.addEventListener('load', () => setImageFromFile(reader.result));
       reader.readAsDataURL(event.target.files[0]);
@@ -80,7 +82,10 @@ function LevelCardCustomization() {
   }
 
   function onCropChange(crop, percentCrop) {
-    setCropSettings(crop);
+    if(imageBeingCropped)
+    {
+      setCropSettings(crop);
+    }
   };
 
   function onImageCropped(image) {
@@ -94,16 +99,41 @@ function LevelCardCustomization() {
   function onDoneCustomizing(event) {
     const headers = { sessionId: sessionId }
 
-    if(croppedImage)
-    {
+    if (croppedImage) {
       const reader = new FileReader();
-    reader.readAsDataURL(croppedImage);
-    reader.onloadend = (event) => {
+      reader.readAsDataURL(croppedImage);
+      reader.onloadend = (event) => {
 
+        const payload = {
+          color: cardColor,
+          card_opacity: cardOpacity,
+          background: reader.result.split('base64,')[1]
+        };
+
+        setIsUploadingResult(true);
+
+        axios.post(`${serverLink}/update-card`, payload, { headers: headers }).then((response) => {
+          
+
+          setIsUploadingResult(false);
+
+          if (response.data.error) {
+            console.log(response.data.error);
+          }
+          else {
+            setUserData({ ...userData, card_bg_url: response.data.url, card_opacity: cardOpacity, color: cardColor });
+          }
+
+          setCroppedImage(undefined);
+          setIsCustomizingCard(false);
+        });
+
+      }
+    }
+    else {
       const payload = {
         color: cardColor,
-        opacity: cardOpacity,
-        background: reader.result.split('base64,')[1]
+        card_opacity: cardOpacity,
       };
 
       setIsUploadingResult(true);
@@ -121,55 +151,50 @@ function LevelCardCustomization() {
           console.log(response.data.error);
         }
         else {
-          setUserData({ ...userData, card_bg_url: response.data.url,card_opacity : cardOpacity, color : cardColor });
-        }
-
-        setCroppedImage(undefined);
-        setIsCustomizingCard(false);
-      });
-
-    }
-    }
-    else
-    {
-      const payload = {
-        color: cardColor,
-        opacity: cardOpacity,
-      };
-
-      setIsUploadingResult(true);
-
-      axios.post(`${serverLink}/update-card`, payload, { headers: headers }).then((response) => {
-        setCropSettings({
-          unit: '%',
-          width: 30,
-          aspect: 10 / 3
-        });
-
-        setIsUploadingResult(false);
-
-        if (response.data.error) {
-          console.log(response.data.error);
-        }
-        else {
-          setUserData({ ...userData, card_bg_url: response.data.url,card_opacity : cardOpacity, color : cardColor });
+          setUserData({ ...userData, card_bg_url: response.data.url, card_opacity: cardOpacity, color: cardColor });
         }
 
         setIsCustomizingCard(false);
       });
     }
-    
+
   }
 
   async function onDoneCropping() {
     const imageTemp = await getCroppedImg(imageBeingCropped, cropSettings, 'user-background');
+
+    setCropSettings({
+      unit: '%',
+      width: 30,
+      aspect: 10 / 3
+    });
+    
+    console.log(cropSettings);
+
     setImageBeingCropped(undefined);
     setImageFromFile(undefined);
     setCroppedImage(imageTemp);
   }
 
+  useEffect(() => {
+
+    const root = document.getElementById('root');
+    if (root) {
+      root.style.height = '100vh';
+      root.style.overflow = 'hidden';
+
+      return () => {
+        const root = document.getElementById('root');
+        if (root) {
+          root.style.height = 'auto';
+          root.style.overflow = 'scroll';
+        }
+      };
+    }
+  })
+
   return (
-    <div className='level-card-customization' style={{ '--scale': 0.5, '--main-color': cardColor, '--opacity': cardOpacity }}>
+    <div className='level-card-customization' style={{ '--main-color': cardColor, '--opacity': cardOpacity }}>
 
       {!imageFromFile &&
         <div className='level-card-customization-content'>
@@ -198,7 +223,7 @@ function LevelCardCustomization() {
                 </div>
                 <div className="user-level-info-row" pos='middle'>
 
-                  <h2>Level {level}</h2> <h2>{currentXp}k/{requiredXp}k</h2>
+                  <h2>Level {level}</h2> <h2>{(currentXp / 1000).toFixed(2)}k/{requiredXp}k</h2>
 
                 </div>
                 <div className="user-level-info-row">

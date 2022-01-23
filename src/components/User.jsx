@@ -7,7 +7,9 @@ import { useEffect } from 'react';
 import { useContext, useState } from 'react';
 import { GlobalAppContext } from '../contexts';
 import { BiChevronDown } from "react-icons/bi";
-import { VscLoading } from 'react-icons/vsc'
+import { VscLoading } from 'react-icons/vsc';
+import { v4 as uuidv4 } from 'uuid';
+import { hashString } from '../utils';
 import axios from 'axios';
 
 const iconStyle = {
@@ -16,18 +18,12 @@ const iconStyle = {
     verticalAlign: "middle"
 }
 
-const normalAuth = "https://discord.com/api/oauth2/authorize?client_id=804165876362117141&redirect_uri=http%3A%2F%2Fumeko.dev%2Fauth&response_type=code&scope=guilds%20identify";
-const debugAuth = "https://discord.com/api/oauth2/authorize?client_id=804165876362117141&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth&response_type=code&scope=identify%20guilds";
-
-
 
 function User() {
 
     
 
-    const { theme, sessionId, setSessionId, serverLink, debugging, userData, setUserData,setIsCustomizingCard} = useContext(GlobalAppContext);
-
-    const authURL = debugging ? debugAuth : normalAuth;
+    const { theme, sessionId, setSessionId, serverLink,userData, setUserData,setIsCustomizingCard, debugging} = useContext(GlobalAppContext);
 
     
     let userAvatar = '';
@@ -67,11 +63,34 @@ function User() {
 
     }, [sessionId, setSessionId, setUserData,userAvatar, serverLink]);
 
+    function onLogin(clickEvent){
+
+        const stateId = uuidv4();
+
+        localStorage.setItem('stateId', stateId);
+
+        let stateHash = hashString(stateId);
+
+        const params = new URLSearchParams({
+            client_id : debugging ? '895104527001354313' : '804165876362117141',
+            redirect_uri : `${window.location.origin}/auth`,
+            response_type : 'code',
+            scope : 'guilds identify',
+            state : `${stateHash}`
+        });
+
+        const targetUrl = `https://discord.com/api/oauth2/authorize?${params.toString()}`;
+        
+        window.location.href = targetUrl;
+    }
+
     function onLogout(clickEvent) {
+
         const data = { sessionId: sessionId }
 
         axios.post(`${serverLink}/destroy-session`, data)
             .then((response) => {
+                console.log(response.data);   
                 setSessionId('');
             }, (error) => {
                 console.log(error);
@@ -116,7 +135,7 @@ function User() {
                             <Link className='dropdown-button' to="/">Home</Link>
                             <Link className='dropdown-button' to="/servers">Servers</Link>
                             <Link className='dropdown-button' to="/commands">Commands</Link>
-                            <a className='dropdown-button' target='_blank' rel="noreferrer noopener" href="https://discord.gg/tTckZep9zz">Support</a>
+                            <a className='dropdown-button' target='_blank' rel="noreferrer noopener" href="https://discord.com/invite/qx7eUVwTGY">Support</a>
                             <button className='dropdown-button' onClick={onLogout} >Log Out</button>
                         </div>}
                 </div>
@@ -124,7 +143,7 @@ function User() {
         }
         else {
             return (
-                <VscLoading/>
+                <VscLoading className='loading-icon'/>
             );
         }
     }
@@ -135,7 +154,7 @@ function User() {
                 alignItems : "center"
             }}>
                 
-                <a className="button" href={authURL}> Login </a> 
+                <button className="button" onClick={onLogin}> Login </button> 
                 <div className='user-dropdown' >
                 < BiChevronDown className={`clickable-icons-${theme}`} style={iconStyle} onClick={() => setShowMenu(true)} />
                 {showMenu &&

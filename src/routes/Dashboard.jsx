@@ -3,20 +3,24 @@ import '../scss/main.scss';
 import useQuery from '../hooks/useQuery';
 import { GlobalAppContext } from '../contexts';
 import { useContext, useEffect } from 'react';
-import { HiOutlineMenu } from 'react-icons/hi';
 import { GoGraph } from 'react-icons/go';
-import { IoSettingsOutline, IoChevronBack } from 'react-icons/io5';
-import { SiMonkeytie } from 'react-icons/si'
-import { AiOutlineBug } from 'react-icons/ai'
+import { IoSettingsOutline, IoChevronBack,IoLogoTwitch } from 'react-icons/io5';
+import { SiMonkeytie } from 'react-icons/si';
+import { AiOutlineBug } from 'react-icons/ai';
+import { BsDoorOpen } from 'react-icons/bs';
 import useWindowDimensions from '../hooks/useWindowDimensions';
+import { useState } from 'react';
+import axios from 'axios';
 
 function Dashboard() {
 
     const query = useQuery();
 
-    const { navigate } = useContext(GlobalAppContext);
+    const { navigate, sessionId,serverLink } = useContext(GlobalAppContext);
 
     const { width } = useWindowDimensions();
+
+    const [guildSettings,setGuildSettings] = useState(undefined);
 
     function closeDashboardSidebar() {
         const dashboardSidebar = document.getElementById('dashboard-sidebar');
@@ -39,7 +43,7 @@ function Dashboard() {
     }
 
     useEffect(() => {
-        const category = query.get('category') || 'home';
+        const category = query.get('category') || 'general';
 
         const dashboardSidebar = document.getElementById('dashboard-sidebar');
         if (dashboardSidebar) {
@@ -61,6 +65,28 @@ function Dashboard() {
 
     }, [query])
 
+    useEffect(() => {
+
+        const guildId = query.get('guild');
+
+        if(guildSettings || !guildId || !sessionId) return undefined;
+
+          const headers = { sessionId: sessionId }
+      
+          axios.get(`${serverLink}/settings/${guildId}`, { headers: headers })
+            .then((response) => {
+      
+                const data = response.data;
+                setGuildSettings(data);
+            }, (error) => {
+              navigate('../', { replace: true });
+              console.log(error);
+            });
+
+    }, [query,sessionId,serverLink,guildSettings,navigate])
+
+
+
     return (
         <section className='standard-page' id='Dashboard'>
 
@@ -73,33 +99,27 @@ function Dashboard() {
                     </div>
                 }
 
-                <div className="dashboard-sidebar-button" onClick={() => onSelectCategory('home')} id='homeCategory'>
+                <div className="dashboard-sidebar-button" onClick={() => onSelectCategory('general')} id='generalCategory'>
                     <div className="dashboard-sidebar-button-items">
-                        <HiOutlineMenu className='dashboard-sidebar-icon' /><h3>Home</h3>
+                        <IoSettingsOutline className='dashboard-sidebar-icon' /><h3>Home</h3>
                     </div>
                 </div>
 
-                <div className="dashboard-sidebar-button" onClick={() => onSelectCategory('settings')} id='settingsCategory'>
+                <div className="dashboard-sidebar-button" onClick={() => onSelectCategory('join-leave')} id='join-leaveCategory'>
                     <div className="dashboard-sidebar-button-items">
-                        <IoSettingsOutline className='dashboard-sidebar-icon' /><h3>Join Msg</h3>
+                        <BsDoorOpen className='dashboard-sidebar-icon' /><h3>Join/Leave</h3>
                     </div>
                 </div>
 
-                <div className="dashboard-sidebar-button" onClick={() => onSelectCategory('settings')} id='settingsCategory'>
-                    <div className="dashboard-sidebar-button-items">
-                        <IoSettingsOutline className='dashboard-sidebar-icon' /><h3>Leave Msg</h3>
-                    </div>
-                </div>
-
-                <div className="dashboard-sidebar-button" onClick={() => onSelectCategory('analytics')} id='analyticsCategory'>
+                <div className="dashboard-sidebar-button" onClick={() => onSelectCategory('leveling')} id='levelingCategory'>
                     <div className="dashboard-sidebar-button-items">
                         <GoGraph className='dashboard-sidebar-icon' /><h3>Leveling</h3>
                     </div>
                 </div>
 
-                <div className="dashboard-sidebar-button" onClick={() => onSelectCategory('settings')} id='settingsCategory'>
+                <div className="dashboard-sidebar-button" onClick={() => onSelectCategory('twitch')} id='twitchCategory'>
                     <div className="dashboard-sidebar-button-items">
-                        <IoSettingsOutline className='dashboard-sidebar-icon' /><h3>Twitch</h3>
+                        <IoLogoTwitch className='dashboard-sidebar-icon' /><h3>Twitch</h3>
                     </div>
                 </div>
 
