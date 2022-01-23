@@ -135,7 +135,7 @@ function User() {
                             <Link className='dropdown-button' to="/">Home</Link>
                             <Link className='dropdown-button' to="/servers">Servers</Link>
                             <Link className='dropdown-button' to="/commands">Commands</Link>
-                            <a className='dropdown-button' target='_blank' rel="noreferrer noopener" href="https://discord.com/invite/qx7eUVwTGY">Support</a>
+                            <a className='dropdown-button' target='_blank' rel="noreferrer noopener" href="https://discord.gg/qx7eUVwTGY">Support</a>
                             <button className='dropdown-button' onClick={onLogout} >Log Out</button>
                         </div>}
                 </div>
@@ -162,7 +162,7 @@ function User() {
                         <div id='user-menu-dropdown' className='user-dropdown-content'>
                             <Link className='dropdown-button' to="/">Home</Link>
                             <Link className='dropdown-button' to="/commands">Commands</Link>
-                            <a className='dropdown-button' target='_blank' rel="noreferrer noopener" href="https://discord.gg/tTckZep9zz">Support</a>
+                            <a className='dropdown-button' target='_blank' rel="noreferrer noopener" href="https://discord.gg/qx7eUVwTGY">Support</a>
                         </div>
                         }
                         </div>

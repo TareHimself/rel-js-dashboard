@@ -29,7 +29,7 @@ import LevelCardCustomization from './components/LevelCardCustomization';
 
 const App = () => {
 
-    const debugging = true;
+    const debugging = false;
 
     const serverLink = debugging ? 'http://localhost:49154' : 'https://server.umeko.dev';
 
