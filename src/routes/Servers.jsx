@@ -12,7 +12,7 @@ function Servers() {
   const query = useQuery();
 
   const { sessionId, navigate,serverLink } = useContext(GlobalAppContext);
-  const [guilds, setGuilds] = useState([]);
+  const [guilds, setGuilds] = useState(undefined);
 
   const guildsFilter = query.get("filter") || '';
   
@@ -23,7 +23,7 @@ function Servers() {
 
   let guildElements = <div></div>
 
-  if (guilds.map !== undefined) {
+  if (guilds && guilds.map) {
 
     guildElements = guilds.map((guildData) => <GuildItem guild={guildData} key={guildData.id} />);
   }
@@ -49,7 +49,7 @@ function Servers() {
 
       const inputBox = document.getElementById('server-search-input');
       
-      if(inputBox !== undefined && inputBox !== null) inputBox.removeEventListener("change", handleSearchChange);
+      if(inputBox) inputBox.removeEventListener("change", handleSearchChange);
     }
     return removeListner; 
 
@@ -57,15 +57,15 @@ function Servers() {
 
   useEffect(() => {
 
-    if (sessionId === '') {
-      return undefined
+    if (!sessionId) {
+      return undefined;
     }
 
     if(query.get("filter") !== undefined)
     {
       const searchBox = document.getElementById('server-search-input');
       
-      if(searchBox === undefined) return undefined;
+      if(!searchBox) return undefined;
 
       if(query.get("filter") !== '' && searchBox.value === '')
       {
@@ -77,8 +77,8 @@ function Servers() {
 
   useEffect(() => {
 
-    if (sessionId === '') {
-      return undefined
+    if (!sessionId || guilds) {
+      return undefined;
     }
 
     const headers = { sessionId: sessionId }
@@ -96,10 +96,8 @@ function Servers() {
         }
         
         const data = response.data;
-
-        console.log(data);
         
-        if(data === undefined || data.filter === undefined) return;
+        if(!data|| !data.filter) return;
         
         const filteredData = data.filter(isPartOfSearch)
         setGuilds(filteredData);

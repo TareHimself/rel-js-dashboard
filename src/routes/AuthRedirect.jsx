@@ -52,7 +52,6 @@ function AuthRedirect() {
     axios.post(`${serverLink}/create-session`,{ token : token})
     .then((response) => {
       const data = response.data;
-      console.log(data);
       if(data.sessionId)
       {
         setSessionId(data.sessionId);
