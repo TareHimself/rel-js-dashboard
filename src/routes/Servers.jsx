@@ -13,8 +13,9 @@ function Servers() {
 
   const { sessionId, navigate,serverLink } = useContext(GlobalAppContext);
   const [guilds, setGuilds] = useState(undefined);
+  const [filter,setFilter] = useState(query.get("filter") || '');
 
-  const guildsFilter = query.get("filter") || '';
+  const guildsFilter = ;
   
 
   if (sessionId === '') {
@@ -25,7 +26,16 @@ function Servers() {
 
   if (guilds && guilds.map) {
 
-    guildElements = guilds.map((guildData) => <GuildItem guild={guildData} key={guildData.id} />);
+    const guildsToShow = guilds.filter(function(guild){
+          const lowerName = guild.name.toLowerCase();
+          const lowerFilter = filter.toLowerCase();
+
+          if(lowerFilter.length === 0) return true;
+
+          return lowerName.includes(lowerFilter);
+    });
+
+    guildElements = guildsToShow.map((guildData) => <GuildItem guild={guildData} key={guildData.id} />);
   }
 
   const handleSearchChange = function (changeEvent) {
@@ -86,21 +96,11 @@ function Servers() {
     axios.get(`${serverLink}/guilds`, { headers: headers })
       .then((response) => {
 
-        function isPartOfSearch(value) {
-          const lowerName = value.name.toLowerCase();
-          const lowerFilter = guildsFilter.toLowerCase();
-
-          if(lowerFilter.length === 0) return true;
-
-          return lowerName.includes(lowerFilter);
-        }
-        
         const data = response.data;
         
         if(!data|| !data.filter) return;
         
-        const filteredData = data.filter(isPartOfSearch)
-        setGuilds(filteredData);
+        setGuilds(data);
       }, (error) => {
         navigate('../', { replace: true });
         console.log(error);
@@ -114,7 +114,7 @@ function Servers() {
     <section className='standard-page' id='Servers' style={{ "paddingTop": "100px" }}>
 
       <div className="servers-search" >
-        <input id='server-search-input' type="text" placeholder="Search.."  />
+        <input id='server-search-input' type="text" placeholder="Search.." value={filter} onChange={(event)=>setFilter(event.target.value)}/>
         <BiSearchAlt/>
       </div>
 
