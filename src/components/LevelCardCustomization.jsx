@@ -82,13 +82,15 @@ function LevelCardCustomization() {
   }
 
   function onCropChange(crop, percentCrop) {
-    if(imageBeingCropped)
-    {
-      setCropSettings(crop);
-    }
+    setCropSettings(crop);
   };
 
-  function onImageCropped(image) {
+  function onCropImageLoaded(image) {
+    setCropSettings({
+      unit: 'px',
+      width: image.width,
+      aspect: 10 / 3
+    });
     setImageBeingCropped(image);
   };
 
@@ -139,11 +141,6 @@ function LevelCardCustomization() {
       setIsUploadingResult(true);
 
       axios.post(`${serverLink}/update-card`, payload, { headers: headers }).then((response) => {
-        setCropSettings({
-          unit: '%',
-          width: 30,
-          aspect: 10 / 3
-        });
 
         setIsUploadingResult(false);
 
@@ -275,7 +272,7 @@ function LevelCardCustomization() {
               src={imageFromFile}
               crop={cropSettings}
               ruleOfThirds
-              onImageLoaded={onImageCropped}
+              onImageLoaded={onCropImageLoaded}
               onChange={onCropChange}
               keepSelection={true}
             />
