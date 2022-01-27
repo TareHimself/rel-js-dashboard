@@ -66,7 +66,7 @@ function Servers() {
 
     if(query.get("filter") !== undefined)
     {
-      const searchBox = document.getElementById('server-search-input');
+      const searchBox = document.getElementById('search-input');
       
       if(!searchBox) return undefined;
 
@@ -95,7 +95,6 @@ function Servers() {
         
         setGuilds(data);
       }, (error) => {
-        navigate('../', { replace: true });
         console.log(error);
       });
 
@@ -106,8 +105,8 @@ function Servers() {
   return (
     <section className='standard-page' id='Servers' style={{ "paddingTop": "100px" }}>
 
-      <div className="servers-search" >
-        <input id='server-search-input' type="text" placeholder="Search.." value={filter} onChange={(event)=>setFilter(event.target.value)}/>
+      <div className="search-container" >
+        <input id='search-input' type="text" placeholder="Search.." value={filter} onChange={(event)=>setFilter(event.target.value)}/>
         <BiSearchAlt/>
       </div>
 

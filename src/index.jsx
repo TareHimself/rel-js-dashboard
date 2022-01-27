@@ -24,8 +24,10 @@ import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
 import Support from './routes/Support';
 import LevelCardCustomization from './components/LevelCardCustomization';
+import { useCallback } from 'react';
 
 
+const unProtectedLocations = ['home','invite','commands','auth','support'];
 
 const App = () => {
 
@@ -33,13 +35,23 @@ const App = () => {
 
     const serverLink = debugging ? 'http://localhost:49154' : 'https://server.umeko.dev';
 
+    let navigate = useNavigate();
+
+    const location = useLocation();
+    const actualLocation = location.pathname.substring(1).trim();
+    const currentLocation = actualLocation !== '' ? actualLocation.charAt(0).toUpperCase() + actualLocation.slice(1) : '';
+
     const [theme, setTheme] = useState('dark');
     const [sessionId, setSessionIdRaw] = useState(localStorage.getItem('sessionId') || '');
     const [isCustomizingCard, setIsCustomizingCard] = useState(false);
     const [userData, setUserData] = useState({});
 
-    const setSessionId = function (id) {
-        if (id === '') {
+
+    const setSessionId = useCallback((id) => {
+        if (!id) {
+
+            if(currentLocation && !unProtectedLocations.includes(currentLocation)) navigate('/');
+
             setIsCustomizingCard(false);
             localStorage.removeItem('sessionId');
         }
@@ -48,9 +60,11 @@ const App = () => {
         }
 
         setSessionIdRaw(id);
-    }
+    },[currentLocation,navigate]);
 
-    let navigate = useNavigate();
+    
+
+    
 
     // poll the server to ensure this session is still valid
     useEffect(() => {
@@ -76,13 +90,12 @@ const App = () => {
                     }
                 }, (error) => {
                     setSessionId('');
-                    console.log(error);
                 });
         }, 10000);
 
         return () => clearInterval(interval);
 
-    }, [sessionId, serverLink]);
+    }, [sessionId, serverLink,setSessionId]);
 
     const darkTheme = {
         NavigationColor: '#42424',
@@ -106,9 +119,7 @@ const App = () => {
 
     const themeColors = theme === 'dark' ? darkTheme : lightTheme;
 
-    const location = useLocation();
-    const actualLocation = location.pathname.substring(1).trim();
-    const currentLocation = actualLocation !== '' ? actualLocation.charAt(0).toUpperCase() + actualLocation.slice(1) : '';
+    
 
     useEffect(() => {
 
