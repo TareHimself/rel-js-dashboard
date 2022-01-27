@@ -184,7 +184,7 @@ function LevelCardCustomization() {
         const root = document.getElementById('root');
         if (root) {
           root.style.height = 'auto';
-          root.style.overflow = 'scroll';
+          root.style.overflow = 'auto';
         }
       };
     }

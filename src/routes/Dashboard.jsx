@@ -16,6 +16,7 @@ function Dashboard() {
 
     const query = useQuery();
 
+    
     const { navigate, sessionId,serverLink } = useContext(GlobalAppContext);
 
     const { width } = useWindowDimensions();
@@ -79,7 +80,6 @@ function Dashboard() {
                 const data = response.data;
                 setGuildSettings(data);
             }, (error) => {
-              navigate('../', { replace: true });
               console.log(error);
             });
 

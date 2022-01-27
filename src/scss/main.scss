@@ -4,7 +4,7 @@
 #root{
     height: auto;
     min-height: 100vh;
-    overflow: scroll;
+    overflow: auto;
 }
 
 body {
@@ -37,7 +37,7 @@ h1 {
 
 h2 {
     font-family: 'Roboto', sans-serif;
-    font-weight: lighter;
+    font-weight: normal;
     font-size: 30px;
     display: block;
     color: $PrimaryTextColor;
@@ -45,8 +45,16 @@ h2 {
 
 h3 {
     font-family: 'Roboto', sans-serif;
-    font-weight: normal;
+    font-weight: lighter;
     font-size: 20px;
+    display: block;
+    color: $PrimaryTextColor;
+}
+
+p {
+    font-family: 'Roboto', sans-serif;
+    font-weight: lighter;
+    font-size: 10px;
     display: block;
     color: $PrimaryTextColor;
 }
@@ -269,7 +277,7 @@ z-index: 1;
 
 .standard-page {
     padding-top: 90px;
-    height: auto;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -341,7 +349,7 @@ z-index: 1;
     color: $ButtonHoverColor;
 }
 
-.servers-search {
+.search-container {
     display: flex;
     flex-direction: row;
     position: fixed;
@@ -359,7 +367,7 @@ z-index: 1;
     transition: all .3s ease-in-out;
 }
 
-.servers-search input {
+.search-container input {
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
     font-size: 20px;
@@ -369,11 +377,11 @@ z-index: 1;
     color: $ButtonColor;
 }
 
-.servers-search input:focus {
+.search-container input:focus {
     outline: none;
 }
 
-.servers-search:hover {
+.search-container:hover {
     border-color: $ButtonHoverColor;
     color: $ButtonHoverColor;
 }
@@ -1147,6 +1155,50 @@ z-index: 1;
 
     .level-card-customization-content-opacity-slider{
         width: 300px;
+    }
+}
+
+.command-list{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
+    gap : 20px;
+}
+
+.command-item{
+    width: 95%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: $PrimaryColor;
+    border-radius: 20px;
+    align-items: center;
+}
+
+.command-item h2{
+    margin: 10px 0;
+    font-size: 30px;
+    width: 60%;
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid white;
+}
+
+.command-item p{
+    font-size: 29px;
+    margin: 5px 0;
+    text-align: center;
+}
+
+@media only screen and (max-width: 700px) {
+    .command-item h2{
+        font-size: 25px;
+    }
+    
+    .command-item p{
+        font-size: 18px;
     }
 }
 
