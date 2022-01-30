@@ -44,13 +44,13 @@ function Servers() {
 
   useEffect(() => {
 
-    const searchBox = document.getElementById('server-search-input');
+    const searchBox = document.getElementById('search-input');
 
     searchBox.addEventListener("change", handleSearchChange);
 
     const removeListner = () => {
 
-      const inputBox = document.getElementById('server-search-input');
+      const inputBox = document.getElementById('search-input');
       
       if(inputBox) inputBox.removeEventListener("change", handleSearchChange);
     }
