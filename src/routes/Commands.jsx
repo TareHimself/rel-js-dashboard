@@ -30,7 +30,7 @@ function Commands() {
   const commandsComponents = commands.map(function(command){
     command.syntax = command.syntax.replace(/{prefix}/gi, `${prefix}`);
     command.syntax = command.syntax.replace(/{name}/gi, `${command.name}`);
-    return <CommandInfo info={command}/>;
+    return <CommandInfo info={command} key={command.name}/>;
   });
 
   function onSearchChange(event) {
