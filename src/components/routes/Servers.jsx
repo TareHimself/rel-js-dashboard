@@ -1,10 +1,10 @@
 
-import '../scss/main.scss';
+import '../../scss/main.scss';
 import { useEffect, useContext, useState} from 'react';
-import { GlobalAppContext } from '../contexts';
-import GuildItem from '../components/GuidItem';
+import { GlobalAppContext } from '../../contexts';
+import GuildItem from '../GuidItem';
 import axios from 'axios';
-import useQuery from '../hooks/useQuery';
+import useQuery from '../../hooks/useQuery';
 import { BiSearchAlt } from 'react-icons/bi';
 
 function Servers() {
@@ -13,7 +13,7 @@ function Servers() {
 
   const { sessionId, navigate,serverLink } = useContext(GlobalAppContext);
   const [guilds, setGuilds] = useState(undefined);
-  const [filter,setFilter] = useState(query.get("filter") || '');
+  const [filter,setFilter] = useState(query.get("s") || '');
 
   let guildElements = <div></div>
 
@@ -34,7 +34,7 @@ function Servers() {
   const handleSearchChange = function (changeEvent) {
     const currentUrlParams = query;
 
-    currentUrlParams.set('filter', changeEvent.target.value);
+    currentUrlParams.set('s', changeEvent.target.value);
 
     navigate(window.location.pathname + "?" + currentUrlParams.toString(), { replace: true });
 
@@ -64,15 +64,15 @@ function Servers() {
       return undefined;
     }
 
-    if(query.get("filter") !== undefined)
+    if(query.get("s") !== undefined)
     {
       const searchBox = document.getElementById('search-input');
       
       if(!searchBox) return undefined;
 
-      if(query.get("filter") !== '' && searchBox.value === '')
+      if(query.get("s") !== '' && searchBox.value === '')
       {
-        searchBox.value = query.get("filter");
+        searchBox.value = query.get("s");
       }
     }
 

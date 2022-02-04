@@ -11,18 +11,10 @@ import {
 import './scss/main.scss';
 import { GlobalAppContext } from './contexts';
 import { utcInSeconds } from './utils';
-
-import Home from './routes/Home';
-import Servers from './routes/Servers';
-import Dashboard from './routes/Dashboard';
-import Commands from './routes/Commands';
-import AuthRedirect from './routes/AuthRedirect';
+import { Home , Servers, Dashboard, Commands, AuthRedirect, Invite, NotFound, Support} from './components/routes/routes';
 import Navigation from './components/Navigation';
-import Invite from './routes/Invite';
-import NotFound from './routes/NotFound';
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
-import Support from './routes/Support';
 import LevelCardCustomization from './components/LevelCardCustomization';
 import { useCallback } from 'react';
 
@@ -31,7 +23,7 @@ const unProtectedLocations = ['home','invite','commands','auth','support'];
 
 const App = () => {
 
-    const debugging = false;
+    const debugging = true;
 
     const serverLink = debugging ? 'http://localhost:49154' : 'https://server.umeko.dev';
 

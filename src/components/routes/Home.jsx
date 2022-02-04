@@ -1,6 +1,7 @@
-import '../scss/main.scss';
-import icon from "../images/UmekoIcon500px.png";
+import '../../scss/main.scss';
+import icon from "../../images/UmekoIcon500px.png";
 import { Link } from 'react-router-dom';
+
 function Home() {
 
   return (

@@ -1,11 +1,11 @@
 
-import '../scss/main.scss';
-import importedCommands from '../data/commands.json'
-import useQuery from '../hooks/useQuery';
+import '../../scss/main.scss';
+import importedCommands from '../../data/commands.json'
+import useQuery from '../../hooks/useQuery';
 import { useState,useContext } from 'react';
-import { GlobalAppContext } from '../contexts';
+import { GlobalAppContext } from '../../contexts';
 import { BiSearchAlt } from 'react-icons/bi';
-import CommandInfo from '../components/CommandInfo';
+import CommandInfo from '../CommandInfo';
 
 function Commands() {
 
@@ -13,7 +13,7 @@ function Commands() {
 
   const query = useQuery();
 
-  const [filter,setFilter] = useState(query.get("filter") || '');
+  const [filter,setFilter] = useState(query.get('s') || '');
 
   const prefix = '?';
 
@@ -37,7 +37,7 @@ function Commands() {
     const currentUrlParams = query;
     const newFilter = event.target.value;
 
-    currentUrlParams.set('filter', newFilter);
+    currentUrlParams.set('s', newFilter);
 
     navigate(window.location.pathname + "?" + currentUrlParams.toString(), { replace: true });
     setFilter(newFilter);
@@ -51,9 +51,9 @@ function Commands() {
         <BiSearchAlt/>
       </div>
 
-      <div className='command-list'>
+      <ul className='command-list'>
         {commandsComponents}
-      </div>
+      </ul>
 
     </section>
   );

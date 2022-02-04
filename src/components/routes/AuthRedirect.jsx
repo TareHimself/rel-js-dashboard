@@ -1,13 +1,13 @@
 import React from 'react';
 import { useContext } from 'react';
-import '../scss/main.scss';
+import '../../scss/main.scss';
 import {
   useLocation
 } from "react-router-dom";
-import { GlobalAppContext } from '../contexts';
+import { GlobalAppContext } from '../../contexts';
 import axios from 'axios';
 import { VscLoading } from 'react-icons/vsc';
-import { hashString } from '../utils';
+import { hashString } from '../../utils';
 
 function useQuery() {
   const { search } = useLocation();
@@ -61,6 +61,7 @@ function AuthRedirect() {
       else
       {
         navigate('/');
+        console.log(data);
       }
     }).catch((error) => {
       console.log(error);
