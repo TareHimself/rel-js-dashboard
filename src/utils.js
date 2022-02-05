@@ -68,3 +68,32 @@ export function isFileImage(file) {
 
   return file && acceptedImageTypes.includes(file['type'])
 }
+
+export function isEqual(a,b){
+
+  if(typeof a !== 'object' ) return a === b;
+  
+  const aKeys = Object.keys(a);
+
+  for(let i = 0; i < aKeys.length; i++)
+  {
+    const currentA = a[aKeys[i]];
+    const currentB = b[aKeys[i]];
+
+    if(typeof currentA !== typeof currentB){
+      return false;
+    } 
+
+    if(typeof currentA === 'object' && currentA.toString() !== currentB.toString()){
+      return false;
+    } 
+
+    if(typeof currentA !== 'object' && currentA !== currentB){
+      return false;
+    } 
+
+  }
+
+
+  return true;
+}

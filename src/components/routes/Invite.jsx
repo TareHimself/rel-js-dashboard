@@ -1,6 +1,6 @@
 
-import '../scss/main.scss';
-import icon from "../images/UmekoIcon500px.png";
+import '../../scss/main.scss';
+import icon from "../../images/UmekoIcon500px.png";
 import { useEffect } from 'react';
 
 

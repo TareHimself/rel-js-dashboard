@@ -1,27 +1,29 @@
 
-import '../scss/main.scss';
-import useQuery from '../hooks/useQuery';
-import { GlobalAppContext } from '../contexts';
-import { useContext, useEffect } from 'react';
+import '../../scss/main.scss';
+import useQuery from '../../hooks/useQuery';
+import { GlobalAppContext } from '../../contexts';
+import { useContext, useEffect,useRef,useState } from 'react';
 import { GoGraph } from 'react-icons/go';
-import { IoSettingsOutline, IoChevronBack,IoLogoTwitch } from 'react-icons/io5';
+import { IoSettingsOutline, IoChevronBack, IoLogoTwitch } from 'react-icons/io5';
 import { SiMonkeytie } from 'react-icons/si';
 import { AiOutlineBug } from 'react-icons/ai';
 import { BsDoorOpen } from 'react-icons/bs';
-import useWindowDimensions from '../hooks/useWindowDimensions';
-import { useState } from 'react';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 import axios from 'axios';
+import { GeneralCategory, JoinLeaveCategory, LevelingCategory, TwitchCategory, PermissionsCategory, BugsCategory } from '../dashboardCategories/dashboardCategories'
 
 function Dashboard() {
 
     const query = useQuery();
 
-    
-    const { navigate, sessionId,serverLink } = useContext(GlobalAppContext);
+
+    const { navigate, sessionId, serverLink } = useContext(GlobalAppContext);
 
     const { width } = useWindowDimensions();
 
-    const [guildSettings,setGuildSettings] = useState(undefined);
+    const guildData = useRef(undefined);
+
+    const [guildSettings, setGuildSettings] = useState(undefined);
 
     function closeDashboardSidebar() {
         const dashboardSidebar = document.getElementById('dashboard-sidebar');
@@ -36,29 +38,42 @@ function Dashboard() {
 
         const currentUrlParams = query;
 
-        currentUrlParams.set('category', category);
+        currentUrlParams.set('c', category);
 
         closeDashboardSidebar();
 
         navigate(window.location.pathname + "?" + currentUrlParams.toString(), { replace: true });
     }
 
+    function updateGuildSettings(newSettings){
+        setGuildSettings(newSettings);
+
+        const guildId = query.get('g');
+
+        if(!guildId) return;
+
+        const headers = { sessionId: sessionId };
+
+        axios.post(`${serverLink}/settings`,newSettings,{ headers: headers }).then((response)=>{
+        }).catch(console.log);
+    }
+
+
     useEffect(() => {
-        const category = query.get('category') || 'general';
+        const category = query.get('c') || 'general';
 
         const dashboardSidebar = document.getElementById('dashboard-sidebar');
+
         if (dashboardSidebar) {
             const elements = dashboardSidebar.children;
             for (let i = 0; i < elements.length; i++) {
 
                 const currentElement = elements[i];
 
-                if (currentElement.id === (category + 'Category'))
-                {
+                if (currentElement.id === (category + 'Category')) {
                     currentElement.setAttribute('class', 'dashboard-sidebar-button-selected')
                 }
-                else if(currentElement.getAttribute('class') !== 'dashboard-sidebar-button')
-                {
+                else if (currentElement.getAttribute('class') !== 'dashboard-sidebar-button') {
                     currentElement.setAttribute('class', 'dashboard-sidebar-button')
                 }
             }
@@ -68,24 +83,52 @@ function Dashboard() {
 
     useEffect(() => {
 
-        const guildId = query.get('guild');
+        const guildId = query.get('g');
 
-        if(guildSettings || !guildId || !sessionId) return undefined;
+        if (guildSettings || !guildId || !sessionId) return undefined;
 
-          const headers = { sessionId: sessionId }
-      
-          axios.get(`${serverLink}/settings/${guildId}`, { headers: headers })
+        const headers = { sessionId: sessionId }
+
+        axios.get(`${serverLink}/settings/${guildId}`, { headers: headers })
             .then((response) => {
-      
+
                 const data = response.data;
-                setGuildSettings(data);
+                guildData.current = data.guild;
+                setGuildSettings(data.settings);
             }, (error) => {
-              console.log(error);
+                console.log(error);
             });
 
-    }, [query,sessionId,serverLink,guildSettings,navigate])
+    }, [query, sessionId, serverLink, guildSettings, navigate]);
 
+    function getDashboardContentElement(category) {
 
+        const style = {
+            paddingLeft : width <= 1200 ? "0px" : "250px"
+        }
+        switch (category) {
+            case 'general':
+                return <GeneralCategory style={style} guildData={guildData.current} settings={guildSettings} updateSettings={updateGuildSettings} />;
+
+            case 'join-leave':
+                return <JoinLeaveCategory style={style} guildData={guildData.current} settings={guildSettings} updateSettings={updateGuildSettings} />;
+
+            case 'leveling':
+                return <LevelingCategory style={style} guildData={guildData.current} settings={guildSettings} updateSettings={updateGuildSettings} />;
+
+            case 'twitch':
+                return <TwitchCategory style={style} guildData={guildData.current} settings={guildSettings} updateSettings={updateGuildSettings} />;
+
+            case 'permissions':
+                return <PermissionsCategory style={style} guildData={guildData.current} settings={guildSettings} updateSettings={updateGuildSettings} />;
+
+            case 'bugs':
+                return <BugsCategory style={style} guildData={guildData.current} settings={guildSettings} updateSettings={updateGuildSettings} />;
+
+            default:
+                break;
+        }
+    }
 
     return (
         <section className='standard-page' id='Dashboard'>
@@ -101,7 +144,7 @@ function Dashboard() {
 
                 <div className="dashboard-sidebar-button" onClick={() => onSelectCategory('general')} id='generalCategory'>
                     <div className="dashboard-sidebar-button-items">
-                        <IoSettingsOutline className='dashboard-sidebar-icon' /><h3>Home</h3>
+                        <IoSettingsOutline className='dashboard-sidebar-icon' /><h3>General</h3>
                     </div>
                 </div>
 
@@ -136,9 +179,9 @@ function Dashboard() {
                 </div>
 
             </div>
-            <div className="dashboard-content">
-                
-            </div>
+
+            {guildSettings && getDashboardContentElement(query.get('c') || 'general')}
+            
 
         </section>
     );
