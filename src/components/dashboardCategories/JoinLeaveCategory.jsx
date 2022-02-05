@@ -4,28 +4,27 @@ import DashboardTextInput from './DashboardTextInput';
 import DashboardDropdownInput from './DashboardDropdownInput';
 import { isEqual } from '../../utils';
 
+
+
+
 const messageLocationOptions = ['disabled','current', 'dm', 'channel'];
+
+const messageLeaveLocationOptions = ['disabled','channel'];
+
 
 function getChannelName(id, lookup) {
     return lookup[id];
 }
 
-function getLocationSettingName(location, options) {
-    switch (options.indexOf(location)) {
-        case 0:
-            return 'Disabled';
+const messageLocationLookup = {
+    disabled : 'Disabled',
+    current : 'Current Channel',
+    dm : 'Direct Message',
+    channel : 'Specific Channel'
+}
 
-        case 1:
-                return 'Current Channel';
-
-        case 2:
-            return 'Direct Message';
-
-        case 3:
-            return 'Specific Channel';
-        default:
-            return 'Mistakes were made'
-    }
+function getLocationSettingName(location, lookup) {
+    return lookup[location];
 }
 
 function convertChannelsToObject(channels) {
@@ -80,7 +79,7 @@ function JoinLeaveCategory({ style, guildData, settings, updateSettings }) {
     }
 
     function onLeaveLocationChanged(value) {
-        const isSpecific = value[0] === messageLocationOptions[3];
+        const isSpecific = value[0] === messageLeaveLocationOptions[1];
 
         const options = sectionSettings.leave_options;
         options.set('location', value[0]);
@@ -118,7 +117,7 @@ function JoinLeaveCategory({ style, guildData, settings, updateSettings }) {
                 minSelectedOptions={1}
                 maxSelectedOptions={1}
                 displayDataFunction={getLocationSettingName}
-                displayDataFunctionPayload={messageLocationOptions}
+                displayDataFunctionPayload={messageLocationLookup}
                 onValueChange={onWelcomeLocationChanged} />
 
             {sectionSettings.welcome_options.get('location') === messageLocationOptions[3] &&
@@ -142,11 +141,11 @@ function JoinLeaveCategory({ style, guildData, settings, updateSettings }) {
             <DashboardDropdownInput
                 name={"Leave Message Location"}
                 value={[sectionSettings.leave_options.get('location') || messageLocationOptions[0]]}
-                options={messageLocationOptions}
+                options={messageLeaveLocationOptions}
                 minSelectedOptions={1}
                 maxSelectedOptions={1}
                 displayDataFunction={getLocationSettingName}
-                displayDataFunctionPayload={messageLocationOptions}
+                displayDataFunctionPayload={messageLocationLookup}
                 onValueChange={onLeaveLocationChanged} />
 
             {sectionSettings.leave_options.get('location') === messageLocationOptions[3] &&
