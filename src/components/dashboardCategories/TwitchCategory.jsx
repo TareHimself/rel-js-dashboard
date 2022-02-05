@@ -10,16 +10,15 @@ function getChannelName(id, lookup) {
     return lookup[id];
 }
 
-function getLocationSettingName(location, options) {
-    switch (options.indexOf(location)) {
-        case 0:
-            return 'Disabled';
+const messageLocationLookup = {
+    disabled : 'Disabled',
+    current : 'Current Channel',
+    dm : 'Direct Message',
+    channel : 'Specific Channel'
+}
 
-        case 1:
-            return 'Specific Channel';
-        default:
-            return 'Mistakes were made'
-    }
+function getLocationSettingName(location, lookup) {
+    return lookup[location];
 }
 
 function convertChannelsToObject(channels) {
@@ -90,7 +89,7 @@ function TwitchCategory({ style, guildData, settings, updateSettings }) {
                 minSelectedOptions={1}
                 maxSelectedOptions={1}
                 displayDataFunction={getLocationSettingName}
-                displayDataFunctionPayload={messageLocationOptions}
+                displayDataFunctionPayload={messageLocationLookup}
                 onValueChange={onTwitchLocationChanged} />
 
             {sectionSettings.twitch_options.get('location') === messageLocationOptions[1] &&

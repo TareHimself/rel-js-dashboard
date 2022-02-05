@@ -123,8 +123,8 @@ function User() {
 
     }, [showMenu, setShowMenu]);
 
-    if (sessionId !== '') {
-        if (userAvatar !== '') {
+    if (sessionId) {
+        if (userAvatar) {
             return (
                 <div className='user-dropdown'>
                     <img className='user-avatar' src={userAvatar} alt='avatar'  />

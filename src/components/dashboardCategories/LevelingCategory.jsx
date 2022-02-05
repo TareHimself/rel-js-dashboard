@@ -10,22 +10,16 @@ function getChannelName(id, lookup) {
     return lookup[id];
 }
 
-function getLocationSettingName(location, options) {
-    switch (options.indexOf(location)) {
-        case 0:
-            return 'Disabled';
 
-        case 1:
-                return 'Current Channel';
+const messageLocationLookup = {
+    disabled : 'Disabled',
+    current : 'Current Channel',
+    dm : 'Direct Message',
+    channel : 'Specific Channel'
+}
 
-        case 2:
-            return 'Direct Message';
-
-        case 3:
-            return 'Specific Channel';
-        default:
-            return 'Mistakes were made'
-    }
+function getLocationSettingName(location, lookup) {
+    return lookup[location];
 }
 
 function convertChannelsToObject(channels) {
@@ -54,7 +48,7 @@ function LevelingCategory({ style, guildData ,settings, updateSettings }) {
     }
 
     function onSaveCategory(event) {
-        updateSettings({ ...settings, ...sectionSettings, leveling_options: settingsToModify.leveling_options.toString() });
+        updateSettings({ ...settings, ...sectionSettings, leveling_options: sectionSettings.leveling_options.toString() });
     }
 
     function onLevelingMsgChanged(value) {
@@ -95,7 +89,7 @@ function LevelingCategory({ style, guildData ,settings, updateSettings }) {
                 minSelectedOptions={1}
                 maxSelectedOptions={1}
                 displayDataFunction={getLocationSettingName}
-                displayDataFunctionPayload={messageLocationOptions}
+                displayDataFunctionPayload={messageLocationLookup}
                 onValueChange={onLevelingLocationChanged} />
 
             {sectionSettings.leveling_options.get('location') === messageLocationOptions[3] &&
