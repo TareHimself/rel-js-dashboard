@@ -60,21 +60,6 @@ p {
     color: $PrimaryTextColor;
 }
 
-@media only screen and (max-width: 1200px) {
-
-    h1 {
-        font-size: 30px;
-    }
-    
-    h2 {
-        font-size: 18px;
-    }
-    
-    h3 {
-        font-size: 12px;
-    }
-
-}
 
 
 header {
@@ -206,18 +191,7 @@ padding-top: 90px;
 z-index: 1;
 }
 
-@media only screen and (max-width: 1200px) {
-    .guild-items{
-        grid-template-columns: repeat(2, 320px);
-    }
-}
 
-@media only screen and (max-width: 768px) {
-    .guild-items{
-        grid-template-columns: repeat(1, 320px);
-    }
-
-}
 
 .guild-item{
     display: flex;
@@ -483,127 +457,6 @@ z-index: 1;
     font-size: 30px;
 }
 
-@media only screen and (max-width: 1000px) {
-    .home-content-row{
-        flex-direction: column;
-    }
-    
-    .home-content-row img{
-        width: 300px;
-        height: 300px;
-        margin: 40px 0;
-    }
-    
-    .home-content-row-info{
-        padding: 0 40px;
-        display: flex;
-        flex-direction: column;
-        width: 700px;
-    }
-
-    
-    .home-content-row-info h1{
-        font-size: 70px;
-        margin: 2px 0;
-        text-align: center;
-    }
-    
-    
-    .home-content-row-info h1::after{
-        content: '';
-        display: inline-block;
-        height: 5px;
-        width: 100%;
-        background-color: white;
-    }
-
-    .home-content-row-info div{
-        display: flex;
-        justify-content: center;
-    }
-    
-    
-    .home-content-row-button{
-        font-size: 30px;
-        text-align: center;
-    }
-
-    .home-content-row-info h3{
-        text-align: center;
-    }
-
-    @media only screen and (max-width: 780px) {
-
-        .home-content-row{
-            height: fit-content;
-            margin: 0 0;
-            margin-top: 90px;
-        }
-
-        .home-content-row-info{
-            padding: 0 40px;
-            display: flex;
-            flex-direction: column;
-            width: 400px;
-        }
-
-        .home-content-row-info div{
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .home-content-row-button{
-            margin: 10px 0;
-            font-size: 20px;
-        }
-
-        .home-content-row-info h3{
-            font-size: 30px;
-        }
-
-
-        @media only screen and (max-width: 480px) {
-
-            .home-content-row img{
-                width: 200px;
-                height: 200px;
-                margin: 40px 0;
-            }
-
-            .home-content-row{
-                margin: 0 0;
-                margin-top: 90px;
-            }
-
-            .home-content-row-info{
-                padding: 0 40px;
-                display: flex;
-                flex-direction: column;
-                width: 280px;
-                margin-bottom: 20px;
-            }
-
-            .home-content-row-info h1{
-                font-size: 50px;
-                margin: 2px 0;
-                text-align: center;
-            }
-
-            .home-content-row-info h3{
-                font-size: 20px;
-            }
-
-            .home-content-row-button{
-                font-size: 20px;
-            }
-    
-        }
-
-    }
-}
-
 #Dashboard{
     flex-direction: row;
     align-items: flex-start;
@@ -623,9 +476,30 @@ z-index: 1;
 }
 
 .dashboard-content-save{
+    display: flex;
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: 10%;
+    right: 50%;
+    transform: translateX(50%);
+}
+
+.dashboard-content-save button{
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 5px 15px;
+    margin: 0 10px;
+    border: 2px solid $ButtonColor;
+    color: $ButtonColor;
+    border-radius: 25px;
+    text-decoration: none;
+    background: transparent;
+    transition: all .3s ease-in-out;
+}
+
+.dashboard-content-save button:hover {
+    border-color: $ButtonHoverColor;
+    color: $ButtonHoverColor;
 }
 
 .dashboard-sidebar{
@@ -741,6 +615,12 @@ z-index: 1;
 .dashboard-setting h2{
     font-size: 20px;
     text-align: center;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
 }
 
 
@@ -861,16 +741,20 @@ z-index: 1;
     display: flex;
     flex-direction: column;
     gap: 3px;
-    height: fit-content;
     width: 100%;
+    min-height: inherit;
+    max-height: 110px;
+    overflow-y: overlay;
     margin-top: 5px;
     top: 100%;
     background-color: #222222;
     z-index: 1;
     border-radius: 25px;
-    padding-bottom: 10px;
+    margin-bottom: 10px;
     transition: all .3s ease-in-out; 
 }
+
+
 
 .dashboard-setting-dropdown-content-item{
     margin: 0;
@@ -878,6 +762,7 @@ z-index: 1;
     display: block;
     align-content: center;
     height: 30px;
+    min-height: 30px;
     background-color: rgb(73, 73, 73);
     border-radius: 20px;
     z-index: 5;
@@ -894,6 +779,7 @@ z-index: 1;
     transform: translate(-50%, -50%);
     color: white;
     font-weight: 800;
+    text-overflow: ellipsis;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
      -khtml-user-select: none; /* Konqueror HTML */
@@ -921,24 +807,7 @@ z-index: 1;
 
 
 
-@media only screen and (max-width: 1200px) {
 
-    .dashboard-sidebar{
-        width: 0px;
-        min-width: 0px;
-        top: 0;
-        left: 0;
-    }
-
-    @media only screen and (max-width: 700px) {
-
-        .dashboard-content{
-            grid-template-columns: repeat(1, 300px);
-        }
-    
-    }
-
-}
 
 .dashboard-input-row {
     display: flex;
@@ -1326,7 +1195,167 @@ z-index: 1;
     border-radius: calc(8px * var(--scale));
 }
 
-@media only screen and (max-width: 700px) {
+.command-list{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
+    gap : 20px;
+    padding-bottom: 20px;
+}
+
+.command-item{
+    width: 95%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: $PrimaryColor;
+    border-radius: 20px;
+    align-items: center;
+}
+
+.command-item h2{
+    margin: 10px 0;
+    font-size: 30px;
+    width: 60%;
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid white;
+}
+
+.command-item p{
+    font-size: 29px;
+    margin: 5px 0;
+    text-align: center;
+}
+
+@media only screen and (max-width: 1200px) {
+
+    h1 {
+        font-size: 30px;
+    }
+    
+    h2 {
+        font-size: 18px;
+    }
+    
+    h3 {
+        font-size: 12px;
+    }
+
+    .dashboard-sidebar{
+        width: 0px;
+        min-width: 0px;
+        top: 0;
+        left: 0;
+    }
+
+    .dashboard-content-save button{
+        font-family: 'Roboto', sans-serif;
+        font-weight: bold;
+        font-size: 15px;
+        padding: 5px 15px;
+        margin: 0 10px;
+        border: 2px solid $ButtonColor;
+        color: $ButtonColor;
+        border-radius: 25px;
+        text-decoration: none;
+        background: transparent;
+        transition: all .3s ease-in-out;
+    }
+
+    .guild-items{
+        grid-template-columns: repeat(2, 320px);
+    }
+    
+}
+
+@media only screen and (max-width: 1000px) {
+    .home-content-row{
+        flex-direction: column;
+    }
+    
+    .home-content-row img{
+        width: 300px;
+        height: 300px;
+        margin: 40px 0;
+    }
+    
+    .home-content-row-info{
+        padding: 0 40px;
+        display: flex;
+        flex-direction: column;
+        width: 700px;
+    }
+
+    
+    .home-content-row-info h1{
+        font-size: 70px;
+        margin: 2px 0;
+        text-align: center;
+    }
+    
+    
+    .home-content-row-info h1::after{
+        content: '';
+        display: inline-block;
+        height: 5px;
+        width: 100%;
+        background-color: white;
+    }
+
+    .home-content-row-info div{
+        display: flex;
+        justify-content: center;
+    }
+    
+    
+    .home-content-row-button{
+        font-size: 30px;
+        text-align: center;
+    }
+
+    .home-content-row-info h3{
+        text-align: center;
+    }
+
+}
+
+@media only screen and (max-width: 780px) {
+
+    .guild-items{
+        grid-template-columns: repeat(1, 320px);
+    }
+
+    .home-content-row{
+        height: fit-content;
+        margin: 0 0;
+        margin-top: 90px;
+    }
+
+    .home-content-row-info{
+        width: 400px;
+    }
+
+    .home-content-row-info div{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .home-content-row-button{
+        margin: 10px 0;
+        font-size: 20px;
+    }
+
+    .home-content-row-info h3{
+        font-size: 30px;
+    }
+
+    .dashboard-content{
+        grid-template-columns: repeat(1, 300px);
+    }
+
     .level-card-customization {
         --scale : 0.3;
     }
@@ -1367,50 +1396,49 @@ z-index: 1;
     .level-card-customization-content-opacity-slider{
         width: 300px;
     }
-}
 
-.command-list{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 100px;
-    gap : 20px;
-}
-
-.command-item{
-    width: 95%;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    background-color: $PrimaryColor;
-    border-radius: 20px;
-    align-items: center;
-}
-
-.command-item h2{
-    margin: 10px 0;
-    font-size: 30px;
-    width: 60%;
-    text-align: center;
-    padding-bottom: 20px;
-    border-bottom: 1px solid white;
-}
-
-.command-item p{
-    font-size: 29px;
-    margin: 5px 0;
-    text-align: center;
-}
-
-@media only screen and (max-width: 700px) {
     .command-item h2{
         font-size: 25px;
     }
     
     .command-item p{
         font-size: 18px;
+    } 
+
+}
+
+@media only screen and (max-width: 480px) {
+    
+    .home-content-row img{
+        width: 200px;
+        height: 200px;
+        margin: 40px 0;
     }
+
+    .home-content-row-info{
+        width: 280px;
+        margin-bottom: 20px;
+        padding: 0;
+    }
+
+    .home-content-row-info h1{
+        font-size: 50px;
+        margin: 2px 0;
+        text-align: center;
+    }
+
+    .home-content-row-info h3{
+        font-size: 20px;
+    }
+
+    .home-content-row-button{
+        font-size: 20px;
+    }
+
+    .command-item{
+        padding: 0;
+    }
+
 }
 
 

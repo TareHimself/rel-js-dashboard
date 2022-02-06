@@ -23,6 +23,8 @@ function Commands() {
 
     const filterToLow = filter.toLowerCase();
 
+    if(filterToLow.startsWith('name:') && filterToLow.split(':').length > 1) return command.name.toLowerCase() === filterToLow.split(':')[1];
+    
     return command.name.toLowerCase().includes(filterToLow) || command.description.toLowerCase().includes(filterToLow);
   });
 
@@ -51,9 +53,9 @@ function Commands() {
         <BiSearchAlt/>
       </div>
 
-      <ul className='command-list'>
+      <div className='command-list'>
         {commandsComponents}
-      </ul>
+      </div>
 
     </section>
   );

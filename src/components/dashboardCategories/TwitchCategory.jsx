@@ -4,24 +4,24 @@ import DashboardTextInput from './DashboardTextInput';
 import DashboardDropdownInput from './DashboardDropdownInput';
 import { isEqual } from '../../utils';
 
-const messageLocationOptions = ['disabled','channel'];
+const messageLocationOptions = ['disabled', 'channel'];
 
-function getChannelName(id, lookup) {
+function mapIdToLookup(id, lookup) {
     return lookup[id];
 }
 
 const messageLocationLookup = {
-    disabled : 'Disabled',
-    current : 'Current Channel',
-    dm : 'Direct Message',
-    channel : 'Specific Channel'
+    disabled: 'Disabled',
+    current: 'Current Channel',
+    dm: 'Direct Message',
+    channel: 'Specific Channel'
 }
 
 function getLocationSettingName(location, lookup) {
     return lookup[location];
 }
 
-function convertChannelsToObject(channels) {
+function convertToObject(channels) {
     const object = {};
     channels.forEach(channel => object[channel.id] = channel.name);
     return object;
@@ -38,12 +38,16 @@ function TwitchCategory({ style, guildData, settings, updateSettings }) {
 
     const channels = useRef(guildData.channels.map(channel => channel.id));
 
-    const channelLookup = useRef(convertChannelsToObject(guildData.channels))
+    const channelLookup = useRef(convertToObject(guildData.channels));
 
-    const bHasBeenModified = !isEqual(settingsToModify,sectionSettings);
-    
+    const roles = useRef(guildData.roles.map(roles => roles.id));
+
+    const rolesLookup = useRef(convertToObject(guildData.roles));
+
+    const bHasBeenModified = !isEqual(settingsToModify, sectionSettings);
+
     function onResetCategory(event) {
-        setSectionSettings({...settingsToModify});
+        setSectionSettings({ ...settingsToModify });
     }
 
     function onSaveCategory(event) {
@@ -73,6 +77,18 @@ function TwitchCategory({ style, guildData, settings, updateSettings }) {
         setSectionSettings({ ...sectionSettings, twitch_options: options });
     }
 
+    function onTwitchFilterChanged(value) {
+        const options = sectionSettings.twitch_options;
+        options.set('filter', value.join());
+        setSectionSettings({ ...sectionSettings, twitch_options: options });
+    }
+
+    function onTwitchRolesGivenChanged(value) {
+        const options = sectionSettings.twitch_options;
+        options.set('give', value.join());
+        setSectionSettings({ ...sectionSettings, twitch_options: options });
+    }
+
     return (
         <div className="dashboard-content" style={style || {}}>
 
@@ -99,10 +115,35 @@ function TwitchCategory({ style, guildData, settings, updateSettings }) {
                     options={channels.current}
                     minSelectedOptions={1}
                     maxSelectedOptions={1}
-                    displayDataFunction={getChannelName}
+                    displayDataFunction={mapIdToLookup}
                     displayDataFunctionPayload={channelLookup.current}
                     onValueChange={onTwitchChannelChanged} />
             }
+
+            {sectionSettings.twitch_options.get('location') === messageLocationOptions[1] &&
+                <DashboardDropdownInput
+                    name={"Roles Filter"}
+                    value={sectionSettings.twitch_options.get('filter') ? sectionSettings.twitch_options.get('filter').split(',') : []}
+                    options={roles.current}
+                    minSelectedOptions={0}
+                    maxSelectedOptions={Infinity}
+                    displayDataFunction={mapIdToLookup}
+                    displayDataFunctionPayload={rolesLookup.current}
+                    onValueChange={onTwitchFilterChanged} />
+            }
+
+            {sectionSettings.twitch_options.get('location') === messageLocationOptions[1] &&
+                <DashboardDropdownInput
+                    name={"Roles To Give"}
+                    value={sectionSettings.twitch_options.get('give') ? sectionSettings.twitch_options.get('give').split(',') : []}
+                    options={roles.current}
+                    minSelectedOptions={0}
+                    maxSelectedOptions={Infinity}
+                    displayDataFunction={mapIdToLookup}
+                    displayDataFunctionPayload={rolesLookup.current}
+                    onValueChange={onTwitchRolesGivenChanged} />
+            }
+
 
 
             {bHasBeenModified && <div className='dashboard-content-save'>
