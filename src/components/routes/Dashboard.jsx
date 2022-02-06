@@ -166,17 +166,17 @@ function Dashboard() {
                     </div>
                 </div>
 
-                <div className="dashboard-sidebar-button" onClick={() => onSelectCategory('permissions')} id='permissionsCategory'>
+                {false && <div className="dashboard-sidebar-button" onClick={() => onSelectCategory('permissions')} id='permissionsCategory'>
                     <div className="dashboard-sidebar-button-items">
                         <SiMonkeytie className='dashboard-sidebar-icon' /><h3>Permissions</h3>
                     </div>
-                </div>
+                </div>}
 
-                <div className="dashboard-sidebar-button" onClick={() => onSelectCategory('bugs')} id='bugsCategory'>
+                {false && <div className="dashboard-sidebar-button" onClick={() => onSelectCategory('bugs')} id='bugsCategory'>
                     <div className="dashboard-sidebar-button-items">
                         <AiOutlineBug className='dashboard-sidebar-icon' /><h3>Bug Submissions</h3>
                     </div>
-                </div>
+                </div>}
 
             </div>
 

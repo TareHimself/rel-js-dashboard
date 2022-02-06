@@ -84,7 +84,7 @@ function DashboardDropdownInput({ name, value, options, minSelectedOptions , max
         return () => { if (showDropdown) window.removeEventListener('click', decideCloseDropdown) };
     }, [showDropdown,dropdownId])
 
-    const currentValue = displayDataFunction && value.length === 1 ? displayDataFunction(value[0],displayDataFunctionPayload) : value;
+    const currentValue = (maxSelectedOptions && maxSelectedOptions > 1) ? `${value.length} Selected` : (displayDataFunction && value.length === 1 ? displayDataFunction(value[0],displayDataFunctionPayload) : value);
     return (
         <div className='dashboard-setting'>
 
