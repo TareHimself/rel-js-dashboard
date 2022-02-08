@@ -59,11 +59,11 @@ function LevelCardCustomization() {
     }
 
 
-    if (cardOpacity === 0.8 && userData.card_opacity && userData.card_opacity !== cardOpacity) {
+    if (cardOpacity === 0.8 && userData.card_opacity !== undefined && userData.card_opacity !== cardOpacity) {
       setCardOpacity(userData.card_opacity);
     }
 
-    if (cardColor === '#87ceeb' && userData.color && userData.color !== cardColor) {
+    if (cardColor === '#87ceeb' && userData.color !== undefined && userData.color !== cardColor) {
       setCardColor(userData.color);
     }
   }
@@ -210,8 +210,6 @@ function LevelCardCustomization() {
 
                 <img
                   src={avatarUrl} alt="profile" />
-
-                <div className="online-status"></div>
 
               </div>
               <div className="user-level-info">
