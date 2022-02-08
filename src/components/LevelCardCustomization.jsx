@@ -123,6 +123,8 @@ function LevelCardCustomization() {
             console.log(response.data.error);
           }
           else {
+            console.log({ ...userData, card_bg_url: response.data.url, card_opacity: cardOpacity, color: cardColor });
+            
             setUserData({ ...userData, card_bg_url: response.data.url, card_opacity: cardOpacity, color: cardColor });
           }
 
