@@ -116,10 +116,10 @@ const App = () => {
     useEffect(() => {
 
         if (currentLocation === '') {
-            document.title = 'Umeko | Home'
+            document.title = 'Home | Umeko'
         }
         else {
-            document.title = `Umeko | ${currentLocation}`
+            document.title = `${currentLocation} | Umeko`;
         }
     })
     return (
