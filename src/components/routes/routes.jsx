@@ -6,6 +6,7 @@ import AuthRedirect from './AuthRedirect';
 import Dashboard from './Dashboard';
 import Commands from './Commands';
 import NotFound from './NotFound';
+import Privacy from './Privacy';
 
 export {
     Home,
@@ -15,5 +16,6 @@ export {
     AuthRedirect,
     Dashboard,
     Commands,
-    NotFound
+    NotFound,
+    Privacy
 }
