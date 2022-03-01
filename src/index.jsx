@@ -11,7 +11,7 @@ import {
 import './scss/main.scss';
 import { GlobalAppContext } from './contexts';
 import { utcInSeconds } from './utils';
-import { Home , Servers, Dashboard, Commands, AuthRedirect, Invite, NotFound, Support} from './components/routes/routes';
+import { Home , Servers, Dashboard, Commands, AuthRedirect, Invite, NotFound, Support, Privacy} from './components/routes/routes';
 import Navigation from './components/Navigation';
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
@@ -136,6 +136,7 @@ const App = () => {
                 <Route path="/servers" element={<Servers />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/support" element={<Support />} />
+                <Route path="/privacy" element={<Privacy />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
 

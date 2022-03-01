@@ -60,6 +60,13 @@ p {
     color: $PrimaryTextColor;
 }
 
+li {
+    font-family: 'Roboto', sans-serif;
+    font-weight: lighter;
+    font-size: 10px;
+    color: $PrimaryTextColor;
+}
+
 
 
 header {
@@ -1228,6 +1235,35 @@ z-index: 1;
     font-size: 29px;
     margin: 5px 0;
     text-align: center;
+}
+
+#privacy{
+    margin: 0 10%;
+    height: auto;
+}
+
+#privacy h1{
+    font-size: 40px;
+    width: 100%;
+    padding-bottom: 20px;
+    border-bottom: solid 2px white;
+    text-align: center;
+}
+
+#privacy h2{
+    font-size: 20px;
+    width: 100%;
+}
+
+#privacy p{
+    font-size: 20px;
+    width: 100%;
+}
+
+#privacy li{
+    font-size: 20px;
+    width: 100%;
+    padding: 10px 0;
 }
 
 @media only screen and (max-width: 1200px) {
