@@ -10,7 +10,7 @@ function Privacy() {
 
 
 
-      <p>This privacy policy contains all forms of data that we collect and record, as well as how we use said data. This privacy policy applies to both our website and our bot and may and is subject to change in the future as the bot grows. If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.If you have any questions about our privacy policy please do not hesitate to contact us. </p>
+      <p>This privacy policy contains all forms of data that we collect and record, as well as how we use said data. This privacy policy applies to both our website and our bot and may and is subject to change in the future as the bot grows. If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.</p>
 
       <h2>Consent</h2>
       <p>By using our website and/or bot, you hereby consent to our Privacy Policy and agree to its Terms and Conditions.</p>
@@ -36,7 +36,7 @@ function Privacy() {
 
       <h2>Log Files</h2>
 
-      <p>Umeko follows a standard procedure of using log files. These files log visitors when they visit websites. All hosting companies do this and are a part of hosting services' analytics. The information collected by log files includes internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any personally identifiable information. The purpose of the information is for analyzing trends, administering the site, tracking users' movement on the website, and gathering demographic information. Our Privacy Policy was created with the help of the Privacy Policy Generator.
+      <p>Umeko follows a standard procedure of using log files. These files log visitors when they visit websites. All hosting companies do this and are a part of hosting services' analytics. The information collected by log files includes internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any personally identifiable information. The purpose of the information is for analyzing trends, administering the site, tracking users' movement on the website, and gathering demographic information.
       </p>
 
       <h2>Third-Party Services</h2>
