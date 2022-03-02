@@ -11,13 +11,13 @@ import {
 import './scss/main.scss';
 import { GlobalAppContext } from './contexts';
 import { utcInSeconds } from './utils';
-import { Home , Servers, Dashboard, Commands, AuthRedirect, Invite, NotFound, Support, Privacy} from './components/routes/routes';
+import { Home , Servers, Dashboard, Commands, AuthRedirect, Invite, NotFound, Support, Privacy, TermsOfService} from './components/routes/routes';
 import Navigation from './components/Navigation';
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
 import LevelCardCustomization from './components/LevelCardCustomization';
 import { useCallback } from 'react';
-
+import { getRouteName } from './utils';
 
 const unProtectedLocations = ['home','invite','commands','auth','support'];
 
@@ -31,7 +31,7 @@ const App = () => {
 
     const location = useLocation();
     const actualLocation = location.pathname.substring(1).trim();
-    const currentLocation = actualLocation !== '' ? actualLocation.charAt(0).toUpperCase() + actualLocation.slice(1) : '';
+    const currentLocation = actualLocation;
 
     const [theme, setTheme] = useState('dark');
     const [sessionId, setSessionIdRaw] = useState(localStorage.getItem('sessionId') || '');
@@ -115,12 +115,7 @@ const App = () => {
 
     useEffect(() => {
 
-        if (currentLocation === '') {
-            document.title = 'Home | Umeko'
-        }
-        else {
-            document.title = `${currentLocation} | Umeko`;
-        }
+        document.title = getRouteName(currentLocation);
     })
     return (
         <GlobalAppContext.Provider value={{ sessionId, serverLink, theme, themeColors, debugging, userData, setSessionId, navigate, setTheme, setUserData, setIsCustomizingCard }}>
@@ -137,12 +132,16 @@ const App = () => {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/support" element={<Support />} />
                 <Route path="/privacy" element={<Privacy />} />
+                <Route path="/terms" element={<TermsOfService />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
+
+            
 
         </GlobalAppContext.Provider>
     );
 }
+
 ReactDOM.render(
     <BrowserRouter>
         <App />

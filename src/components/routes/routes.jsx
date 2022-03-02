@@ -7,6 +7,7 @@ import Dashboard from './Dashboard';
 import Commands from './Commands';
 import NotFound from './NotFound';
 import Privacy from './Privacy';
+import TermsOfService from './TermsOfService';
 
 export {
     Home,
@@ -17,5 +18,6 @@ export {
     Dashboard,
     Commands,
     NotFound,
-    Privacy
+    Privacy,
+    TermsOfService
 }
