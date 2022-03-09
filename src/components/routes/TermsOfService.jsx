@@ -10,7 +10,7 @@ function TermsOfService() {
 
 
 
-      <p>This page coveres the Terms Of Service for Umeko.</p>
+      <p>This page covers the Terms Of Service for Umeko.</p>
 
       <h2>Consent</h2>
       <p>By using(i.e. being on a server with leveling enabled/ using a command)/inviting our website and/or bot, you hereby consent to our Terms Of Service. You acknowledge that you have the priviledge to use the bot freely on any Discord Server you share with it, You also Agree that this priviledge may be revoked if you are in breach of any of the policies/terms listed below.</p>
