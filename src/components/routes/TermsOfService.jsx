@@ -22,7 +22,7 @@ function TermsOfService() {
 
       <h2>Intended Age</h2>
 
-      <p>The bot may not be used by individuals under the minimal age described in Discord's <a href='https://umeko.dev/terms' target='_blank' rel="noreferrer" >Terms of Service</a>.</p>
+      <p>The bot may not be used by individuals under the minimal age described in Discord's <a href='https://discord.com/terms' target='_blank' rel="noreferrer" >Terms of Service</a>.</p>
 
       <h2>Liability</h2>
 
