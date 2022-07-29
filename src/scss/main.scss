@@ -1157,12 +1157,12 @@ header {
     text-align: center;
 }
 
-#privacy {
+#tos-privacy{
     margin: 0 10%;
     height: auto;
 }
 
-#privacy h1 {
+#tos-privacy h1{
     font-size: 40px;
     width: 100%;
     padding-bottom: 20px;
@@ -1170,17 +1170,22 @@ header {
     text-align: center;
 }
 
-#privacy h2 {
+#tos-privacy h2{
     font-size: 20px;
     width: 100%;
 }
 
-#privacy p {
+#tos-privacy p{
     font-size: 20px;
     width: 100%;
 }
 
-#privacy li {
+#tos-privacy a{
+    color: white;
+    text-decoration: underline;
+}
+
+#tos-privacy li{
     font-size: 20px;
     width: 100%;
     padding: 10px 0;
