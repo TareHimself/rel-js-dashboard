@@ -132,6 +132,7 @@ function User() {
                             <Link className='dropdown-button' to="/servers">Servers</Link>
                             <Link className='dropdown-button' to="/commands">Commands</Link>
                             <Link className='dropdown-button' to="/privacy">Privacy Policy</Link>
+                            <Link className='dropdown-button' to="/terms">ToS</Link>
                             <a className='dropdown-button' target='_blank' rel="noreferrer noopener" href="https://discord.gg/qx7eUVwTGY">Support</a>
                             <button className='dropdown-button' onClick={onLogout} >Log Out</button>
                         </div>}
@@ -160,6 +161,7 @@ function User() {
                             <Link className='dropdown-button' to="/">Home</Link>
                             <Link className='dropdown-button' to="/commands">Commands</Link>
                             <Link className='dropdown-button' to="/privacy">Privacy Policy</Link>
+                            <Link className='dropdown-button' to="/terms">ToS</Link>
                             <a className='dropdown-button' target='_blank' rel="noreferrer noopener" href="https://discord.gg/qx7eUVwTGY">Support</a>
                         </div>
                     }

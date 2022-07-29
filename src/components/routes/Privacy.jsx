@@ -5,12 +5,12 @@ import '../../scss/main.scss';
 function Privacy() {
 
   return (
-    <section className='standard-page' id='privacy'>
+    <section className='standard-page' id='tos-privacy'>
       <h1>Privacy Policy for Umeko</h1>
 
 
 
-      <p>This privacy policy contains all forms of data that we collect and record, as well as how we use said data. This privacy policy applies to both our website and our bot and may and is subject to change in the future as the bot grows. If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.</p>
+      <p>This privacy policy contains all forms of data that we collect and record, as well as how we use said data. This privacy policy applies to both our website and our bot and may and is subject to change in the future as the bot grows.</p>
 
       <h2>Consent</h2>
       <p>By using our website and/or bot, you hereby consent to our Privacy Policy and agree to its Terms and Conditions.</p>
@@ -45,6 +45,10 @@ function Privacy() {
       <h2>Children's Information</h2>
       <p>Another part of our priority is adding protection for children while using the internet.Umeko does not knowingly collect any Personal Identifiable Information from children under the age of 13. If you think that your child provided this kind of information on our website, we strongly encourage you to contact us immediately and we will do our best efforts to promptly remove such information from our records. We encourage parents and guardians to observe, participate in, and/or monitor and guide their online activity.
       </p>
+
+      <h2>Contact</h2>
+
+      <p>You may contact us buy sending an email to support@umeko.dev or by sending a message to Tare#3664 on discord.</p>
 
 
     </section>
