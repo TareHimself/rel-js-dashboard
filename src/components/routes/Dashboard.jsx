@@ -2,7 +2,7 @@
 import '../../scss/main.scss';
 import useQuery from '../../hooks/useQuery';
 import { GlobalAppContext } from '../../contexts';
-import { useContext, useEffect,useRef,useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { GoGraph } from 'react-icons/go';
 import { IoSettingsOutline, IoChevronBack, IoLogoTwitch } from 'react-icons/io5';
 import { SiMonkeytie } from 'react-icons/si';
@@ -45,16 +45,16 @@ function Dashboard() {
         navigate(window.location.pathname + "?" + currentUrlParams.toString(), { replace: true });
     }
 
-    function updateGuildSettings(newSettings){
+    function updateGuildSettings(newSettings) {
         setGuildSettings(newSettings);
 
         const guildId = query.get('g');
 
-        if(!guildId) return;
+        if (!guildId) return;
 
         const headers = { sessionId: sessionId };
 
-        axios.post(`${serverLink}/settings`,newSettings,{ headers: headers }).then((response)=>{
+        axios.post(`${serverLink}/settings`, newSettings, { headers: headers }).then((response) => {
         }).catch(console.log);
     }
 
@@ -104,7 +104,7 @@ function Dashboard() {
     function getDashboardContentElement(category) {
 
         const style = {
-            paddingLeft : width <= 1200 ? "0px" : "250px"
+            paddingLeft: width <= 1200 ? "0px" : "250px"
         }
         switch (category) {
             case 'general':
@@ -181,7 +181,7 @@ function Dashboard() {
             </div>
 
             {guildSettings && getDashboardContentElement(query.get('c') || 'general')}
-            
+
 
         </section>
     );

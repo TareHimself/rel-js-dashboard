@@ -11,7 +11,7 @@ import {
 import './scss/main.scss';
 import { GlobalAppContext } from './contexts';
 import { utcInSeconds } from './utils';
-import { Home , Servers, Dashboard, Commands, AuthRedirect, Invite, NotFound, Support, Privacy} from './components/routes/routes';
+import { Home, Servers, Dashboard, Commands, AuthRedirect, Invite, NotFound, Support, Privacy } from './components/routes/routes';
 import Navigation from './components/Navigation';
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
@@ -19,13 +19,13 @@ import LevelCardCustomization from './components/LevelCardCustomization';
 import { useCallback } from 'react';
 
 
-const unProtectedLocations = ['home','invite','commands','auth','support'];
+const unProtectedLocations = ['home', 'invite', 'commands', 'auth', 'support'];
 
 const App = () => {
 
-    const debugging = false;
+    const debugging = true;
 
-    const serverLink = debugging ? 'http://localhost:49154' : 'https://server.umeko.dev';
+    const serverLink = debugging ? 'http://localhost:3002' : 'https://server.umeko.dev';
 
     let navigate = useNavigate();
 
@@ -42,7 +42,7 @@ const App = () => {
     const setSessionId = useCallback((id) => {
         if (!id) {
 
-            if(currentLocation && !unProtectedLocations.includes(currentLocation)) navigate('/');
+            if (currentLocation && !unProtectedLocations.includes(currentLocation)) navigate('/');
 
             setIsCustomizingCard(false);
             localStorage.removeItem('sessionId');
@@ -52,11 +52,11 @@ const App = () => {
         }
 
         setSessionIdRaw(id);
-    },[currentLocation,navigate]);
+    }, [currentLocation, navigate]);
 
-    
 
-    
+
+
 
     // poll the server to ensure this session is still valid
     useEffect(() => {
@@ -87,7 +87,7 @@ const App = () => {
 
         return () => clearInterval(interval);
 
-    }, [sessionId, serverLink,setSessionId]);
+    }, [sessionId, serverLink, setSessionId]);
 
     const darkTheme = {
         NavigationColor: '#42424',
@@ -111,7 +111,7 @@ const App = () => {
 
     const themeColors = theme === 'dark' ? darkTheme : lightTheme;
 
-    
+
 
     useEffect(() => {
 

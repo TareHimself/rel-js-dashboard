@@ -7,9 +7,9 @@ import { isEqual } from '../../utils';
 
 
 
-const messageLocationOptions = ['disabled','current', 'dm', 'channel'];
+const messageLocationOptions = ['disabled', 'current', 'dm', 'channel'];
 
-const messageLeaveLocationOptions = ['disabled','channel'];
+const messageLeaveLocationOptions = ['disabled', 'channel'];
 
 
 function getChannelName(id, lookup) {
@@ -17,10 +17,10 @@ function getChannelName(id, lookup) {
 }
 
 const messageLocationLookup = {
-    disabled : 'Disabled',
-    current : 'Current Channel',
-    dm : 'Direct Message',
-    channel : 'Specific Channel'
+    disabled: 'Disabled',
+    current: 'Current Channel',
+    dm: 'Direct Message',
+    channel: 'Specific Channel'
 }
 
 function getLocationSettingName(location, lookup) {
@@ -37,9 +37,7 @@ function JoinLeaveCategory({ style, guildData, settings, updateSettings }) {
 
 
     const settingsToModify = {
-        welcome_message: settings.welcome_message,
         welcome_options: new URLSearchParams(settings.welcome_options),
-        leave_message: settings.leave_message,
         leave_options: new URLSearchParams(settings.leave_options)
     }
 
@@ -49,22 +47,26 @@ function JoinLeaveCategory({ style, guildData, settings, updateSettings }) {
 
     const channelLookup = useRef(convertChannelsToObject(guildData.channels))
 
-    const bHasBeenModified = !isEqual(settingsToModify,sectionSettings);
+    const bHasBeenModified = !isEqual(settingsToModify, sectionSettings);
 
     function onResetCategory(event) {
-        setSectionSettings({...settingsToModify});
+        setSectionSettings({ ...settingsToModify });
     }
 
     function onSaveCategory(event) {
-        updateSettings({ ...settings, ...sectionSettings, welcome_options: sectionSettings.welcome_options.toString(), leave_options: sectionSettings.leave_options.toString()});
+        updateSettings({ ...settings, ...sectionSettings, welcome_options: sectionSettings.welcome_options.toString(), leave_options: sectionSettings.leave_options.toString() });
     }
 
     function onWelcomeMsgChanged(value) {
-        setSectionSettings({ ...sectionSettings, welcome_message: value });
+        const options = sectionSettings.welcome_options;
+        options.set('msg', value);
+        setSectionSettings({ ...sectionSettings, welcome_options: options });
     }
 
     function onLeaveMsgChanged(value) {
-        setSectionSettings({ ...sectionSettings, leave_message: value });
+        const options = sectionSettings.leave_options;
+        options.set('msg', value);
+        setSectionSettings({ ...sectionSettings, leave_options: options });
     }
 
     function onWelcomeLocationChanged(value) {
@@ -74,7 +76,7 @@ function JoinLeaveCategory({ style, guildData, settings, updateSettings }) {
         options.set('location', value[0]);
 
         if (isSpecific) options.set('channel', channels.current[0]);
-
+        if (!options.get('msg')) options.set('msg', 'Welcome to the server {username}');
         setSectionSettings({ ...sectionSettings, welcome_options: options });
     }
 
@@ -85,7 +87,7 @@ function JoinLeaveCategory({ style, guildData, settings, updateSettings }) {
         options.set('location', value[0]);
 
         if (isSpecific) options.set('channel', channels.current[0]);
-
+        if (!options.get('msg')) options.set('msg', 'Sad to see you go {username}');
         setSectionSettings({ ...sectionSettings, leave_options: options });
     }
 
@@ -106,7 +108,7 @@ function JoinLeaveCategory({ style, guildData, settings, updateSettings }) {
 
             <DashboardTextInput
                 name={"Welcome Message"}
-                value={sectionSettings.welcome_message}
+                value={sectionSettings.welcome_options.get('msg') || 'Welcome to the server {username}'}
                 onValueChange={onWelcomeMsgChanged}
             />
 
@@ -134,7 +136,7 @@ function JoinLeaveCategory({ style, guildData, settings, updateSettings }) {
 
             <DashboardTextInput
                 name={"Leave Message"}
-                value={sectionSettings.leave_message}
+                value={sectionSettings.leave_options.get('msg') || 'Sad to see you go {username}'}
                 onValueChange={onLeaveMsgChanged}
             />
 

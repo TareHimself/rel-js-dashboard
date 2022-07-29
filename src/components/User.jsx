@@ -21,15 +21,11 @@ const iconStyle = {
 
 function User() {
 
-    
+    const { theme, sessionId, setSessionId, serverLink, userData, setUserData, setIsCustomizingCard, debugging } = useContext(GlobalAppContext);
 
-    const { theme, sessionId, setSessionId, serverLink,userData, setUserData,setIsCustomizingCard, debugging} = useContext(GlobalAppContext);
-
-    
     let userAvatar = '';
 
-    if(userData.avatar)
-    {
+    if (userData.avatar) {
         const extension = userData.avatar.startsWith("a_") ? 'gif' : 'png';
         userAvatar = `https://cdn.discordapp.com/avatars/${userData.id}/${userData.avatar}.${extension}`
     }
@@ -52,7 +48,7 @@ function User() {
                     console.log(data.error);
                 }
                 else {
-                    
+
                     setUserData(data);
                 }
 
@@ -61,9 +57,9 @@ function User() {
                 console.log(error);
             });
 
-    }, [sessionId, setSessionId, setUserData,userAvatar, serverLink]);
+    }, [sessionId, setSessionId, setUserData, userAvatar, serverLink]);
 
-    function onLogin(clickEvent){
+    function onLogin(clickEvent) {
 
         const stateId = uuidv4();
 
@@ -72,15 +68,15 @@ function User() {
         let stateHash = hashString(stateId);
 
         const params = new URLSearchParams({
-            client_id : debugging ? '895104527001354313' : '804165876362117141',
-            redirect_uri : `${window.location.origin}/auth`,
-            response_type : 'code',
-            scope : 'guilds identify',
-            state : `${stateHash}`
+            client_id: debugging ? '895104527001354313' : '804165876362117141',
+            redirect_uri: `${window.location.origin}/auth`,
+            response_type: 'code',
+            scope: 'guilds identify',
+            state: `${stateHash}`
         });
 
         const targetUrl = `https://discord.com/api/oauth2/authorize?${params.toString()}`;
-        
+
         window.location.href = targetUrl;
     }
 
@@ -90,7 +86,7 @@ function User() {
 
         axios.post(`${serverLink}/destroy-session`, data)
             .then((response) => {
-                console.log(response.data);   
+                console.log(response.data);
                 setSessionId('');
             }, (error) => {
                 console.log(error);
@@ -98,7 +94,7 @@ function User() {
             });
     }
 
-    function onClickLevelCard(clickEvent){
+    function onClickLevelCard(clickEvent) {
         setIsCustomizingCard(true);
     }
 
@@ -127,7 +123,7 @@ function User() {
         if (userAvatar) {
             return (
                 <div className='user-dropdown'>
-                    <img className='user-avatar' src={userAvatar} alt='avatar'  />
+                    <img className='user-avatar' src={userAvatar} alt='avatar' />
                     < BiChevronDown className={`clickable-icons-${theme}`} style={iconStyle} onClick={() => setShowMenu(true)} />
                     {showMenu &&
                         <div id='user-menu-dropdown' className='user-dropdown-content'>
@@ -144,30 +140,30 @@ function User() {
         }
         else {
             return (
-                <VscLoading className='loading-icon'/>
+                <VscLoading className='loading-icon' />
             );
         }
     }
     else {
         return (
             <div style={{
-                display : "flex",
-                alignItems : "center"
+                display: "flex",
+                alignItems: "center"
             }}>
-                
-                <button className="button" onClick={onLogin}> Login </button> 
+
+                <button className="button" onClick={onLogin}> Login </button>
                 <div className='user-dropdown' >
-                < BiChevronDown className={`clickable-icons-${theme}`} style={iconStyle} onClick={() => setShowMenu(true)} />
-                {showMenu &&
-                        
+                    < BiChevronDown className={`clickable-icons-${theme}`} style={iconStyle} onClick={() => setShowMenu(true)} />
+                    {showMenu &&
+
                         <div id='user-menu-dropdown' className='user-dropdown-content'>
                             <Link className='dropdown-button' to="/">Home</Link>
                             <Link className='dropdown-button' to="/commands">Commands</Link>
                             <Link className='dropdown-button' to="/privacy">Privacy Policy</Link>
                             <a className='dropdown-button' target='_blank' rel="noreferrer noopener" href="https://discord.gg/qx7eUVwTGY">Support</a>
                         </div>
-                        }
-                        </div>
+                    }
+                </div>
             </div>
 
         );

@@ -4,7 +4,7 @@ import { IoColorPaletteSharp } from 'react-icons/io5';
 import { AiOutlineLoading } from 'react-icons/ai';
 import { MdFileUpload } from 'react-icons/md';
 import { CgDropOpacity } from 'react-icons/cg';
-import { getCroppedImg, getXpForNextLevel,isFileImage } from '../utils';
+import { getCroppedImg, getXpForNextLevel, isFileImage } from '../utils';
 import { GlobalAppContext } from '../contexts';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
@@ -55,7 +55,7 @@ function LevelCardCustomization() {
       backgroundImage = URL.createObjectURL(croppedImage);
     }
     else {
-      backgroundImage = userData.card_bg_url || defaultBackgroundUrl;
+      backgroundImage = userData.card_bg_url.split('|')[0] || defaultBackgroundUrl;
     }
 
 
@@ -115,7 +115,7 @@ function LevelCardCustomization() {
         setIsUploadingResult(true);
 
         axios.post(`${serverLink}/update-card`, payload, { headers: headers }).then((response) => {
-          
+
 
           setIsUploadingResult(false);
 
@@ -123,9 +123,8 @@ function LevelCardCustomization() {
             console.log(response.data.error);
           }
           else {
-            console.log({ ...userData, card_bg_url: response.data.url, card_opacity: cardOpacity, color: cardColor });
-            
-            setUserData({ ...userData, card_bg_url: response.data.url, card_opacity: cardOpacity, color: cardColor });
+
+            setUserData({ ...userData, card_bg_url: response.data.url.split('|')[0], card_opacity: cardOpacity, color: cardColor });
           }
 
           setCroppedImage(undefined);
@@ -150,7 +149,7 @@ function LevelCardCustomization() {
           console.log(response.data.error);
         }
         else {
-          setUserData({ ...userData, card_bg_url: response.data.url, card_opacity: cardOpacity, color: cardColor });
+          setUserData({ ...userData, card_bg_url: response.data.url.split('|')[0], card_opacity: cardOpacity, color: cardColor });
         }
 
         setIsCustomizingCard(false);
@@ -167,7 +166,7 @@ function LevelCardCustomization() {
       width: 30,
       aspect: 10 / 3
     });
-    
+
     console.log(cropSettings);
 
     setImageBeingCropped(undefined);
