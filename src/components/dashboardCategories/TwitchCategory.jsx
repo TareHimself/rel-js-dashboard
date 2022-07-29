@@ -30,7 +30,6 @@ function convertToObject(channels) {
 function TwitchCategory({ style, guildData, settings, updateSettings }) {
 
     const settingsToModify = {
-        twitch_message: settings.twitch_message,
         twitch_options: new URLSearchParams(settings.twitch_options)
     }
 
@@ -55,7 +54,9 @@ function TwitchCategory({ style, guildData, settings, updateSettings }) {
     }
 
     function onTwitchMsgChanged(value) {
-        setSectionSettings({ ...sectionSettings, twitch_message: value });
+        const options = sectionSettings.twitch_options;
+        options.set('msg', value);
+        setSectionSettings({ ...sectionSettings, twitch_options: options });
     }
 
     function onTwitchLocationChanged(value) {
@@ -67,7 +68,7 @@ function TwitchCategory({ style, guildData, settings, updateSettings }) {
         options.set('location', value[0]);
 
         if (isSpecific) options.set('channel', channels.current[0]);
-
+        if (!options.get('msg')) options.set('msg', '{username} just went live:{link}');
         setSectionSettings({ ...sectionSettings, twitch_options: options });
     }
 
@@ -94,7 +95,7 @@ function TwitchCategory({ style, guildData, settings, updateSettings }) {
 
             <DashboardTextInput
                 name={"Twitch Message"}
-                value={sectionSettings.twitch_message}
+                value={sectionSettings.twitch_options.get('msg') || '{username} just went live:{link}'}
                 onValueChange={onTwitchMsgChanged}
             />
 

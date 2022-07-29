@@ -4,7 +4,7 @@ import { IoMdArrowDropdown } from 'react-icons/io';
 import DashboardDropdownInputItems from './DashboardDropdownInputItems';
 import { useEffect } from 'react';
 
-function DashboardDropdownInput({ name, value, options, minSelectedOptions , maxSelectedOptions, onValueChange, displayDataFunction, displayDataFunctionPayload }) {
+function DashboardDropdownInput({ name, value, options, minSelectedOptions, maxSelectedOptions, onValueChange, displayDataFunction, displayDataFunctionPayload }) {
 
     if (!options) throw new Error('No options passed into dropdown');
 
@@ -20,7 +20,7 @@ function DashboardDropdownInput({ name, value, options, minSelectedOptions , max
 
         value.push(item);
 
-        if(value.length > (maxSelectedOptions || Infinity)) value.shift();
+        if (value.length > (maxSelectedOptions || Infinity)) value.shift();
 
         onValueChange([...value]);
     }
@@ -28,8 +28,8 @@ function DashboardDropdownInput({ name, value, options, minSelectedOptions , max
     function onItemUnselected(item) {
         const index = value.indexOf(item);
 
-        if (index !== -1){
-            if(value.length - 1 < (minSelectedOptions || 0)) return;
+        if (index !== -1) {
+            if (value.length - 1 < (minSelectedOptions || 0)) return;
             value.splice(index, 1);
         }
 
@@ -53,7 +53,7 @@ function DashboardDropdownInput({ name, value, options, minSelectedOptions , max
         if (icon) {
             icon.setAttribute('is-open', showDropdown ? 'true' : 'false');
         }
-    }, [showDropdown,dropdownId])
+    }, [showDropdown, dropdownId])
 
     useEffect(() => {
 
@@ -82,22 +82,21 @@ function DashboardDropdownInput({ name, value, options, minSelectedOptions , max
         }
 
         return () => { if (showDropdown) window.removeEventListener('click', decideCloseDropdown) };
-    }, [showDropdown,dropdownId])
-
-    const currentValue = (maxSelectedOptions && maxSelectedOptions > 1) ? `${value.length} Selected` : (displayDataFunction && value.length === 1 ? displayDataFunction(value[0],displayDataFunctionPayload) : value);
+    }, [showDropdown, dropdownId])
+    /*
+     <div className='dashboard-setting-dropdown-text' onClick={toggleDropdown} >
+                        <h3>{currentValue}</h3> <IoMdArrowDropdown id={dropdownId + '-icon'} />
+                    </div>
+                    {showDropdown && <div className='dashboard-setting-dropdown-content' id={dropdownId}>
+                        {elements}
+                    </div>}*/
+    const currentValue = (maxSelectedOptions && maxSelectedOptions > 1) ? `${value.length} Selected` : (displayDataFunction && value.length === 1 ? displayDataFunction(value[0], displayDataFunctionPayload) : value);
     return (
         <div className='dashboard-setting'>
-
             <h2>{name}</h2>
-            <div className='dashboard-setting-dropdown'>
-
-                <div className='dashboard-setting-dropdown-text' onClick={toggleDropdown} >
-                    <h3>{currentValue}</h3> <IoMdArrowDropdown id={dropdownId + '-icon'} />
-                </div>
-                {showDropdown && <div className='dashboard-setting-dropdown-content' id={dropdownId}>
-                    {elements}
-                </div>}
-            </div>
+            <select name={currentValue} className='dashboard-setting-dropdown' >
+                {elements}
+            </select>
         </div>
     );
 }

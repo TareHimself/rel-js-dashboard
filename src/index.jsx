@@ -11,27 +11,27 @@ import {
 import './scss/main.scss';
 import { GlobalAppContext } from './contexts';
 import { utcInSeconds } from './utils';
-import { Home , Servers, Dashboard, Commands, AuthRedirect, Invite, NotFound, Support, Privacy, TermsOfService} from './components/routes/routes';
+import { Home, Servers, Dashboard, Commands, AuthRedirect, Invite, NotFound, Support, Privacy } from './components/routes/routes';
 import Navigation from './components/Navigation';
 import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
 import LevelCardCustomization from './components/LevelCardCustomization';
 import { useCallback } from 'react';
-import { getRouteName } from './utils';
 
-const unProtectedLocations = ['home','invite','commands','auth','support'];
+
+const unProtectedLocations = ['home', 'invite', 'commands', 'auth', 'support'];
 
 const App = () => {
 
     const debugging = false;
 
-    const serverLink = debugging ? 'http://localhost:49154' : 'https://server.umeko.dev';
+    const serverLink = debugging ? 'http://localhost:3002' : 'https://server.umeko.dev';
 
     let navigate = useNavigate();
 
     const location = useLocation();
     const actualLocation = location.pathname.substring(1).trim();
-    const currentLocation = actualLocation;
+    const currentLocation = actualLocation !== '' ? actualLocation.charAt(0).toUpperCase() + actualLocation.slice(1) : '';
 
     const [theme, setTheme] = useState('dark');
     const [sessionId, setSessionIdRaw] = useState(localStorage.getItem('sessionId') || '');
@@ -42,7 +42,7 @@ const App = () => {
     const setSessionId = useCallback((id) => {
         if (!id) {
 
-            if(currentLocation && !unProtectedLocations.includes(currentLocation)) navigate('/');
+            if (currentLocation && !unProtectedLocations.includes(currentLocation)) navigate('/');
 
             setIsCustomizingCard(false);
             localStorage.removeItem('sessionId');
@@ -52,11 +52,11 @@ const App = () => {
         }
 
         setSessionIdRaw(id);
-    },[currentLocation,navigate]);
+    }, [currentLocation, navigate]);
 
-    
 
-    
+
+
 
     // poll the server to ensure this session is still valid
     useEffect(() => {
@@ -87,7 +87,7 @@ const App = () => {
 
         return () => clearInterval(interval);
 
-    }, [sessionId, serverLink,setSessionId]);
+    }, [sessionId, serverLink, setSessionId]);
 
     const darkTheme = {
         NavigationColor: '#42424',
@@ -111,11 +111,16 @@ const App = () => {
 
     const themeColors = theme === 'dark' ? darkTheme : lightTheme;
 
-    
+
 
     useEffect(() => {
 
-        document.title = getRouteName(currentLocation);
+        if (currentLocation === '') {
+            document.title = 'Home | Umeko'
+        }
+        else {
+            document.title = `${currentLocation} | Umeko`;
+        }
     })
     return (
         <GlobalAppContext.Provider value={{ sessionId, serverLink, theme, themeColors, debugging, userData, setSessionId, navigate, setTheme, setUserData, setIsCustomizingCard }}>
@@ -132,16 +137,12 @@ const App = () => {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/support" element={<Support />} />
                 <Route path="/privacy" element={<Privacy />} />
-                <Route path="/terms" element={<TermsOfService />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
-
-            
 
         </GlobalAppContext.Provider>
     );
 }
-
 ReactDOM.render(
     <BrowserRouter>
         <App />

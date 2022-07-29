@@ -4,7 +4,7 @@ import DashboardTextInput from './DashboardTextInput';
 import DashboardDropdownInput from './DashboardDropdownInput';
 import { isEqual } from '../../utils';
 
-const messageLocationOptions = ['disabled','current', 'dm', 'channel'];
+const messageLocationOptions = ['disabled', 'current', 'dm', 'channel'];
 
 function getChannelName(id, lookup) {
     return lookup[id];
@@ -12,10 +12,10 @@ function getChannelName(id, lookup) {
 
 
 const messageLocationLookup = {
-    disabled : 'Disabled',
-    current : 'Current Channel',
-    dm : 'Direct Message',
-    channel : 'Specific Channel'
+    disabled: 'Disabled',
+    current: 'Current Channel',
+    dm: 'Direct Message',
+    channel: 'Specific Channel'
 }
 
 function getLocationSettingName(location, lookup) {
@@ -28,10 +28,9 @@ function convertChannelsToObject(channels) {
     return object;
 }
 
-function LevelingCategory({ style, guildData ,settings, updateSettings }) {
+function LevelingCategory({ style, guildData, settings, updateSettings }) {
 
     const settingsToModify = {
-        leveling_message: settings.leveling_message,
         leveling_options: new URLSearchParams(settings.leveling_options)
     }
 
@@ -41,10 +40,10 @@ function LevelingCategory({ style, guildData ,settings, updateSettings }) {
 
     const channelLookup = useRef(convertChannelsToObject(guildData.channels))
 
-    const bHasBeenModified = !isEqual(settingsToModify,sectionSettings);
+    const bHasBeenModified = !isEqual(settingsToModify, sectionSettings);
 
     function onResetCategory(event) {
-        setSectionSettings({...settingsToModify});
+        setSectionSettings({ ...settingsToModify });
     }
 
     function onSaveCategory(event) {
@@ -52,7 +51,9 @@ function LevelingCategory({ style, guildData ,settings, updateSettings }) {
     }
 
     function onLevelingMsgChanged(value) {
-        setSectionSettings({ ...sectionSettings, leveling_message: value });
+        const options = sectionSettings.leveling_options;
+        options.set('msg', value);
+        setSectionSettings({ ...sectionSettings, leveling_options: options });
     }
 
     function onLevelingLocationChanged(value) {
@@ -62,7 +63,7 @@ function LevelingCategory({ style, guildData ,settings, updateSettings }) {
         options.set('location', value[0]);
 
         if (isSpecific) options.set('channel', channels.current[0]);
-
+        if (!options.get('msg')) options.set('msg', '{username} just leveled up');
         setSectionSettings({ ...sectionSettings, leveling_options: options });
     }
 
@@ -70,6 +71,7 @@ function LevelingCategory({ style, guildData ,settings, updateSettings }) {
         const options = sectionSettings.leveling_options;
 
         options.set('channel', value[0]);
+
         setSectionSettings({ ...sectionSettings, leveling_options: options });
     }
 
@@ -78,7 +80,7 @@ function LevelingCategory({ style, guildData ,settings, updateSettings }) {
 
             <DashboardTextInput
                 name={"Level Up Message"}
-                value={sectionSettings.leveling_message}
+                value={sectionSettings.leveling_options.get('msg') || '{username} just leveled up'}
                 onValueChange={onLevelingMsgChanged}
             />
 
