@@ -71,7 +71,7 @@ function JoinLeaveCategory({ style, guildData, settings, updateSettings }) {
 
     function onWelcomeLocationChanged(value) {
         const isSpecific = value[0] === messageLocationOptions[3];
-
+        console.log(value)
         const options = sectionSettings.welcome_options;
         options.set('location', value[0]);
 
