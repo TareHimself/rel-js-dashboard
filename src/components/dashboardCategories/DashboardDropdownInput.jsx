@@ -82,7 +82,7 @@ function DashboardDropdownInput({ name, value, options, minSelectedOptions, maxS
     return (
         <div className='dashboard-setting'>
             <h2>{name}</h2>
-            <select name={currentValue} className='dashboard-setting-dropdown' >
+            <select name={currentValue} className='dashboard-setting-dropdown' onChange={(e) => onItemSelected(e.target.value)} multiple={false}>
                 {elements}
             </select>
         </div>
