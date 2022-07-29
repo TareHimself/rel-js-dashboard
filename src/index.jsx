@@ -23,7 +23,7 @@ const unProtectedLocations = ['home', 'invite', 'commands', 'auth', 'support'];
 
 const App = () => {
 
-    const debugging = true;
+    const debugging = false;
 
     const serverLink = debugging ? 'http://localhost:3002' : 'https://server.umeko.dev';
 
