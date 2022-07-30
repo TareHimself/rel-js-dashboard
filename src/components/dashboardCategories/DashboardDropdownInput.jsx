@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import '../../scss/main.scss';
+import { IoMdArrowDropdown } from 'react-icons/io';
 import DashboardDropdownInputItems from './DashboardDropdownInputItems';
 import { useEffect } from 'react';
 
@@ -10,6 +11,10 @@ function DashboardDropdownInput({ name, value, options, minSelectedOptions, maxS
     const dropdownId = `${name}-dropdown-input`;
 
     const [showDropdown, setShowDropdown] = useState(false);
+
+    function toggleDropdown(event) {
+        setShowDropdown(!showDropdown);
+    }
 
     function onItemSelected(item) {
 
@@ -78,13 +83,21 @@ function DashboardDropdownInput({ name, value, options, minSelectedOptions, maxS
 
         return () => { if (showDropdown) window.removeEventListener('click', decideCloseDropdown) };
     }, [showDropdown, dropdownId])
+
     const currentValue = (maxSelectedOptions && maxSelectedOptions > 1) ? `${value.length} Selected` : (displayDataFunction && value.length === 1 ? displayDataFunction(value[0], displayDataFunctionPayload) : value);
     return (
         <div className='dashboard-setting'>
+
             <h2>{name}</h2>
-            <select name={currentValue} className='dashboard-setting-dropdown' onChange={(e) => onItemSelected(e.target.value)} multiple={false}>
-                {elements}
-            </select>
+            <div className='dashboard-setting-dropdown'>
+
+                <div className='dashboard-setting-dropdown-text' onClick={toggleDropdown} >
+                    <h3>{currentValue}</h3> <IoMdArrowDropdown id={dropdownId + '-icon'} />
+                </div>
+                {showDropdown && <div className='dashboard-setting-dropdown-content' id={dropdownId}>
+                    {elements}
+                </div>}
+            </div>
         </div>
     );
 }

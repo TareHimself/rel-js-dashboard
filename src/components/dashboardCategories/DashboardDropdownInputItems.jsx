@@ -1,4 +1,5 @@
 import '../../scss/main.scss';
+
 function DashboardDropdownInputItems({ item, isSelected, onItemSelected, onItemUnselected, displayDataFunction, displayDataFunctionPayload }) {
 
     let displayValue = item;
@@ -7,10 +8,18 @@ function DashboardDropdownInputItems({ item, isSelected, onItemSelected, onItemU
         displayValue = displayDataFunction(item, displayDataFunctionPayload);
     }
 
+    function toggleSelectedState() {
+        if (isSelected) {
+            onItemUnselected(item);
+        }
+        else {
+            onItemSelected(item);
+        }
+    }
     return (
-        <option value={item} className='dashboard-setting-dropdown-item' >
-            {displayValue}
-        </option>
+        <div className='dashboard-setting-dropdown-content-item' data-state={isSelected ? "selected" : "unselected"} onClick={toggleSelectedState}>
+            <p>{displayValue}</p>
+        </div>
     );
 }
 
