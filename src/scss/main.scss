@@ -684,57 +684,154 @@ header {
     font-size: 20px;
 }
 
-.dashboard-setting-dropdown {
+.dashboard-setting-dropdown{
     position: relative;
-    height: 32px;
-    color: white;
+    height: 28px;
+}
+
+.dashboard-setting-dropdown-text{
+    display: flex;
     border: solid 2px white;
     border-radius: 20px;
-    font-family: 'Roboto', sans-serif;
-    font-weight: bold;
-    font-size: 15px;
-    text-align: center;
-    background: transparent;
+    height: 28px;
     transition: all .3s ease-in-out;
-    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
 }
 
-.dashboard-setting-dropdown:focus-visible {
-    outline: none;
+.dashboard-setting-dropdown-clickable{
+    position: absolute;
+    height: 28px;
+    width: 100%;
 }
 
-.dashboard-setting-dropdown:hover {
-    border-color: #ff0460;
+
+
+.dashboard-setting-dropdown h3{
+    margin: 0;
+    font-size: 15px;
+    font-weight: bold;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
 }
 
+.dashboard-setting-dropdown svg{
+    position: absolute;
+    margin: 0;
+    font-size: 20px;
+    color: white;
+    top: 50%;
+    left: 90%;
+    transform: translate(-90%, -50%);
+    transition: all .3s ease-in-out; 
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+}
+
+.dashboard-setting-dropdown svg[is-open="true"]{
+    transform: translate(-90%, -50%) rotate(180deg);
+}
+
+.dashboard-setting-dropdown-text:hover {
+    border-color: $ButtonHoverColor;
+}
 
 /* width */
-.dashboard-setting-dropdown::-webkit-scrollbar {
+.dashboard-setting-dropdown-content::-webkit-scrollbar {
   width: 5px;
 }
 
 /* Track */
-.dashboard-setting-dropdown::-webkit-scrollbar-track {
+.dashboard-setting-dropdown-content::-webkit-scrollbar-track {
   background: transparent;
 }
 
 /* Handle */
-.dashboard-setting-dropdown::-webkit-scrollbar-thumb {
+.dashboard-setting-dropdown-content::-webkit-scrollbar-thumb {
   background-color: white;
   border-radius: 10px;
 }
 
-
-.dashboard-setting-dropdown-item {
-    position: relative;
-    display: block;
-    align-content: center;
-    min-height: 30px;
-    background-color: rgb(73, 73, 73);
-    border-radius: 20px;
-    z-index: 5;
-    transition: all .3s ease-in-out;
+.dashboard-setting-dropdown-content{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    width: 100%;
+    min-height: inherit;
+    max-height: 200px;
+    overflow-y: overlay;
+    margin-top: 5px;
+    top: 100%;
+    background-color: #222222;
+    z-index: 3;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: all .3s ease-in-out; 
 }
+
+
+.dashboard-setting-dropdown-content-item{
+    display: flex;
+    position: relative;
+    height: 30px;
+    min-height: 30px;
+    background-color: #494949;
+    border-radius: 20px;
+    transition: all .3s ease-in-out;
+    justify-content: center;
+    align-items: center;
+}
+
+.dashboard-setting-dropdown-content-item[data-state="selected"]{
+    background-color: #34bef5;
+}
+
+.dashboard-setting-dropdown-content-item:hover{
+    background-color: #34bef5;
+}
+
+.dashboard-setting-dropdown-content-item p{
+    display: block;
+    margin: 0;
+    font-size: 15px;
+    color: white;
+    font-weight: 800;
+    text-overflow: ellipsis;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+}
+
+.dashboard-setting-dropdown-content-item svg{
+    position: absolute;
+    display: block;
+    margin: 0;
+    top: 50%;
+    left: 90%;
+    transform: translate(-90%, -50%);
+    color: white;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+}
+
 
 .dashboard-input-row {
     display: flex;
