@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-@import './variables.scss';
 
 #root {
     height: 100%;
     min-height: 100vh;
     overflow: auto;
+    
 }
 
 body {
@@ -14,8 +14,26 @@ body {
         sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: $PrimaryColor;
     height: 100vh;
+    
+    --NavigationColor: #424242;
+    --PrimaryColor: #222222;
+    --SecondaryColor: #161616;
+    --GuildItemsColor: #424242;
+    --PrimaryTextColor: #F7F7F7;
+    --ButtonColor: #F7F7F7;
+    --ButtonHoverColor: #ff0460;
+    background-color: var(--PrimaryColor);
+}
+
+body[data-theme="light"] {
+    --NavigationColor: #424242;
+    --PrimaryColor: #FFFFFF;
+    --SecondaryColor: #161616;
+    --GuildItemsColor: #424242;
+    --PrimaryTextColor:#F7F7F7;
+    --ButtonColor: #F7F7F7;
+    --ButtonHoverColor: #ff0460;
 }
 
 .page {
@@ -33,7 +51,7 @@ h1 {
     font-weight: bold;
     font-size: 50px;
     display: block;
-    color: $PrimaryTextColor;
+    color: var(--PrimaryTextColor);
 }
 
 h2 {
@@ -41,7 +59,7 @@ h2 {
     font-weight: normal;
     font-size: 30px;
     display: block;
-    color: $PrimaryTextColor;
+    color: var(--PrimaryTextColor);
 }
 
 h3 {
@@ -49,7 +67,7 @@ h3 {
     font-weight: lighter;
     font-size: 20px;
     display: block;
-    color: $PrimaryTextColor;
+    color: var(--PrimaryTextColor);
 }
 
 p {
@@ -57,14 +75,14 @@ p {
     font-weight: lighter;
     font-size: 10px;
     display: block;
-    color: $PrimaryTextColor;
+    color: var(--PrimaryTextColor);
 }
 
 li {
     font-family: 'Roboto', sans-serif;
     font-weight: lighter;
     font-size: 10px;
-    color: $PrimaryTextColor;
+    color: var(--PrimaryTextColor);
 }
 
 
@@ -73,7 +91,7 @@ header {
     height: 90px;
     width: 100%;
     position: fixed;
-    background-color: $PrimaryColor;
+    background-color: var(--PrimaryColor);
     display: flex;
     z-index: 10;
     flex-direction: row;
@@ -86,8 +104,8 @@ header {
     font-weight: bold;
     font-size: 20px;
     padding: 5px 15px;
-    border: 2px solid $ButtonColor;
-    color: $ButtonColor;
+    border: 2px solid var(--ButtonColor);
+    color: var(--ButtonColor);
     border-radius: 25px;
     text-decoration: none;
     background: transparent;
@@ -95,8 +113,8 @@ header {
 }
 
 .button:hover {
-    border-color: $ButtonHoverColor;
-    color: $ButtonHoverColor;
+    border-color: var(--ButtonHoverColor);
+    color: var(--ButtonHoverColor);
 }
 
 @keyframes rotate-icon {
@@ -123,12 +141,12 @@ header {
     background-color: #272727;
 }
 
-.navigation-column[pos='left'] {
+.navigation-column[data-pos='left'] {
     justify-content: flex-end;
     padding-right: 10%;
 }
 
-.navigation-column[pos='right'] {
+.navigation-column[data-pos='right'] {
     justify-content: flex-start;
     padding-left: 10%;
 }
@@ -153,16 +171,16 @@ header {
 @keyframes appear {
     from {
         margin-top: -5px;
-        border: 0px solid $SecondaryColor;
-        box-shadow: 0px 0px $SecondaryColor;
+        border: 0px solid var(--SecondaryColor);
+        box-shadow: 0px 0px var(--SecondaryColor);
         //transform : translateX(-45%);
         opacity: 0;
     }
 
     to {
         margin-top: 10px;
-        border: 1px solid $SecondaryColor;
-        box-shadow: 2px 4px $SecondaryColor;
+        border: 1px solid var(--SecondaryColor);
+        box-shadow: 2px 4px var(--SecondaryColor);
         //transform : translateX(-50%);
         opacity: 1;
     }
@@ -209,13 +227,13 @@ header {
     align-items: center;
     justify-content: center;
     border-radius: 20px;
-    border: 1px solid $PrimaryColor;
+    border: 1px solid var(--PrimaryColor);
     transition: .8s ease;
 }
 
 .guild-item:hover {
-    border: 1px solid $SecondaryColor;
-    box-shadow: 2px 4px $SecondaryColor;
+    border: 1px solid var(--SecondaryColor);
+    box-shadow: 2px 4px var(--SecondaryColor);
 }
 
 .guild-item .button {
@@ -245,8 +263,8 @@ header {
     border-radius: 50px;
     left: 50%;
     transform: translate(-50%, 0);
-    background-color: $GuildItemsColor;
-    border: 2px solid $GuildItemsColor;
+    background-color: var(--GuildItemsColor);
+    border: 2px solid var(--GuildItemsColor);
 
 }
 
@@ -273,7 +291,7 @@ header {
     font-weight: bold;
     font-size: 100px;
     display: block;
-    color: $PrimaryTextColor;
+    color: var(--PrimaryTextColor);
 }
 
 
@@ -310,7 +328,7 @@ header {
 .auth-page h1 {
     font-size: 100px;
     display: block;
-    color: $PrimaryTextColor;
+    color: var(--PrimaryTextColor);
 }
 
 .dropdown-button {
@@ -319,17 +337,17 @@ header {
     font-weight: bold;
     font-size: 20px;
     padding: 15px 0;
-    color: $ButtonColor;
+    color: var(--ButtonColor);
     text-decoration: none;
-    border: 0px solid $PrimaryTextColor;
+    border: 0px solid var(--PrimaryTextColor);
     background-color: rgba(255, 255, 255, 0);
     transition: all .3s ease-in-out
 }
 
 
 .dropdown-button:hover {
-    border-color: $ButtonHoverColor;
-    color: $ButtonHoverColor;
+    border-color: var(--ButtonHoverColor);
+    color: var(--ButtonHoverColor);
 }
 
 .search-container {
@@ -340,9 +358,9 @@ header {
     font-weight: bold;
     font-size: 20px;
     padding: 5px 10px;
-    background-color: $PrimaryColor;
-    border: 2px solid $ButtonColor;
-    color: $ButtonColor;
+    background-color: var(--PrimaryColor);
+    border: 2px solid var(--ButtonColor);
+    color: var(--ButtonColor);
     z-index: 3;
     border-radius: 30px;
     align-items: center;
@@ -357,7 +375,7 @@ header {
     background-color: rgba(0, 0, 0, 0);
     border-radius: 25px;
     border: rgba(0, 0, 0, 0);
-    color: $ButtonColor;
+    color: var(--ButtonColor);
 }
 
 .search-container input:focus {
@@ -365,8 +383,8 @@ header {
 }
 
 .search-container:hover {
-    border-color: $ButtonHoverColor;
-    color: $ButtonHoverColor;
+    border-color: var(--ButtonHoverColor);
+    color: var(--ButtonHoverColor);
 }
 
 #invite img {
@@ -380,16 +398,16 @@ header {
 }
 
 .clickable-icons-dark:hover {
-    color: $ButtonHoverColor
+    color: var(--ButtonHoverColor)
 }
 
 .clickable-icons-light {
-    color: $PrimaryColor;
+    color: var(--PrimaryColor);
     transition: all .3s ease-in-out;
 }
 
 .clickable-icons-light:hover {
-    color: $ButtonHoverColor
+    color: var(--ButtonHoverColor)
 }
 
 .home-content-row {
@@ -400,7 +418,7 @@ header {
     margin: 25vh 0;
     width: 90%;
     justify-content: center;
-    background-color: $PrimaryColor;
+    background-color: var(--PrimaryColor);
     border-radius: 20px;
 }
 
@@ -424,8 +442,8 @@ header {
     font-size: 30px;
     padding: 6px 20px;
     margin: 0 10px;
-    border: 2px solid $ButtonColor;
-    color: $ButtonColor;
+    border: 2px solid var(--ButtonColor);
+    color: var(--ButtonColor);
     border-radius: 10px;
     text-decoration: none;
     transition: all .3s ease-in-out;
@@ -441,8 +459,8 @@ header {
 }
 
 .home-content-row-button:hover {
-    border-color: $ButtonHoverColor;
-    color: $ButtonHoverColor;
+    border-color: var(--ButtonHoverColor);
+    color: var(--ButtonHoverColor);
 }
 
 .home-content-row-info h1 {
@@ -497,8 +515,8 @@ header {
     font-size: 20px;
     padding: 5px 15px;
     margin: 0 10px;
-    border: 2px solid $ButtonColor;
-    color: $ButtonColor;
+    border: 2px solid var(--ButtonColor);
+    color: var(--ButtonColor);
     border-radius: 25px;
     text-decoration: none;
     background: transparent;
@@ -506,8 +524,8 @@ header {
 }
 
 .dashboard-content-save button:hover {
-    border-color: $ButtonHoverColor;
-    color: $ButtonHoverColor;
+    border-color: var(--ButtonHoverColor);
+    color: var(--ButtonHoverColor);
 }
 
 .dashboard-sidebar {
@@ -525,14 +543,14 @@ header {
 
 
 .dashboard-menu-button {
-    color: $ButtonColor;
+    color: var(--ButtonColor);
     width: 50px;
     height: 50px;
     transition: all .3s ease-in-out;
 }
 
 .dashboard-menu-button:hover {
-    color: $ButtonHoverColor;
+    color: var(--ButtonHoverColor);
 }
 
 
@@ -552,7 +570,7 @@ header {
     display: flex;
     width: inherit;
     height: 60px;
-    border-left: 2px solid $ButtonHoverColor;
+    border-left: 2px solid var(--ButtonHoverColor);
     background-color: #272727;
     transition: border-color .3s ease-in-out;
     flex-direction: row;
@@ -577,7 +595,7 @@ header {
     font-weight: normal;
     font-size: 20px;
     display: block;
-    color: $PrimaryTextColor;
+    color: var(--PrimaryTextColor);
     transition: color .3s ease-in-out;
 }
 
@@ -586,29 +604,29 @@ header {
     display: flex;
     min-width: 25px;
     min-height: 25px;
-    color: $ButtonColor;
+    color: var(--ButtonColor);
     transition: all .3s ease-in-out;
 }
 
 .dashboard-sidebar-button:hover {
-    border-color: $ButtonHoverColor;
+    border-color: var(--ButtonHoverColor);
 }
 
 
 .dashboard-sidebar-button:hover .dashboard-sidebar-button-items .dashboard-sidebar-icon {
-    color: $ButtonHoverColor;
+    color: var(--ButtonHoverColor);
 }
 
 .dashboard-sidebar-button:hover .dashboard-sidebar-button-items h3 {
-    color: $ButtonHoverColor;
+    color: var(--ButtonHoverColor);
 }
 
 .dashboard-sidebar-button-selected .dashboard-sidebar-button-items .dashboard-sidebar-icon {
-    color: $ButtonHoverColor;
+    color: var(--ButtonHoverColor);
 }
 
 .dashboard-sidebar-button-selected .dashboard-sidebar-button-items h3 {
-    color: $ButtonHoverColor;
+    color: var(--ButtonHoverColor);
 }
 
 .dashboard-setting {
@@ -656,7 +674,7 @@ header {
 }
 
 .dashboard-setting-text:hover {
-    border-color: $ButtonHoverColor;
+    border-color: var(--ButtonHoverColor);
 }
 
 .dashboard-setting-color {
@@ -742,7 +760,7 @@ header {
 }
 
 .dashboard-setting-dropdown-text:hover {
-    border-color: $ButtonHoverColor;
+    border-color: var(--ButtonHoverColor);
 }
 
 /* width */
@@ -837,7 +855,7 @@ header {
     display: flex;
     min-width: 400px;
     height: inherit;
-    background-color: $GuildItemsColor;
+    background-color: var(--GuildItemsColor);
     border-radius: 20px;
 }
 
@@ -886,8 +904,8 @@ header {
     font-size: 20px;
     padding: 6px 20px;
     margin-top: 20px;
-    border: 2px solid $ButtonColor;
-    color: $ButtonColor;
+    border: 2px solid var(--ButtonColor);
+    color: var(--ButtonColor);
     border-radius: 10px;
     text-decoration: none;
     background: transparent;
@@ -895,8 +913,8 @@ header {
 }
 
 .level-card-customization-button:hover {
-    border-color: $ButtonHoverColor;
-    color: $ButtonHoverColor;
+    border-color: var(--ButtonHoverColor);
+    color: var(--ButtonHoverColor);
 }
 
 .level-card-customization-content {
@@ -1234,7 +1252,7 @@ header {
     padding: 20px;
     display: flex;
     flex-direction: column;
-    background-color: $PrimaryColor;
+    background-color: var(--PrimaryColor);
     border-radius: 20px;
     align-items: center;
 }
@@ -1315,8 +1333,8 @@ header {
         font-size: 15px;
         padding: 5px 15px;
         margin: 0 10px;
-        border: 2px solid $ButtonColor;
-        color: $ButtonColor;
+        border: 2px solid var(--ButtonColor);
+        color: var(--ButtonColor);
         border-radius: 25px;
         text-decoration: none;
         background: transparent;
