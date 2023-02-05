@@ -14,7 +14,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { setCustomizingCard, updateUser } from '../redux/slices/mainSlice';
 import { ICardData } from '../types';
-import { Constants, ECardOptsKeys, IUmekoApiResponse, ObjectValues, OptsParser } from '../framework';
+import { FrameworkConstants, ECardOptsKeys, IUmekoApiResponse, ObjectValues, OptsParser } from '../framework';
 const CROP_ASPECT = 3 / 10
 const DEFAULT_CROP_SETTINGS: PixelCrop = {
   unit: 'px',
@@ -27,9 +27,9 @@ const DEFAULT_CROP_SETTINGS: PixelCrop = {
 function extractCardOpts(opts: string) {
   const options = new OptsParser<ObjectValues<typeof ECardOptsKeys>>(opts)
   return ({
-    bg: options.get('bg_url', Constants.DEFAULT_USER_CARD_BG),
-    color: options.get('color', Constants.DEFAULT_USER_CARD_COLOR),
-    opacity: parseFloat(options.get('opacity', Constants.DEFAULT_USER_CARD_OPACITY))
+    bg: options.get('bg_url', FrameworkConstants.DEFAULT_USER_CARD_BG),
+    color: options.get('color', FrameworkConstants.DEFAULT_USER_CARD_COLOR),
+    opacity: parseFloat(options.get('opacity', FrameworkConstants.DEFAULT_USER_CARD_OPACITY))
   })
 }
 

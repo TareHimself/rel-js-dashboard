@@ -118,7 +118,7 @@ export class OptsParser<T extends string = string> {
     }
 }
 
-export class Constants {
+export class FrameworkConstants {
 
     static DATA_UPDATE_INTERVAL = 10;
     static QUEUE_TIMEOUT = 300000;
@@ -144,7 +144,7 @@ export class Constants {
 
     static DEFAULT_USER_SETTINGS: IDatabaseUserSettings = {
         id: "",
-        card: new OptsParser<ObjectValues<typeof ECardOptsKeys>>({ color: Constants.DEFAULT_USER_CARD_COLOR, delete_url: "", bg_url: "", opacity: this.DEFAULT_USER_CARD_OPACITY }).toString(),
+        card: new OptsParser<ObjectValues<typeof ECardOptsKeys>>({ color: FrameworkConstants.DEFAULT_USER_CARD_COLOR, delete_url: "", bg_url: "", opacity: this.DEFAULT_USER_CARD_OPACITY }).toString(),
         opts: "",
         flags: 0
     };

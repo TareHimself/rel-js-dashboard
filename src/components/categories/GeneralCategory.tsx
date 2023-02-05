@@ -5,7 +5,7 @@ import DashboardDropdownInput from './DashboardDropdownInput';
 import { DashboardSettingProps } from '../../types';
 import { SettingsCategory } from './settingsCategoryBase';
 import DashboardColorInput from './DashboardColorInput';
-import { EBotOptsKeys, ObjectKeys, ObjectValues, OptsParser, Constants } from '../../framework';
+import { EBotOptsKeys, ObjectKeys, ObjectValues, OptsParser, FrameworkConstants } from '../../framework';
 
 const languageCodeLookup = {
     en: 'English',
@@ -63,19 +63,19 @@ export default class GeneralCategory extends SettingsCategory<{ bot_opts: string
             <>
                 <DashboardTextInput
                     name={"Nickname"}
-                    value={this.botOptions.get(EBotOptsKeys.BOT_NICKNAME) || Constants.DEFAULT_BOT_NAME}
+                    value={this.botOptions.get(EBotOptsKeys.BOT_NICKNAME) || FrameworkConstants.DEFAULT_BOT_NAME}
                     onChange={this.updateNickname}
                 />
 
                 <DashboardColorInput
                     name={"Color"}
-                    value={this.botOptions.get(EBotOptsKeys.BOT_COLOR) || Constants.DEFAULT_BOT_COLOR}
+                    value={this.botOptions.get(EBotOptsKeys.BOT_COLOR) || FrameworkConstants.DEFAULT_BOT_COLOR}
                     onChange={this.updateColor}
                 />
 
                 <DashboardDropdownInput<LanguageCodeKeys, typeof languageCodeLookup>
                     name={"Language"}
-                    value={[(this.botOptions.get(EBotOptsKeys.BOT_LOCALE) || Constants.DEFAULT_BOT_LOCALE)] as LanguageCodeKeys[]}
+                    value={[(this.botOptions.get(EBotOptsKeys.BOT_LOCALE) || FrameworkConstants.DEFAULT_BOT_LOCALE)] as LanguageCodeKeys[]}
                     options={Object.keys(languageCodeLookup) as LanguageCodeKeys[]}
                     minSelection={1}
                     maxSelection={1}
