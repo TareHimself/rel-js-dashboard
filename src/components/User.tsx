@@ -51,15 +51,13 @@ function User() {
 
     const onLogout = useCallback(() => {
 
-        const data = { sessionId: sessionId }
-
-        axios.post<IUmekoApiResponse<string>>(`${DashboardConstants.SERVER_URL}/${sessionId}/logout`, data)
+        axios.get<IUmekoApiResponse<string>>(`${DashboardConstants.SERVER_URL}/${sessionId}/logout`)
             .then((response) => {
-                console.log(response.data);
+                console.log("Logout response", response.data);
                 dispatch(setSessionId(null))
             }, (error) => {
-                console.log(error);
-                setSessionId('');
+                console.log("Logout Error", error);
+                dispatch(setSessionId(null))
             });
     }, [dispatch, sessionId])
 
@@ -102,7 +100,6 @@ function User() {
                         <button className='dropdown-button' onClick={onClickLevelCard} >Level Card</button>
                         <Link className='dropdown-button' to="/">Home</Link>
                         <Link className='dropdown-button' to="/servers">Servers</Link>
-                        <Link className='dropdown-button' to="/commands">Commands</Link>
                         <Link className='dropdown-button' to="/privacy">Privacy Policy</Link>
                         <Link className='dropdown-button' to="/terms">ToS</Link>
                         <a className='dropdown-button' target='_blank' rel="noreferrer noopener" href="https://discord.gg/qx7eUVwTGY">Support</a>
@@ -125,7 +122,6 @@ function User() {
 
                         <div id='user-menu-dropdown' className='user-dropdown-content'>
                             <Link className='dropdown-button' to="/">Home</Link>
-                            <Link className='dropdown-button' to="/commands">Commands</Link>
                             <Link className='dropdown-button' to="/privacy">Privacy Policy</Link>
                             <Link className='dropdown-button' to="/terms">ToS</Link>
                             <a className='dropdown-button' target='_blank' rel="noreferrer noopener" href="https://discord.gg/qx7eUVwTGY">Support</a>

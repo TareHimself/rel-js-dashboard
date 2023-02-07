@@ -47,13 +47,13 @@ function AuthRedirect() {
       return undefined;
     }
 
-    if (!localStorage.getItem('stateId')) return finishAuthentication('/', 'no storage data found');
+    if (!localStorage.getItem('stateId')) return finishAuthentication('/', 'Possibly invalid authentication');
 
     const hashedStateId = `${hashString(localStorage.getItem('stateId')!)}`;
 
     localStorage.removeItem('stateId');
 
-    if (hashedStateId !== state) return finishAuthentication('/', `storage data hash does not match recieved hash ${hashedStateId} | ${state}`);
+    if (hashedStateId !== state) return finishAuthentication('/', `Storage data hash does not match recieved hash`);
 
     axios.post<IUmekoApiResponse<ILoginData>>(`${DashboardConstants.SERVER_URL}/login`, { token: token })
       .then((response) => {

@@ -31,19 +31,19 @@ export default class GeneralCategory extends SettingsCategory<{ bot_opts: string
     updateNickname(update: string) {
         this.botOptions.set(EBotOptsKeys.BOT_NICKNAME, update);
 
-        this.updateState({ bot_opts: this.botOptions.toString() });
+        this.updateState({ bot_opts: this.botOptions.encode() });
     }
 
     updateColor(update: string) {
         this.botOptions.set(EBotOptsKeys.BOT_COLOR, update);
 
-        this.updateState({ bot_opts: this.botOptions.toString() });
+        this.updateState({ bot_opts: this.botOptions.encode() });
     }
 
     updateLanguage(update: string[]) {
         this.botOptions.set(EBotOptsKeys.BOT_LOCALE, update[0]);
 
-        this.updateState({ bot_opts: this.botOptions.toString() });
+        this.updateState({ bot_opts: this.botOptions.encode() });
     }
 
     hasModifiedSettings(): boolean {

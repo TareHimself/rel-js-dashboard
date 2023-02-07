@@ -21,38 +21,38 @@ export default class JoinLeaveCategory extends SettingsCategory<{ join_opts: str
     updateJoinMsg(msg: string) {
         this.joinOptions.set(EPluginOptsKeys.MESSAGE, msg);
 
-        this.updateState({ join_opts: this.joinOptions.toString() });
+        this.updateState({ join_opts: this.joinOptions.encode() });
     }
 
     updateJoinLocation(option: string[]) {
         this.joinOptions.set(EPluginOptsKeys.LOCATION, option[0]);
 
-        this.updateState({ join_opts: this.joinOptions.toString() });
+        this.updateState({ join_opts: this.joinOptions.encode() });
     }
 
     updateJoinChannel(option: string[]) {
         this.joinOptions.set(EPluginOptsKeys.LOCATION, option[0]);
 
-        this.updateState({ join_opts: this.joinOptions.toString() });
+        this.updateState({ join_opts: this.joinOptions.encode() });
     }
 
 
     updateLeaveMsg(msg: string) {
         this.leaveOptions.set(EPluginOptsKeys.MESSAGE, msg);
 
-        this.updateState({ leave_opts: this.leaveOptions.toString() });
+        this.updateState({ leave_opts: this.leaveOptions.encode() });
     }
 
     updateLeaveLocation(option: string[]) {
         this.leaveOptions.set(EPluginOptsKeys.LOCATION, option[0]);
 
-        this.updateState({ leave_opts: this.leaveOptions.toString() });
+        this.updateState({ leave_opts: this.leaveOptions.encode() });
     }
 
     updateLeaveChannel(option: string[]) {
         this.leaveOptions.set(EPluginOptsKeys.LOCATION, option[0]);
 
-        this.updateState({ leave_opts: this.leaveOptions.toString() });
+        this.updateState({ leave_opts: this.leaveOptions.encode() });
     }
 
 

@@ -116,12 +116,8 @@ export default function LevelCardCustomization() {
           console.log(ServerResponse.data);
         }
         else {
-          const sParams = new URLSearchParams(userData?.card_opts || '')
-          sParams.set('bg', ServerResponse.data)
-          sParams.set('color', cardSettings.current.color)
-          sParams.set('opacity', `${cardSettings.current.opacity}`)
-          cardSettings.current = extractCardOpts(sParams.toString())
-          dispatch(updateUser({ card_opts: sParams.toString() }))
+          cardSettings.current = extractCardOpts(ServerResponse.data)
+          dispatch(updateUser({ card_opts: ServerResponse.data }))
         }
         setBackgroundTemp(null);
         dispatch(setCustomizingCard(false))
@@ -135,7 +131,7 @@ export default function LevelCardCustomization() {
 
       setIsUploadingResult(true);
 
-      axios.post<IUmekoApiResponse<null>>(`${DashboardConstants.SERVER_URL}/${sessionId}/card`, payload, { headers: headers }).then((response) => {
+      axios.post<IUmekoApiResponse<string>>(`${DashboardConstants.SERVER_URL}/${sessionId}/card`, payload, { headers: headers }).then((response) => {
 
         const ServerResponse = response.data
         setIsUploadingResult(false);
@@ -144,19 +140,15 @@ export default function LevelCardCustomization() {
           console.log(ServerResponse.data);
         }
         else {
-          const sParams = new URLSearchParams(userData?.card_opts || '')
-          sParams.set('color', cardSettings.current.color)
-          sParams.set('opacity', `${cardSettings.current.opacity}`)
-          console.log('opacity', cardSettings.current.opacity)
-          cardSettings.current = extractCardOpts(sParams.toString())
-          dispatch(updateUser({ card_opts: sParams.toString() }))
+          cardSettings.current = extractCardOpts(ServerResponse.data)
+          dispatch(updateUser({ card_opts: ServerResponse.data }))
         }
         setBackgroundTemp(null);
         dispatch(setCustomizingCard(false))
       });
     }
 
-  }, [sessionId, backgroundTemp, dispatch, userData?.card_opts])
+  }, [sessionId, backgroundTemp, dispatch])
 
   async function onDoneCropping() {
     const imageTemp = getCroppedSecion(document.getElementById("crop-image")! as HTMLImageElement, cropSettings, 'user-background');

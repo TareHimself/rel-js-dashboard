@@ -18,31 +18,31 @@ export default class TwitchCategory extends SettingsCategory<{ twitch_opts: stri
     updateTwitchMsg(msg: string) {
         this.twitchOptions.set(EPluginOptsKeys.MESSAGE, msg);
 
-        this.updateState({ twitch_opts: this.twitchOptions.toString() });
+        this.updateState({ twitch_opts: this.twitchOptions.encode() });
     }
 
     updateTwitchLocation(option: string[]) {
         this.twitchOptions.set(EPluginOptsKeys.LOCATION, option[0]);
 
-        this.updateState({ twitch_opts: this.twitchOptions.toString() });
+        this.updateState({ twitch_opts: this.twitchOptions.encode() });
     }
 
     updateTwitchChannel(option: string[]) {
         this.twitchOptions.set(EPluginOptsKeys.LOCATION, option[0]);
 
-        this.updateState({ twitch_opts: this.twitchOptions.toString() });
+        this.updateState({ twitch_opts: this.twitchOptions.encode() });
     }
 
     updateTwitchRolesGiven(option: string[]) {
         this.twitchOptions.set(EPluginOptsKeys.GIVE_ROLE, option.join(','));
 
-        this.updateState({ twitch_opts: this.twitchOptions.toString() });
+        this.updateState({ twitch_opts: this.twitchOptions.encode() });
     }
 
     updateTwitchRoleFilter(option: string[]) {
         this.twitchOptions.set(EPluginOptsKeys.FILTER_ROLE, option.join(','));
 
-        this.updateState({ twitch_opts: this.twitchOptions.toString() });
+        this.updateState({ twitch_opts: this.twitchOptions.encode() });
     }
 
     hasModifiedSettings(): boolean {

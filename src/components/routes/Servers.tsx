@@ -8,7 +8,7 @@ import { BiSearchAlt } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import { IGuildPartial } from '../../types';
 import { useAppSelector } from '../../redux/hooks';
-import Constants from '../../constants';
+import { DashboardConstants } from '../../utils';
 
 function Servers() {
 
@@ -90,7 +90,7 @@ function Servers() {
 
     const headers = { sessionId: sessionId }
 
-    axios.get(`${Constants.SERVER_URL}/guilds`, { headers: headers })
+    axios.get(`${DashboardConstants.SERVER_URL}/guilds`, { headers: headers })
       .then((response) => {
 
         const data = response.data;

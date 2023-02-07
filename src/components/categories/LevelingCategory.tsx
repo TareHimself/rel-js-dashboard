@@ -18,31 +18,31 @@ export default class LevelingCategory extends SettingsCategory<{ level_opts: str
     updateLevelingMsg(msg: string) {
         this.levelingOptions.set(EPluginOptsKeys.MESSAGE, msg);
 
-        this.updateState({ level_opts: this.levelingOptions.toString() });
+        this.updateState({ level_opts: this.levelingOptions.encode() });
     }
 
     updateLevelingLocation(option: string[]) {
         this.levelingOptions.set(EPluginOptsKeys.LOCATION, option[0]);
 
-        this.updateState({ level_opts: this.levelingOptions.toString() });
+        this.updateState({ level_opts: this.levelingOptions.encode() });
     }
 
     updateTwitchChannel(option: string[]) {
         this.levelingOptions.set(EPluginOptsKeys.LOCATION, option[0]);
 
-        this.updateState({ level_opts: this.levelingOptions.toString() });
+        this.updateState({ level_opts: this.levelingOptions.encode() });
     }
 
     updateTwitchRolesGiven(option: string[]) {
         this.levelingOptions.set(EPluginOptsKeys.GIVE_ROLE, option.join(','));
 
-        this.updateState({ level_opts: this.levelingOptions.toString() });
+        this.updateState({ level_opts: this.levelingOptions.encode() });
     }
 
     updateTwitchRoleFilter(option: string[]) {
         this.levelingOptions.set(EPluginOptsKeys.FILTER_ROLE, option.join(','));
 
-        this.updateState({ level_opts: this.levelingOptions.toString() });
+        this.updateState({ level_opts: this.levelingOptions.encode() });
     }
 
     hasModifiedSettings(): boolean {
