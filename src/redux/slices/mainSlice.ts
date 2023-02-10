@@ -12,7 +12,7 @@ export interface IMainData {
 
 const initialState: IMainData = {
     theme: "dark",
-    sessionID: null,
+    sessionID: localStorage.getItem(SESSION_ID_STORAGE_KEY),
     isCustomizingCard: false,
     user: null,
 }

@@ -9,8 +9,8 @@ import { EBotOptsKeys, ObjectKeys, ObjectValues, OptsParser, FrameworkConstants 
 
 const languageCodeLookup = {
     en: 'English',
-    es: 'Spanish',
-    fr: 'French'
+    //es: 'Spanish',
+    //fr: 'French'
 } as const;
 
 export type LanguageCodeKeys = ObjectKeys<typeof languageCodeLookup>
@@ -25,55 +25,58 @@ export default class GeneralCategory extends SettingsCategory<{ bot_opts: string
     constructor(props: DashboardSettingProps<{ bot_opts: string; }>) {
         super(props, { bot_opts: props.settings.bot_opts }, false, false);
 
-        this.botOptions = new OptsParser(this.state.bot_opts);
+        this.botOptions = new OptsParser(this.settings.bot_opts);
+    }
+
+    onReset(initial: { bot_opts: string; }): void {
+        this.botOptions = new OptsParser(initial.bot_opts)
+    }
+
+    onSave(): void {
+        this.updateSettings({ bot_opts: this.botOptions.encode() })
     }
 
     updateNickname(update: string) {
         this.botOptions.set(EBotOptsKeys.BOT_NICKNAME, update);
-
-        this.updateState({ bot_opts: this.botOptions.encode() });
+        this.check()
     }
 
     updateColor(update: string) {
         this.botOptions.set(EBotOptsKeys.BOT_COLOR, update);
-
-        this.updateState({ bot_opts: this.botOptions.encode() });
+        this.check()
     }
 
     updateLanguage(update: string[]) {
         this.botOptions.set(EBotOptsKeys.BOT_LOCALE, update[0]);
-
-        this.updateState({ bot_opts: this.botOptions.encode() });
+        this.check()
     }
 
     hasModifiedSettings(): boolean {
-        if (this.initialSettings.bot_opts !== this.state.bot_opts) return false;
-
-        return true;
-    }
-
-    stateComparison(nextState: Readonly<typeof this.state>): boolean {
-        if (nextState.bot_opts !== this.state.bot_opts) return true;
+        if (this.settings.bot_opts !== this.botOptions.encode()) return true;
 
         return false;
     }
+
 
     get() {
         return (
             <>
                 <DashboardTextInput
+                    key={this.getKey('nick')}
                     name={"Nickname"}
                     value={this.botOptions.get(EBotOptsKeys.BOT_NICKNAME) || FrameworkConstants.DEFAULT_BOT_NAME}
-                    onChange={this.updateNickname}
+                    onChange={this.updateNickname.bind(this)}
                 />
 
                 <DashboardColorInput
+                    key={this.getKey('col')}
                     name={"Color"}
                     value={this.botOptions.get(EBotOptsKeys.BOT_COLOR) || FrameworkConstants.DEFAULT_BOT_COLOR}
-                    onChange={this.updateColor}
+                    onChange={this.updateColor.bind(this)}
                 />
 
                 <DashboardDropdownInput<LanguageCodeKeys, typeof languageCodeLookup>
+                    key={this.getKey('lan')}
                     name={"Language"}
                     value={[(this.botOptions.get(EBotOptsKeys.BOT_LOCALE) || FrameworkConstants.DEFAULT_BOT_LOCALE)] as LanguageCodeKeys[]}
                     options={Object.keys(languageCodeLookup) as LanguageCodeKeys[]}
@@ -81,7 +84,7 @@ export default class GeneralCategory extends SettingsCategory<{ bot_opts: string
                     maxSelection={1}
                     displayFn={languageCodeToUI}
                     displayFnPayload={languageCodeLookup}
-                    onChange={this.updateLanguage} />
+                    onChange={this.updateLanguage.bind(this)} />
             </>
         )
     }

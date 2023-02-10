@@ -1,7 +1,7 @@
 
 import '../../scss/main.scss';
 import useQuery from '../../hooks/useQuery';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { GoGraph } from 'react-icons/go';
 import { IoSettingsOutline, IoChevronBack, IoLogoTwitch } from 'react-icons/io5';
 import { SiMonkeytie } from 'react-icons/si';
@@ -12,7 +12,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { IGuildFetchResponse, IGuildMeta } from '../../types';
 import React from 'react';
-import { useAppSelector } from '../../redux/hooks';
 import BugsCategory from '../categories/BugsCategory';
 import GeneralCategory from '../categories/GeneralCategory';
 import JoinLeaveCategory from '../categories/JoinLeaveCategory';
@@ -21,6 +20,7 @@ import PermissionsCategory from '../categories/PermissionsCategory';
 import TwitchCategory from '../categories/TwitchCategory';
 import { IDatabaseGuildSettings, IUmekoApiResponse } from '../../framework';
 import { DashboardConstants } from '../../utils';
+import useSessionId from '../../hooks/useSessionId';
 
 function Dashboard() {
 
@@ -30,22 +30,22 @@ function Dashboard() {
 
     const { width } = useWindowDimensions();
 
-    const [sessionId] = useAppSelector(s => [s.main.sessionID!])
+    const { sessionId } = useSessionId()
 
     const metadata = useRef<IGuildMeta | null>(null);
 
     const [guildSettings, setGuildSettings] = useState<IDatabaseGuildSettings | null>(null);
 
-    function closeDashboardSidebar() {
+    const closeDashboardSidebar = useCallback(() => {
         const dashboardSidebar = document.getElementById('dashboard-sidebar');
         if (dashboardSidebar && dashboardSidebar.getAttribute('is-open') === 'true') {
             dashboardSidebar.style.width = '';
             dashboardSidebar.style.minWidth = '';
             dashboardSidebar.setAttribute('is-open', 'false');
         }
-    }
+    }, [])
 
-    function onSelectCategory(category: string) {
+    const onSelectCategory = useCallback((category: string) => {
 
         const currentUrlParams = query;
 
@@ -54,22 +54,25 @@ function Dashboard() {
         closeDashboardSidebar();
 
         navigate(window.location.pathname + "?" + currentUrlParams.toString(), { replace: true });
-    }
+    }, [closeDashboardSidebar, navigate, query])
 
-    function updateGuildSettings(newSettings: Partial<IDatabaseGuildSettings>) {
+    const updateGuildSettings = useCallback((newSettings: Partial<IDatabaseGuildSettings>) => {
         if (guildSettings) {
-            setGuildSettings({ ...guildSettings, ...newSettings });
+            const finalSettings = { ...guildSettings, ...newSettings }
+            setGuildSettings(finalSettings);
 
             const guildId = query.get('g');
 
             if (!guildId) return;
 
-            const headers = { sessionId: sessionId };
 
-            axios.post(`${DashboardConstants.SERVER_URL}/settings`, newSettings, { headers: headers }).then((response) => {
-            }).catch(console.log);
+            axios.post<IUmekoApiResponse<string>>(`${DashboardConstants.SERVER_URL}/${sessionId}/guilds`, finalSettings).then((response) => {
+                if (response.data.error) {
+                    console.error(response.data.data)
+                }
+            }).catch(console.error);
         }
-    }
+    }, [guildSettings, query, sessionId])
 
 
     useEffect(() => {
@@ -102,34 +105,48 @@ function Dashboard() {
 
         const headers = { sessionId: sessionId }
 
-        axios.get<IUmekoApiResponse<IGuildFetchResponse>>(`${DashboardConstants.SERVER_URL}/settings/${guildId}`, { headers: headers })
+        axios.get<IUmekoApiResponse<IGuildFetchResponse>>(`${DashboardConstants.SERVER_URL}/${sessionId}/guilds/${guildId}`, { headers: headers })
             .then((response) => {
 
                 const ApiResponse = response.data;
+
                 if (!ApiResponse.error) {
                     setGuildSettings(ApiResponse.data.settings);
                     metadata.current = { channels: ApiResponse.data.channels, roles: ApiResponse.data.roles }
                 }
             }, (error) => {
-                console.log(error);
+                console.error(error);
             });
 
     }, [guildSettings, query, sessionId]);
 
-    function getDashboardContentElement(category: string) {
-        if (!guildSettings || !metadata.current) {
+
+    useEffect(() => {
+        if (!sessionId) {
+            navigate({
+                pathname: "/",
+                search: "",
+            }, {
+                replace: true
+            });
+        }
+    }, [sessionId, navigate])
+
+    const getDashboardContentElement = useCallback((category: string, settings: IDatabaseGuildSettings) => {
+        if (!settings || !metadata.current) {
             return null;
         }
 
         const style = {
             paddingLeft: width <= 1200 ? "0px" : "250px"
         }
+
         switch (category) {
             case 'general':
                 return <GeneralCategory
                     style={style}
-                    guildId={guildSettings.id}
-                    settings={{ bot_opts: guildSettings.bot_opts }}
+                    guildId={settings.id}
+                    settings={{ bot_opts: settings.bot_opts }}
                     meta={metadata.current}
                     onChange={updateGuildSettings}
                 />;
@@ -137,8 +154,8 @@ function Dashboard() {
             case 'join-leave':
                 return <JoinLeaveCategory
                     style={style}
-                    guildId={guildSettings.id}
-                    settings={{ join_opts: guildSettings.join_opts, leave_opts: guildSettings.leave_opts }}
+                    guildId={settings.id}
+                    settings={{ join_opts: settings.join_opts, leave_opts: settings.leave_opts }}
                     meta={metadata.current}
                     onChange={updateGuildSettings}
                 />;
@@ -146,8 +163,8 @@ function Dashboard() {
             case 'leveling':
                 return <LevelingCategory
                     style={style}
-                    guildId={guildSettings.id}
-                    settings={{ level_opts: guildSettings.level_opts }}
+                    guildId={settings.id}
+                    settings={{ level_opts: settings.level_opts }}
                     meta={metadata.current}
                     onChange={updateGuildSettings}
                 />;
@@ -155,8 +172,8 @@ function Dashboard() {
             case 'twitch':
                 return <TwitchCategory
                     style={style}
-                    guildId={guildSettings.id}
-                    settings={{ twitch_opts: guildSettings.twitch_opts }}
+                    guildId={settings.id}
+                    settings={{ twitch_opts: settings.twitch_opts }}
                     meta={metadata.current}
                     onChange={updateGuildSettings}
                 />;
@@ -164,7 +181,7 @@ function Dashboard() {
             case 'permissions':
                 return <PermissionsCategory
                     style={style}
-                    guildId={guildSettings.id}
+                    guildId={settings.id}
                     settings={{}}
                     meta={metadata.current}
                     onChange={updateGuildSettings}
@@ -173,7 +190,7 @@ function Dashboard() {
             case 'bugs':
                 return <BugsCategory
                     style={style}
-                    guildId={guildSettings.id}
+                    guildId={settings.id}
                     settings={{}}
                     meta={metadata.current}
                     onChange={updateGuildSettings}
@@ -184,7 +201,7 @@ function Dashboard() {
         }
 
         return null;
-    }
+    }, [updateGuildSettings, width])
 
     return (
         <section className='standard-page' id='Dashboard'>
@@ -236,7 +253,7 @@ function Dashboard() {
 
             </div>
 
-            {guildSettings && getDashboardContentElement(query.get('c') || 'general')}
+            {guildSettings && getDashboardContentElement(query.get('c') || 'general', guildSettings)}
 
 
         </section>

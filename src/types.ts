@@ -14,9 +14,11 @@ export interface IUserServerData {
 
 export interface IGuildPartial {
     id: string;
-    icon: string;
     name: string;
-    hasBot: boolean;
+    icon: string;
+    owner: boolean;
+    permissions: number;
+    features: string[];
 }
 
 export interface IDashboardInputProps<I, C> {

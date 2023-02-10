@@ -25,6 +25,7 @@ import {
     Support,
     TermsOfService
 } from './components/routes/exports'
+import useSessionId from './hooks/useSessionId';
 
 
 /*
@@ -39,14 +40,11 @@ import {
 <Route path="*" element={<NotFound />} />
 
 */
-
 const App = () => {
 
     const location = useLocation();
-    const actualLocation = location.pathname.substring(1).trim();
-    const currentLocation = actualLocation !== '' ? actualLocation.charAt(0).toUpperCase() + actualLocation.slice(1) : '';
 
-    const [theme, isCustomizingCard] = useAppSelector(s => [s.main.theme, s.main.isCustomizingCard])
+    const [isCustomizingCard] = useAppSelector(s => [s.main.isCustomizingCard])
 
     // const setSessionId = useCallback((id) => {
     //     if (!id) {
@@ -75,10 +73,13 @@ const App = () => {
     //     }
     // })
 
+    useSessionId()
 
     useEffect(() => {
-        //document.getElementById('#root')!.setAttribute('data-theme', theme);
-    }, [theme])
+        const actualLocation = location.pathname.substring(1).trim();
+        const currentLocation = (actualLocation !== '' ? actualLocation.charAt(0).toUpperCase() + actualLocation.slice(1) : '') || "Home";
+        document.title = `${currentLocation} | Umeko`
+    }, [location])
 
     return (
         <>

@@ -1,9 +1,9 @@
-import axios from 'axios';
-import { useCallback, useEffect } from 'react';
+// import axios from 'axios';
+import { useCallback } from 'react';
 import { setSessionId } from '../redux/slices/mainSlice'
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { DashboardConstants, utcInSeconds } from '../utils';
-import { IUmekoApiResponse } from '../framework';
+// import { DashboardConstants, utcInSeconds } from '../utils';
+// import { IUmekoApiResponse } from '../framework';
 
 export default function useSessionId() {
 
@@ -13,38 +13,36 @@ export default function useSessionId() {
 
     const updateSessionID = useCallback((newId: string | null) => {
         dispatch(setSessionId(newId))
-
     }, [dispatch])
 
-    // poll the server to ensure this session is still valid
-    useEffect(() => {
+    // // poll the server to ensure this session is still valid
+    // useEffect(() => {
+    //     // const interval = setInterval(() => {
 
-        if (!sessionId) {
-            return undefined
-        }
+    //     //     const headers = { sessionId }
 
-        const interval = setInterval(() => {
+    //     //     axios.get<IUmekoApiResponse<number>>(`${DashboardConstants.SERVER_URL}//`, { headers: headers })
+    //     //         .then((response) => {
+    //     //             const ServerResponse = response.data;
+    //     //             if (ServerResponse.error || (ServerResponse.data < utcInSeconds())) {
+    //     //                 if (ServerResponse.error) console.log(ServerResponse.data)
+    //     //                 updateSessionID(null);
+    //     //             }
+    //     //             else {
 
-            const headers = { sessionId }
+    //     //             }
+    //     //         }, (error) => {
+    //     //             updateSessionID(null);
+    //     //         });
+    //     // }, 10000);
 
-            axios.get<IUmekoApiResponse<number>>(`${DashboardConstants.SERVER_URL}/session-lifetime`, { headers: headers })
-                .then((response) => {
-                    const ServerResponse = response.data;
-                    if (ServerResponse.error || (ServerResponse.data < utcInSeconds())) {
-                        if (ServerResponse.error) console.log(ServerResponse.data)
-                        updateSessionID(null);
-                    }
-                    else {
+    //     // return () => clearInterval(interval);
 
-                    }
-                }, (error) => {
-                    updateSessionID(null);
-                });
-        }, 10000);
+    //     const existingSession = localStorage.getItem(SESSION_STORAGE_KEY)
+    //     if (existingSession && !sessionId) {
+    //         dispatch(setSessionId(existingSession))
+    //     }
+    // }, [sessionId, updateSessionID, dispatch]);
 
-        return () => clearInterval(interval);
-
-    }, [sessionId, updateSessionID]);
-
-    return { sessionID: sessionId, updateSessionID };
+    return { sessionId, updateSessionID };
 }

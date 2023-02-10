@@ -17,7 +17,6 @@ export class RoutesLookup {
 
     if (!location) return RoutesLookup.Home;
 
-    console.log(location)
     if (!RoutesLookup[location]) return RoutesLookup.None;
 
     return RoutesLookup[location];

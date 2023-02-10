@@ -3,18 +3,23 @@ import React from "react";
 import { DashboardSettingProps, IdentifierPair, IGenericLookup } from "../../types";
 import { EOptsKeyLocation, IDatabaseGuildSettings } from "../../framework";
 
+export type SettingCategoryState<T> = { settings: T }
 
-export abstract class SettingsCategory<T extends Partial<IDatabaseGuildSettings> = {}> extends React.PureComponent<DashboardSettingProps<T>, T> {
+const SAVE_BAR_ID = "dashboard-save-bar"
+export abstract class SettingsCategory<T extends Partial<IDatabaseGuildSettings> = {}> extends React.Component<DashboardSettingProps<T>, { rebuilds: number, updates: number }> {
 
-    initialSettings: T;
+    settings: T;
     channelLookup: IGenericLookup = {};
     channelIds: string[] = [];
     roleLookup: IGenericLookup = {};
     roleIds: string[] = [];
-    constructor(props: DashboardSettingProps<T>, initialSettings: T, computeChannelLookup: boolean = true, computeRoleLookup: boolean = true) {
+    constructor(props: DashboardSettingProps<T>, settings: T, computeChannelLookup: boolean = true, computeRoleLookup: boolean = true) {
         super(props);
-        this.initialSettings = initialSettings;
-        this.state = initialSettings
+        this.settings = settings;
+        this.state = {
+            rebuilds: 0,
+            updates: 0
+        }
         if (computeChannelLookup) {
             this.channelLookup = this.toLookup(props.meta.channels);
             this.channelIds = this.props.meta.channels.reduce((a, b) => {
@@ -30,11 +35,20 @@ export abstract class SettingsCategory<T extends Partial<IDatabaseGuildSettings>
                 return a;
             }, [] as string[])
         }
-
     }
 
-    updateState(update: Partial<typeof this.state>) {
-        this.setState({ ...this.state, ...update });
+    check() {
+        const element = document.getElementById(SAVE_BAR_ID)!
+        if (this.hasModifiedSettings()) {
+            element.setAttribute('data-modified', 'true')
+        }
+        else {
+            element.setAttribute('data-modified', 'false')
+        }
+    }
+
+    updateSettings(update: Partial<T>) {
+        this.settings = { ...this.settings, ...update }
     }
 
     getLookup(id: string, lookup: IGenericLookup) {
@@ -51,10 +65,6 @@ export abstract class SettingsCategory<T extends Partial<IDatabaseGuildSettings>
     }
 
     hasModifiedSettings() {
-        return false;
-    }
-
-    stateComparison(nextState: Readonly<typeof this.state>) {
         return false;
     }
 
@@ -77,12 +87,37 @@ export abstract class SettingsCategory<T extends Partial<IDatabaseGuildSettings>
         return "Specific Channel";
     }
 
-    onReset() {
-        this.updateState(this.initialSettings);
+    getKey(id: string) {
+        return `${id}${this.state.rebuilds}`
+    }
+
+    rebuild() {
+        this.setState({ rebuilds: this.state.rebuilds + 1 })
+    }
+
+    update() {
+        this.setState({ updates: this.state.updates + 1 })
+    }
+
+    reset() {
+        this.onReset(this.settings)
+        this.updateSettings(this.settings);
+        this.check()
+    }
+
+    save() {
+        this.onSave()
+        this.props.onChange(this.settings);
+        this.check()
+        this.rebuild()
+    }
+
+    onReset(initial: T) {
+
     }
 
     onSave() {
-        this.props.onChange(this.state);
+
     }
 
     get(): JSX.Element | null {
@@ -93,15 +128,11 @@ export abstract class SettingsCategory<T extends Partial<IDatabaseGuildSettings>
         return (
             <div className="dashboard-content" style={this.props.style}>
                 {this.get()}
-                <div className='dashboard-content-save' >
-                    <button onClick={this.onReset}> Reset </button>
-                    <button onClick={this.onSave} > Save </button>
+                <div id={SAVE_BAR_ID} className='dashboard-content-save' data-modified={"false"} >
+                    <button onClick={() => this.reset()}> Reset </button>
+                    <button onClick={() => this.save()} > Save </button>
                 </div>
             </div>
         );
-    }
-
-    shouldComponentUpdate(nextProps: Readonly<DashboardSettingProps<T>>, nextState: Readonly<T>, nextContext: any): boolean {
-        return this.hasModifiedSettings() || this.props.guildId !== nextProps.guildId || this.stateComparison(nextState);
     }
 }

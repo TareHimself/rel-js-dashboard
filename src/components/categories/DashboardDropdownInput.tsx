@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useId, useState } from 'react';
 import '../../scss/main.scss';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import DashboardDropdownInputItems from './DashboardDropdownInputItems';
@@ -19,7 +19,9 @@ function DashboardDropdownInput<T, C>({ name, value, options, minSelection, maxS
 
     if (!options) throw new Error('No options passed into dropdown');
 
-    const dropdownId = `${name}-dropdown-input`;
+    const dropdownId = useId();
+
+    const [selectedItems, setSelectedItems] = useState(value);
 
     const [showDropdown, setShowDropdown] = useState(false);
 
@@ -28,30 +30,33 @@ function DashboardDropdownInput<T, C>({ name, value, options, minSelection, maxS
     }, [showDropdown])
 
     const onItemSelected = useCallback((item: T) => {
+        selectedItems.push(item);
 
-        value.push(item);
+        if (selectedItems.length > (maxSelection || Infinity)) selectedItems.shift();
+        const newSelected = [...selectedItems];
 
-        if (value.length > (maxSelection || Infinity)) value.shift();
-
-        onChange([...value]);
-    }, [maxSelection, onChange, value])
+        setSelectedItems(newSelected);
+        onChange(newSelected);
+    }, [maxSelection, onChange, selectedItems, setSelectedItems])
 
     const onItemUnselected = useCallback((item: T) => {
-        const index = value.indexOf(item);
+        const index = selectedItems.indexOf(item);
 
         if (index !== -1) {
-            if (value.length - 1 < (minSelection || 0)) return;
-            value.splice(index, 1);
+            if (selectedItems.length - 1 < (minSelection || 0)) return;
+            selectedItems.splice(index, 1);
         }
+        const newSelected = [...selectedItems];
 
-        onChange([...value]);
-    }, [minSelection, onChange, value])
+        setSelectedItems(newSelected);
+        onChange(newSelected);;
+    }, [minSelection, onChange, selectedItems, setSelectedItems])
 
     const elements = options.map((option, index) => {
         return <DashboardDropdownInputItems<T, C>
             key={index}
             item={option}
-            selected={value.includes(option)}
+            selected={selectedItems.includes(option)}
             onSelected={onItemSelected}
             onUnselected={onItemUnselected}
             displayFn={displayFn}
@@ -60,32 +65,28 @@ function DashboardDropdownInput<T, C>({ name, value, options, minSelection, maxS
     });
 
     useEffect(() => {
-        const icon = document.getElementById(dropdownId + '-icon');
-        if (icon) {
-            icon.setAttribute('is-open', showDropdown ? 'true' : 'false');
-        }
-    }, [showDropdown, dropdownId])
-
-    useEffect(() => {
 
         const decideCloseDropdown = (clickEvent: MouseEvent) => {
 
-            const dropdown = document.getElementById(dropdownId);
+            const content = document.getElementById(`content-${dropdownId}`);
+            const dropdown = document.getElementById(`dropdown-${dropdownId}`);
 
-            if (!dropdown) return;
+            if (!showDropdown || !content || !dropdown) return;
 
-            const bounds = dropdown.getBoundingClientRect();
+            const boundsContent = content.getBoundingClientRect();
+            const boundsDropdown = dropdown.getBoundingClientRect();
+            const bounds = {
+                bottom: boundsDropdown.bottom,
+                left: boundsContent.left,
+                right: boundsDropdown.right,
+                top: boundsContent.top,
+            }
 
             if ((clickEvent.pageX > bounds.left && clickEvent.pageX < bounds.right) && (clickEvent.pageY > bounds.top && clickEvent.pageY < bounds.bottom)) return;
 
             window.removeEventListener('click', decideCloseDropdown);
 
             setShowDropdown(false);
-
-            const icon = document.getElementById(dropdownId + '-icon');
-            if (icon) {
-                icon.setAttribute('is-open', 'false');
-            }
         }
 
         if (showDropdown) {
@@ -95,17 +96,22 @@ function DashboardDropdownInput<T, C>({ name, value, options, minSelection, maxS
         return () => { if (showDropdown) window.removeEventListener('click', decideCloseDropdown) };
     }, [showDropdown, dropdownId])
 
-    const currentValue = (value.length > 1) ? `${value.length} Selected` : displayFn(value[0], displayFnPayload);
+    const currentValue = (selectedItems.length > 1) ? `${selectedItems.length} Selected` : displayFn(selectedItems[0], displayFnPayload);
+
+    useEffect(() => {
+        setSelectedItems(value)
+    }, [value])
+
     return (
         <div className='dashboard-setting'>
 
             <h2>{name}</h2>
-            <div className='dashboard-setting-dropdown'>
+            <div className='dashboard-setting-dropdown' id={`content-${dropdownId}`}>
 
                 <div className='dashboard-setting-dropdown-text' onClick={toggleDropdown} >
-                    <h3>{currentValue}</h3> <IoMdArrowDropdown id={dropdownId + '-icon'} />
+                    <h3>{currentValue}</h3> <IoMdArrowDropdown id={dropdownId + '-icon'} data-open={`${showDropdown}`} />
                 </div>
-                {showDropdown && <div className='dashboard-setting-dropdown-content' id={dropdownId}>
+                {showDropdown && <div className='dashboard-setting-dropdown-content' id={`dropdown-${dropdownId}`}>
                     {elements}
                 </div>}
             </div>

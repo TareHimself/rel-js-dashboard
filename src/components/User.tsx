@@ -10,8 +10,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { DashboardConstants, hashString } from '../utils';
 import axios from 'axios';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { setCustomizingCard, setSessionId } from '../redux/slices/mainSlice';
+import { setCustomizingCard, setUserData } from '../redux/slices/mainSlice';
 import { IUmekoApiResponse } from '../framework';
+import useSessionId from '../hooks/useSessionId';
+import { ILoginData } from '../types';
 
 const iconStyle = {
     margin: "0 10px",
@@ -22,7 +24,9 @@ const iconStyle = {
 
 function User() {
 
-    const [theme, sessionId, userData] = useAppSelector(s => [s.main.theme, s.main.sessionID, s.main.user])
+    const { sessionId, updateSessionID } = useSessionId()
+
+    const [theme, userData] = useAppSelector(s => [s.main.theme, s.main.user])
 
     const dispatch = useAppDispatch()
 
@@ -53,13 +57,12 @@ function User() {
 
         axios.get<IUmekoApiResponse<string>>(`${DashboardConstants.SERVER_URL}/${sessionId}/logout`)
             .then((response) => {
-                console.log("Logout response", response.data);
-                dispatch(setSessionId(null))
+                updateSessionID(null)
             }, (error) => {
-                console.log("Logout Error", error);
-                dispatch(setSessionId(null))
+                console.error(error);
+                updateSessionID(null)
             });
-    }, [dispatch, sessionId])
+    }, [sessionId, updateSessionID])
 
     const onClickLevelCard = useCallback(() => {
         dispatch(setCustomizingCard(true))
@@ -89,6 +92,30 @@ function User() {
         return () => window.removeEventListener('click', decideCloseMenu);
 
     }, [showMenu, setShowMenu]);
+
+
+    useEffect(() => {
+        if (sessionId && !userData) {
+            axios.get<IUmekoApiResponse<ILoginData>>(`${DashboardConstants.SERVER_URL}/${sessionId}`)
+                .then((response) => {
+                    if (response.data.error) {
+                        updateSessionID(null)
+                        console.error(response.data.data);
+                    }
+                    else {
+                        dispatch(setUserData({
+                            id: response.data.data.user,
+                            username: response.data.data.nickname,
+                            avatar: response.data.data.avatar,
+                            card_opts: response.data.data.card_opts
+                        }))
+                    }
+                }, (error) => {
+                    console.error(error)
+                    updateSessionID(null)
+                });
+        }
+    }, [sessionId, dispatch, updateSessionID, userData])
 
     if (sessionId && userData) {
         return (

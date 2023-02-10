@@ -13,129 +13,148 @@ export default class JoinLeaveCategory extends SettingsCategory<{ join_opts: str
     constructor(props: DashboardSettingProps<{ join_opts: string, leave_opts: string }>) {
         super(props, { join_opts: props.settings.join_opts, leave_opts: props.settings.leave_opts });
 
-        this.joinOptions = new OptsParser(this.state.join_opts);
+        this.joinOptions = new OptsParser(this.settings.join_opts);
 
-        this.leaveOptions = new OptsParser(this.state.leave_opts);
+        this.leaveOptions = new OptsParser(this.settings.leave_opts);
+    }
+
+    onReset(initial: { join_opts: string; leave_opts: string; }): void {
+        this.joinOptions = new OptsParser(initial.join_opts)
+        this.leaveOptions = new OptsParser(initial.leave_opts)
+    }
+
+    onSave(): void {
+        this.updateSettings({ join_opts: this.joinOptions.encode(), leave_opts: this.leaveOptions.encode() })
     }
 
     updateJoinMsg(msg: string) {
         this.joinOptions.set(EPluginOptsKeys.MESSAGE, msg);
-
-        this.updateState({ join_opts: this.joinOptions.encode() });
+        this.check()
     }
 
     updateJoinLocation(option: string[]) {
+        if (option[0] === EOptsKeyLocation.SPECIFIC_CHANNEL) {
+            option[0] = this.channelIds[0]
+        }
+
         this.joinOptions.set(EPluginOptsKeys.LOCATION, option[0]);
 
-        this.updateState({ join_opts: this.joinOptions.encode() });
+        this.check()
+        this.update()
     }
 
     updateJoinChannel(option: string[]) {
         this.joinOptions.set(EPluginOptsKeys.LOCATION, option[0]);
 
-        this.updateState({ join_opts: this.joinOptions.encode() });
+        this.check()
     }
 
 
     updateLeaveMsg(msg: string) {
         this.leaveOptions.set(EPluginOptsKeys.MESSAGE, msg);
 
-        this.updateState({ leave_opts: this.leaveOptions.encode() });
+        this.check()
     }
 
     updateLeaveLocation(option: string[]) {
+        if (option[0] === EOptsKeyLocation.SPECIFIC_CHANNEL) {
+            option[0] = this.channelIds[0]
+        }
+
         this.leaveOptions.set(EPluginOptsKeys.LOCATION, option[0]);
 
-        this.updateState({ leave_opts: this.leaveOptions.encode() });
+        this.check()
+        this.update()
     }
 
     updateLeaveChannel(option: string[]) {
         this.leaveOptions.set(EPluginOptsKeys.LOCATION, option[0]);
 
-        this.updateState({ leave_opts: this.leaveOptions.encode() });
+        this.check()
     }
 
 
     hasModifiedSettings(): boolean {
-        if (this.initialSettings.join_opts !== this.state.join_opts) return false;
+        if (this.settings.join_opts !== this.joinOptions.encode()) return true;
 
-        if (this.initialSettings.leave_opts !== this.state.leave_opts) return false;
-
-        return true;
-    }
-
-    stateComparison(nextState: Readonly<typeof this.state>): boolean {
-        if (nextState.join_opts !== this.state.join_opts) return true;
-
-        if (nextState.leave_opts !== this.state.leave_opts) return true;
+        if (this.settings.leave_opts !== this.leaveOptions.encode()) return true;
 
         return false;
     }
 
     get() {
+
+        const bIsJoinLocationChannel = locationIsChannel(this.joinOptions.get(EPluginOptsKeys.LOCATION, EOptsKeyLocation.NONE) as any)
+        const bIsLeaveLocationChannel = locationIsChannel(this.leaveOptions.get(EPluginOptsKeys.LOCATION, EOptsKeyLocation.NONE) as any)
         return (
             <>
 
 
                 <DashboardDropdownInput<string, null>
+                    key={this.getKey('jml')}
                     name={"Join Message Location"}
-                    value={[this.joinOptions.get(EPluginOptsKeys.LOCATION) || EOptsKeyLocation.NONE]}
-                    options={[EOptsKeyLocation.NONE, EOptsKeyLocation.CURRENT_CHANNEL, EOptsKeyLocation.DIRECT_MESSAGE, EOptsKeyLocation.SPECIFIC_CHANNEL]}
+                    value={[this.joinOptions.get(EPluginOptsKeys.LOCATION, EOptsKeyLocation.NONE)]}
+                    options={[EOptsKeyLocation.NONE, EOptsKeyLocation.CURRENT_CHANNEL, EOptsKeyLocation.DIRECT_MESSAGE, bIsJoinLocationChannel ? this.joinOptions.get(EPluginOptsKeys.LOCATION) : EOptsKeyLocation.SPECIFIC_CHANNEL]}
                     minSelection={1}
                     maxSelection={1}
                     displayFn={this.optLocationToString}
                     displayFnPayload={null}
-                    onChange={this.updateJoinLocation} />
+                    onChange={this.updateJoinLocation.bind(this)} />
 
-                {(this.joinOptions.get(EPluginOptsKeys.LOCATION) || EOptsKeyLocation.NONE) !== EOptsKeyLocation.NONE &&
+                {this.joinOptions.get(EPluginOptsKeys.LOCATION, EOptsKeyLocation.NONE) !== EOptsKeyLocation.NONE &&
                     <DashboardTextInput
+                        key={this.getKey('jm')}
                         name={"Join Message"}
                         value={this.joinOptions.get(EPluginOptsKeys.MESSAGE) || 'Welcome to the server {username}'}
-                        onChange={this.updateJoinMsg}
+                        onChange={this.updateJoinMsg.bind(this)}
                     />
                 }
 
-                {locationIsChannel(this.joinOptions.get(EPluginOptsKeys.LOCATION) as any) &&
+                {bIsJoinLocationChannel &&
                     <DashboardDropdownInput<string, IGenericLookup>
+                        key={this.getKey('jmc')}
                         name={"Join Message Channel"}
-                        value={[this.joinOptions.get(EPluginOptsKeys.LOCATION) || this.props.meta.channels[0].id]}
+                        value={[this.joinOptions.get(EPluginOptsKeys.LOCATION)]}
                         options={this.channelIds}
                         minSelection={1}
                         maxSelection={1}
                         displayFn={this.getLookup}
                         displayFnPayload={this.channelLookup}
-                        onChange={this.updateJoinLocation} />
+                        onChange={this.updateJoinLocation.bind(this)} />
                 }
 
 
                 <DashboardDropdownInput<string, null>
+                    key={this.getKey('lml')}
                     name={"Leave Message Location"}
-                    value={[this.leaveOptions.get(EPluginOptsKeys.LOCATION) || EOptsKeyLocation.NONE]}
-                    options={[EOptsKeyLocation.NONE, EOptsKeyLocation.CURRENT_CHANNEL, EOptsKeyLocation.SPECIFIC_CHANNEL]}
+                    value={[this.leaveOptions.get(EPluginOptsKeys.LOCATION, EOptsKeyLocation.NONE)]}
+                    options={[EOptsKeyLocation.NONE, EOptsKeyLocation.CURRENT_CHANNEL, bIsLeaveLocationChannel ? this.leaveOptions.get(EPluginOptsKeys.LOCATION) : EOptsKeyLocation.SPECIFIC_CHANNEL]}
                     minSelection={1}
                     maxSelection={1}
                     displayFn={this.optLocationToString}
                     displayFnPayload={null}
-                    onChange={this.updateLeaveLocation} />
+                    onChange={this.updateLeaveLocation.bind(this)} />
 
-                {(this.joinOptions.get(EPluginOptsKeys.LOCATION) || EOptsKeyLocation.NONE) !== EOptsKeyLocation.NONE &&
+                {this.leaveOptions.get(EPluginOptsKeys.LOCATION, EOptsKeyLocation.NONE) !== EOptsKeyLocation.NONE &&
                     <DashboardTextInput
+                        key={this.getKey('lm')}
                         name={"Leave Message"}
                         value={this.leaveOptions.get(EPluginOptsKeys.MESSAGE) || 'Sad to see you go {username}'}
-                        onChange={this.updateLeaveMsg}
+                        onChange={this.updateLeaveMsg.bind(this)}
                     />
                 }
 
-                {locationIsChannel(this.leaveOptions.get(EPluginOptsKeys.LOCATION) as any) &&
+                {bIsLeaveLocationChannel &&
                     <DashboardDropdownInput<string, IGenericLookup>
+                        key={this.getKey('lmc')}
                         name={"Leave Message Channel"}
-                        value={[this.leaveOptions.get(EPluginOptsKeys.LOCATION) || this.props.meta.channels[0].id]}
+                        value={[this.leaveOptions.get(EPluginOptsKeys.LOCATION)]}
                         options={this.channelIds}
                         minSelection={1}
                         maxSelection={1}
                         displayFn={this.getLookup}
                         displayFnPayload={this.channelLookup}
-                        onChange={this.updateLeaveChannel} />
+                        onChange={this.updateLeaveChannel.bind(this)} />
                 }
             </>
         )

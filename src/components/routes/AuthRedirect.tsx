@@ -6,10 +6,11 @@ import {
 import axios from 'axios';
 import { VscLoading } from 'react-icons/vsc';
 import { DashboardConstants, hashString } from '../../utils';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { setSessionId, setUserData } from '../../redux/slices/mainSlice';
+import { useAppDispatch } from '../../redux/hooks';
+import { setUserData } from '../../redux/slices/mainSlice';
 import { IUmekoApiResponse } from '../../framework';
 import { ILoginData } from '../../types';
+import useSessionId from '../../hooks/useSessionId';
 
 function useQuery() {
   const { search } = useLocation();
@@ -19,39 +20,42 @@ function useQuery() {
 
 function AuthRedirect() {
 
-  const [sessionId] = useAppSelector(s => [s.main.sessionID]);
+  const { sessionId, updateSessionID } = useSessionId()
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   let query = useQuery();
 
-  const token = query.get("code");
-
-  const state = query.get("state");
-
 
   React.useEffect(() => {
 
-    function finishAuthentication(path: string, reason: string) {
-      console.log(reason);
+    function finishAuthentication(path: string, reason?: string) {
       navigate({
         pathname: path,
         search: "",
       }, {
         replace: true
       });
-      return undefined;
+
+      if (reason) {
+        console.error("Authentication Error:", reason)
+      }
     }
 
-    if (!token || sessionId) {
+    const token = query.get("code");
+
+    const state = query.get("state");
+
+    const stateId = localStorage.getItem('stateId')
+
+    if (!token || sessionId || !stateId) {
       return undefined;
     }
-
-    if (!localStorage.getItem('stateId')) return finishAuthentication('/', 'Possibly invalid authentication');
-
-    const hashedStateId = `${hashString(localStorage.getItem('stateId')!)}`;
 
     localStorage.removeItem('stateId');
+
+    const hashedStateId = `${hashString(stateId)}`;
 
     if (hashedStateId !== state) return finishAuthentication('/', `Storage data hash does not match recieved hash`);
 
@@ -60,27 +64,26 @@ function AuthRedirect() {
         const ApiResponse = response.data
 
         if (!ApiResponse.error) {
-          dispatch(setSessionId(ApiResponse.data.session))
+          updateSessionID(ApiResponse.data.session)
           dispatch(setUserData({
             id: ApiResponse.data.user,
             username: ApiResponse.data.nickname,
             avatar: ApiResponse.data.avatar,
             card_opts: ApiResponse.data.card_opts
           }))
-          console.log(ApiResponse.data)
-          finishAuthentication('/', "Success");
+          finishAuthentication('/');
         }
         else {
+          console.error(ApiResponse.data)
           finishAuthentication('/', ApiResponse.data);
         }
 
 
       }).catch((error) => {
-        console.log(error);
+        console.error(error);
         finishAuthentication('/', error.message);
-      });
-
-  }, [dispatch, navigate, sessionId, state, token]);
+      })
+  }, [dispatch, navigate, sessionId, updateSessionID, query]);
 
   return (
     <section className='auth-page' id='Auth'>

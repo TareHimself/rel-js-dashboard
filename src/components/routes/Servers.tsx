@@ -7,15 +7,16 @@ import useQuery from '../../hooks/useQuery';
 import { BiSearchAlt } from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 import { IGuildPartial } from '../../types';
-import { useAppSelector } from '../../redux/hooks';
 import { DashboardConstants } from '../../utils';
+import { IUmekoApiResponse } from '../../framework';
+import useSessionId from '../../hooks/useSessionId';
 
 function Servers() {
 
   const query = useQuery();
 
   const navigate = useNavigate();
-  const [sessionId] = useAppSelector(s => [s.main.sessionID])
+  const { sessionId } = useSessionId()
   const [guilds, setGuilds] = useState<IGuildPartial[]>([]);
   const [filter, setFilter] = useState(query.get("s") || '');
 
@@ -84,25 +85,36 @@ function Servers() {
 
   useEffect(() => {
 
-    if (!sessionId || guilds) {
+    if (!sessionId) {
       return undefined;
     }
 
     const headers = { sessionId: sessionId }
 
-    axios.get(`${DashboardConstants.SERVER_URL}/guilds`, { headers: headers })
+    axios.get<IUmekoApiResponse<IGuildPartial[]>>(`${DashboardConstants.SERVER_URL}/${sessionId}/guilds`, { headers: headers })
       .then((response) => {
-
-        const data = response.data;
-
-        if (!data || !data.filter) return;
-
-        setGuilds(data);
+        if (response.data.error) {
+          console.error(response.data.data)
+          return;
+        }
+        setGuilds(response.data.data);
       }, (error) => {
-        console.log(error);
+        console.error(error);
       });
 
-  });
+  }, [sessionId]);
+
+
+  useEffect(() => {
+    if (!sessionId) {
+      navigate({
+        pathname: "/",
+        search: "",
+      }, {
+        replace: true
+      });
+    }
+  }, [sessionId, navigate])
 
 
 

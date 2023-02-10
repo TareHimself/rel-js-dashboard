@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { setCustomizingCard, updateUser } from '../redux/slices/mainSlice';
 import { ICardData } from '../types';
 import { FrameworkConstants, ECardOptsKeys, IUmekoApiResponse, ObjectValues, OptsParser } from '../framework';
+import useSessionId from '../hooks/useSessionId';
 const CROP_ASPECT = 3 / 10
 const DEFAULT_CROP_SETTINGS: PixelCrop = {
   unit: 'px',
@@ -35,7 +36,8 @@ function extractCardOpts(opts: string) {
 
 export default function LevelCardCustomization() {
 
-  const [sessionId, userData] = useAppSelector(s => [s.main.sessionID, s.main.user])
+  const { sessionId } = useSessionId()
+  const [userData] = useAppSelector(s => [s.main.user])
 
   const dispatch = useDispatch();
 
@@ -97,7 +99,7 @@ export default function LevelCardCustomization() {
 
   const onDoneCustomizing = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
 
-    const headers = { sessionId: sessionId! }
+    const headers = { sessionId: sessionId }
     if (backgroundTemp) {
       const payload = {
         color: cardSettings.current.color,
@@ -113,7 +115,7 @@ export default function LevelCardCustomization() {
         setIsUploadingResult(false);
 
         if (ServerResponse.error) {
-          console.log(ServerResponse.data);
+          console.error(ServerResponse.data);
         }
         else {
           cardSettings.current = extractCardOpts(ServerResponse.data)
@@ -137,7 +139,7 @@ export default function LevelCardCustomization() {
         setIsUploadingResult(false);
 
         if (ServerResponse.error) {
-          console.log(ServerResponse.data);
+          console.error(ServerResponse.data);
         }
         else {
           cardSettings.current = extractCardOpts(ServerResponse.data)

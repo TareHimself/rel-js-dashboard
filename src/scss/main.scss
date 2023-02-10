@@ -509,6 +509,10 @@ header {
     transform: translateX(50%);
 }
 
+.dashboard-content-save[data-modified="false"]{
+    visibility: collapse;
+}
+
 .dashboard-content-save button {
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
@@ -755,7 +759,7 @@ header {
             user-select: none;
 }
 
-.dashboard-setting-dropdown svg[is-open="true"]{
+.dashboard-setting-dropdown svg[data-open="true"]{
     transform: translate(-90%, -50%) rotate(180deg);
 }
 
