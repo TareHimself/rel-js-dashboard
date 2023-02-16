@@ -123,7 +123,7 @@ export function isEqual(a: any, b: any) {
 }
 
 export class DashboardConstants {
-  static IS_DEV = true
+  static IS_DEV = false
   static SERVER_URL = DashboardConstants.IS_DEV ? 'http://localhost:9000' : 'https://server.umeko.dev'
   static CLIENT_ID = DashboardConstants.IS_DEV ? '895104527001354313' : '804165876362117141';
 }
