@@ -4,119 +4,155 @@ import { IoMdArrowDropdown } from 'react-icons/io';
 import DashboardDropdownInputItems from './DashboardDropdownInputItems';
 import { useEffect } from 'react';
 import { Awaitable, IDashboardInputProps } from '../../types';
-import React from 'react';
 
-export interface IDropdownInputProps<T, C> extends IDashboardInputProps<T[], (value: T[]) => Awaitable<void>> {
-    options: T[]
-    minSelection: number;
-    maxSelection: number;
-    displayFn: (item: T, payload: C) => string;
-    displayFnPayload: C
+export interface IDropdownInputProps<T, C>
+	extends IDashboardInputProps<T[], (value: T[]) => Awaitable<void>> {
+	options: T[];
+	minSelection: number;
+	maxSelection: number;
+	displayFn: (item: T, payload: C) => string;
+	displayFnPayload: C;
 }
 
+function DashboardDropdownInput<T, C>({
+	name,
+	value,
+	options,
+	minSelection,
+	maxSelection,
+	onChange,
+	displayFn,
+	displayFnPayload,
+}: IDropdownInputProps<T, C>) {
+	if (!options) throw new Error('No options passed into dropdown');
 
-function DashboardDropdownInput<T, C>({ name, value, options, minSelection, maxSelection, onChange, displayFn, displayFnPayload }: IDropdownInputProps<T, C>) {
+	const dropdownId = useId();
 
-    if (!options) throw new Error('No options passed into dropdown');
+	const [selectedItems, setSelectedItems] = useState(value);
 
-    const dropdownId = useId();
+	const [showDropdown, setShowDropdown] = useState(false);
 
-    const [selectedItems, setSelectedItems] = useState(value);
+	const toggleDropdown = useCallback(() => {
+		setShowDropdown(!showDropdown);
+	}, [showDropdown]);
 
-    const [showDropdown, setShowDropdown] = useState(false);
+	const onItemSelected = useCallback(
+		(item: T) => {
+			selectedItems.push(item);
 
-    const toggleDropdown = useCallback(() => {
-        setShowDropdown(!showDropdown);
-    }, [showDropdown])
+			if (selectedItems.length > (maxSelection || Infinity))
+				selectedItems.shift();
+			const newSelected = [...selectedItems];
 
-    const onItemSelected = useCallback((item: T) => {
-        selectedItems.push(item);
+			setSelectedItems(newSelected);
+			onChange(newSelected);
+		},
+		[maxSelection, onChange, selectedItems, setSelectedItems]
+	);
 
-        if (selectedItems.length > (maxSelection || Infinity)) selectedItems.shift();
-        const newSelected = [...selectedItems];
+	const onItemUnselected = useCallback(
+		(item: T) => {
+			const index = selectedItems.indexOf(item);
 
-        setSelectedItems(newSelected);
-        onChange(newSelected);
-    }, [maxSelection, onChange, selectedItems, setSelectedItems])
+			if (index !== -1) {
+				if (selectedItems.length - 1 < (minSelection || 0)) return;
+				selectedItems.splice(index, 1);
+			}
+			const newSelected = [...selectedItems];
 
-    const onItemUnselected = useCallback((item: T) => {
-        const index = selectedItems.indexOf(item);
+			setSelectedItems(newSelected);
+			onChange(newSelected);
+		},
+		[minSelection, onChange, selectedItems, setSelectedItems]
+	);
 
-        if (index !== -1) {
-            if (selectedItems.length - 1 < (minSelection || 0)) return;
-            selectedItems.splice(index, 1);
-        }
-        const newSelected = [...selectedItems];
+	const elements = options.map((option, index) => {
+		return (
+			<DashboardDropdownInputItems<T, C>
+				key={index}
+				item={option}
+				selected={selectedItems.includes(option)}
+				onSelected={onItemSelected}
+				onUnselected={onItemUnselected}
+				displayFn={displayFn}
+				displayFnPayload={displayFnPayload}
+			/>
+		);
+	});
 
-        setSelectedItems(newSelected);
-        onChange(newSelected);;
-    }, [minSelection, onChange, selectedItems, setSelectedItems])
+	useEffect(() => {
+		const decideCloseDropdown = (clickEvent: MouseEvent) => {
+			const content = document.getElementById(`content-${dropdownId}`);
+			const dropdown = document.getElementById(`dropdown-${dropdownId}`);
 
-    const elements = options.map((option, index) => {
-        return <DashboardDropdownInputItems<T, C>
-            key={index}
-            item={option}
-            selected={selectedItems.includes(option)}
-            onSelected={onItemSelected}
-            onUnselected={onItemUnselected}
-            displayFn={displayFn}
-            displayFnPayload={displayFnPayload}
-        />
-    });
+			if (!showDropdown || !content || !dropdown) return;
 
-    useEffect(() => {
+			const boundsContent = content.getBoundingClientRect();
+			const boundsDropdown = dropdown.getBoundingClientRect();
+			const bounds = {
+				bottom: boundsDropdown.bottom,
+				left: boundsContent.left,
+				right: boundsDropdown.right,
+				top: boundsContent.top,
+			};
 
-        const decideCloseDropdown = (clickEvent: MouseEvent) => {
+			if (
+				clickEvent.pageX > bounds.left &&
+				clickEvent.pageX < bounds.right &&
+				clickEvent.pageY > bounds.top &&
+				clickEvent.pageY < bounds.bottom
+			)
+				return;
 
-            const content = document.getElementById(`content-${dropdownId}`);
-            const dropdown = document.getElementById(`dropdown-${dropdownId}`);
+			window.removeEventListener('click', decideCloseDropdown);
 
-            if (!showDropdown || !content || !dropdown) return;
+			setShowDropdown(false);
+		};
 
-            const boundsContent = content.getBoundingClientRect();
-            const boundsDropdown = dropdown.getBoundingClientRect();
-            const bounds = {
-                bottom: boundsDropdown.bottom,
-                left: boundsContent.left,
-                right: boundsDropdown.right,
-                top: boundsContent.top,
-            }
+		if (showDropdown) {
+			window.addEventListener('click', decideCloseDropdown);
+		}
 
-            if ((clickEvent.pageX > bounds.left && clickEvent.pageX < bounds.right) && (clickEvent.pageY > bounds.top && clickEvent.pageY < bounds.bottom)) return;
+		return () => {
+			if (showDropdown)
+				window.removeEventListener('click', decideCloseDropdown);
+		};
+	}, [showDropdown, dropdownId]);
 
-            window.removeEventListener('click', decideCloseDropdown);
+	const currentValue =
+		selectedItems.length > 1
+			? `${selectedItems.length} Selected`
+			: displayFn(selectedItems[0], displayFnPayload);
 
-            setShowDropdown(false);
-        }
+	useEffect(() => {
+		setSelectedItems(value);
+	}, [value]);
 
-        if (showDropdown) {
-            window.addEventListener('click', decideCloseDropdown);
-        }
-
-        return () => { if (showDropdown) window.removeEventListener('click', decideCloseDropdown) };
-    }, [showDropdown, dropdownId])
-
-    const currentValue = (selectedItems.length > 1) ? `${selectedItems.length} Selected` : displayFn(selectedItems[0], displayFnPayload);
-
-    useEffect(() => {
-        setSelectedItems(value)
-    }, [value])
-
-    return (
-        <div className='dashboard-setting'>
-
-            <h2>{name}</h2>
-            <div className='dashboard-setting-dropdown' id={`content-${dropdownId}`}>
-
-                <div className='dashboard-setting-dropdown-text' onClick={toggleDropdown} >
-                    <h3>{currentValue}</h3> <IoMdArrowDropdown id={dropdownId + '-icon'} data-open={`${showDropdown}`} />
-                </div>
-                {showDropdown && <div className='dashboard-setting-dropdown-content' id={`dropdown-${dropdownId}`}>
-                    {elements}
-                </div>}
-            </div>
-        </div>
-    );
+	return (
+		<div className="dashboard-setting">
+			<h2>{name}</h2>
+			<div className="dashboard-setting-dropdown" id={`content-${dropdownId}`}>
+				<div
+					className="dashboard-setting-dropdown-text"
+					onClick={toggleDropdown}
+				>
+					<h3>{currentValue}</h3>{' '}
+					<IoMdArrowDropdown
+						id={dropdownId + '-icon'}
+						data-open={`${showDropdown}`}
+					/>
+				</div>
+				{showDropdown && (
+					<div
+						className="dashboard-setting-dropdown-content"
+						id={`dropdown-${dropdownId}`}
+					>
+						{elements}
+					</div>
+				)}
+			</div>
+		</div>
+	);
 }
 
 export default DashboardDropdownInput;

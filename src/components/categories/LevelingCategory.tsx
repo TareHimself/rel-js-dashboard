@@ -4,88 +4,122 @@ import DashboardTextInput from './DashboardTextInput';
 import DashboardDropdownInput from './DashboardDropdownInput';
 import { DashboardSettingProps, IGenericLookup } from '../../types';
 import { SettingsCategory } from './settingsCategoryBase';
-import { EOptsKeyLocation, EPluginOptsKeys, locationIsChannel, ObjectValues, OptsParser } from '../../framework';
+import {
+	EOptsKeyLocation,
+	EPluginOptsKeys,
+	locationIsChannel,
+	ObjectValues,
+	OptsParser,
+} from '../../common';
 
-export default class LevelingCategory extends SettingsCategory<{ level_opts: string }>{
-    levelingOptions: OptsParser<ObjectValues<typeof EPluginOptsKeys>>;
+export default class LevelingCategory extends SettingsCategory<'level_opts'> {
+	levelingOptions: OptsParser<ObjectValues<typeof EPluginOptsKeys>>;
 
-    constructor(props: DashboardSettingProps<{ level_opts: string }>) {
-        super(props, { level_opts: props.settings.level_opts });
+	constructor(props: DashboardSettingProps<'level_opts'>) {
+		super(props, { level_opts: props.settings.level_opts });
 
-        this.levelingOptions = new OptsParser(this.settings.level_opts);
-    }
+		this.levelingOptions = new OptsParser(this.settings.level_opts);
+	}
 
-    onReset(initial: { level_opts: string; }): void {
-        this.levelingOptions = new OptsParser(initial.level_opts)
-    }
+	override onReset(initial: typeof this.settings) {
+		this.levelingOptions = new OptsParser(initial.level_opts);
+	}
 
-    onSave(): void {
-        this.updateSettings({ level_opts: this.levelingOptions.encode() })
-    }
+	override onSave() {
+		this.updateSettings({ level_opts: this.levelingOptions.encode() });
+	}
 
-    updateLevelingMsg(msg: string) {
-        this.levelingOptions.set(EPluginOptsKeys.MESSAGE, msg);
+	updateLevelingMsg(msg: string) {
+		this.levelingOptions.set(EPluginOptsKeys.MESSAGE, msg);
 
-        this.check()
-    }
+		this.check();
+	}
 
-    updateLevelingLocation(option: string[]) {
-        let final = option[0]
-        if (final === EOptsKeyLocation.SPECIFIC_CHANNEL) {
-            final = this.channelIds[0]
-        }
+	updateLevelingLocation(option: string[]) {
+		let final = option[0];
+		if (final === EOptsKeyLocation.SPECIFIC_CHANNEL) {
+			final = this.channelIds[0];
+		}
 
-        this.levelingOptions.set(EPluginOptsKeys.LOCATION, final);
+		this.levelingOptions.set(EPluginOptsKeys.LOCATION, final);
 
-        this.check()
-        this.update()
-    }
+		this.check();
+		this.update();
+	}
 
-    hasModifiedSettings(): boolean {
-        if (this.settings.level_opts !== this.levelingOptions.encode()) return true;
+	override hasModifiedSettings() {
+		if (
+			this.settings.level_opts.join('') !==
+			this.levelingOptions.encode().join('')
+		)
+			return true;
 
-        return false;
-    }
+		return false;
+	}
 
-    get() {
+	override get() {
+		const bIsLevelingLocationChannel = locationIsChannel(
+			this.levelingOptions.get(
+				EPluginOptsKeys.LOCATION,
+				EOptsKeyLocation.NONE
+			) as any
+		);
 
-        const bIsLevelingLocationChannel = locationIsChannel(this.levelingOptions.get(EPluginOptsKeys.LOCATION, EOptsKeyLocation.NONE) as any)
+		return (
+			<>
+				<DashboardDropdownInput<string, null>
+					key={this.getKey('lml')}
+					name={'Leveling Message Location'}
+					value={[
+						this.levelingOptions.get(
+							EPluginOptsKeys.LOCATION,
+							EOptsKeyLocation.NONE
+						),
+					]}
+					options={[
+						EOptsKeyLocation.NONE,
+						EOptsKeyLocation.CURRENT_CHANNEL,
+						EOptsKeyLocation.DIRECT_MESSAGE,
+						bIsLevelingLocationChannel
+							? this.levelingOptions.get(EPluginOptsKeys.LOCATION)
+							: EOptsKeyLocation.SPECIFIC_CHANNEL,
+					]}
+					minSelection={1}
+					maxSelection={1}
+					displayFn={this.optLocationToString}
+					displayFnPayload={null}
+					onChange={this.updateLevelingLocation.bind(this)}
+				/>
 
-        return (
-            <>
-                <DashboardDropdownInput<string, null>
-                    key={this.getKey('lml')}
-                    name={"Leveling Message Location"}
-                    value={[this.levelingOptions.get(EPluginOptsKeys.LOCATION, EOptsKeyLocation.NONE)]}
-                    options={[EOptsKeyLocation.NONE, EOptsKeyLocation.CURRENT_CHANNEL, EOptsKeyLocation.DIRECT_MESSAGE, bIsLevelingLocationChannel ? this.levelingOptions.get(EPluginOptsKeys.LOCATION) : EOptsKeyLocation.SPECIFIC_CHANNEL]}
-                    minSelection={1}
-                    maxSelection={1}
-                    displayFn={this.optLocationToString}
-                    displayFnPayload={null}
-                    onChange={this.updateLevelingLocation.bind(this)} />
+				{this.levelingOptions.get(
+					EPluginOptsKeys.LOCATION,
+					EOptsKeyLocation.NONE
+				) !== EOptsKeyLocation.NONE && (
+					<DashboardTextInput
+						key={this.getKey('lm')}
+						name={'Leveling Message'}
+						value={
+							this.levelingOptions.get(EPluginOptsKeys.MESSAGE) ||
+							'{username} just leveled up'
+						}
+						onChange={this.updateLevelingMsg.bind(this)}
+					/>
+				)}
 
-                {this.levelingOptions.get(EPluginOptsKeys.LOCATION, EOptsKeyLocation.NONE) !== EOptsKeyLocation.NONE &&
-                    <DashboardTextInput
-                        key={this.getKey('lm')}
-                        name={"Leveling Message"}
-                        value={this.levelingOptions.get(EPluginOptsKeys.MESSAGE) || '{username} just leveled up'}
-                        onChange={this.updateLevelingMsg.bind(this)}
-                    />
-                }
-
-                {bIsLevelingLocationChannel &&
-                    <DashboardDropdownInput<string, IGenericLookup>
-                        key={this.getKey('lmc')}
-                        name={"Leveling Message Channel"}
-                        value={[this.levelingOptions.get(EPluginOptsKeys.LOCATION)]}
-                        options={this.channelIds}
-                        minSelection={1}
-                        maxSelection={1}
-                        displayFn={this.getLookup}
-                        displayFnPayload={this.channelLookup}
-                        onChange={this.updateLevelingLocation.bind(this)} />
-                }
-            </>
-        )
-    }
+				{bIsLevelingLocationChannel && (
+					<DashboardDropdownInput<string, IGenericLookup>
+						key={this.getKey('lmc')}
+						name={'Leveling Message Channel'}
+						value={[this.levelingOptions.get(EPluginOptsKeys.LOCATION)]}
+						options={this.channelIds}
+						minSelection={1}
+						maxSelection={1}
+						displayFn={this.getLookup}
+						displayFnPayload={this.channelLookup}
+						onChange={this.updateLevelingLocation.bind(this)}
+					/>
+				)}
+			</>
+		);
+	}
 }
